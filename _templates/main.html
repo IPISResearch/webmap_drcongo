@@ -1,0 +1,18 @@
+<!--menu-->
+    <div id="chart"></div>
+    <div id="layers"></div>
+<!--/menu-->
+
+
+<!--incidentPopup-->
+    <div class="popup">
+        <b>Incident:</b><br>
+        On {{{date}}} in {{{location}}}:<br><br>
+        {{{description}}}<br><br>
+        {{#hasFatalities}}
+        Fatalities: {{fatalities}}<br>
+        {{/hasFatalities}}
+        Actors: {{{actors}}}<br>
+        <small>Source: {{{source}}}</small>
+    </div>
+<!--/incidentPopup-->
