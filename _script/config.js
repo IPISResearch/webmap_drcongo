@@ -4,40 +4,57 @@ var Config = {
     templateURL: "main.html",
     // starting point for map
     mapCoordinates: {
-        x: -3,
-        y: 28,
+        x: -4,
+        y: 25,
         zoom: 6,
-        bounds: [[ 13.950428635463965,-1.4617249780204418],[ 27.978798916874638,10.523013537201109]]
+        bounds: [[13.42,-14.66],[45.59,6.67]]
     },
+    // if preLoad is defined, this occurs before the map is shown - used to pre-generate datasets etc.
+    preLoad : function(){Data.init();},
     // layer info
     layers:{
-        incidents: {
-            id: "incidents1",
-            label: "Incidents",
-            source: "data/incidents.geojson", // future optimisation: change types to integers instead of full text
+        visits: {
+            id: "mines",
+            label: "Sites miniers",
+            source: function(){return Data.mines},
+            sourceId: "mines",
             onClick: function(item){
-				item.properties.hasFatalities = item.properties.fatalities>0;
-				if (item.properties.actors) item.properties.actors = item.properties.actors.split("<br>").join(", ");
-                UI.popup(item.properties,"incidentPopup",item.geometry.coordinates);
+                UI.popup(item.properties,"minePopup",item.geometry.coordinates);
             },
             onFilter: function(){
-                Chart.update();
+                //Chart.update();
             },
 			onLoaded: function(){
-				Chart.update();
+				//Chart.update();
 			},
+            filters:[
+                {id: "years", label: "Année de dernière visite",items: Data.getYears,onFilter: Data.updateFilter,filterProperty:"year"},
+                {id: "minerals", label: "Substances minérales",items: Data.getMinerals,onFilter: Data.updateFilter,filterProperty: "mineral"},
+                {id: "workers", label: "Nombre de creuseurs",items:[
+                    {label: "Aucune", value:0},
+                    {label: "<50", value:1},
+                    {label: ">50", value:2},
+                    {label: ">500", value:3}
+                ],onFilter: Data.updateFilter,filterProperty: "workergroup"}
+            ],
             filterOn: "type",
             filterItems:[
-                {id: 1, label: "Riots\/Protests", value: "Riots\/Protests", color: 'blue'},
-                {id: 2, label: "Violence against civilians", value: "Violence against civilians", color: 'yellow'},
-                {id: 3, label: "Violence among civilians", value: "Violence among civilians", color: 'green'},
-                {id: 4, label: "Battle: Non-state actor overtakes territory", value: "Battle-Non-state actor overtakes territory", color: 'orange'},
-                {id: 5, label: "Battle: No change of territory", value: "Battle-No change of territory", color: 'red'},
-                {id: 6, label: "Headquarters or base established", value: "Headquarters or base established", color: 'purple'}
+                //{id: 1, label: "Riots\/Protests", value: "Riots\/Protests", color: 'blue'},
+                //{id: 2, label: "Violence against civilians", value: "Violence against civilians", color: 'yellow'},
+                //{id: 3, label: "Violence among civilians", value: "Violence among civilians", color: 'green'},
+                //{id: 4, label: "Battle: Non-state actor overtakes territory", value: "Battle-Non-state actor overtakes territory", color: 'orange'},
+                //{id: 5, label: "Battle: No change of territory", value: "Battle-No change of territory", color: 'red'},
+                //{id: 6, label: "Headquarters or base established", value: "Headquarters or base established", color: 'purple'}
             ],
             display:{
-                property: 'fatalities',
-                interval: [[0, 5], [1, 8], [10, 10], [30, 15], [60, 20], [100, 30],[200, 40]]
+                size:{
+                    property: 'workergroup',
+                    interval: [[0, 3], [1, 5], [2, 8], [3, 10]]
+                },
+                color: {
+                    property: "mineral",
+                    data: function(){return Data.getMinerals();}
+                }
             }
         }
     }

@@ -31,39 +31,61 @@ var MapService = (function() {
     };
 
     me.addLayer = function(layer){
-        var sourceId = layer.source.replace(/\W/g, '');
+    	var sourceOrigin = layer.source;
+
+    	if (typeof sourceOrigin === "function") {
+    		sourceOrigin = layer.source();
+		}
+		var sourceId = layer.sourceId || sourceOrigin.replace(/\W/g, '');
+		console.error(sourceId);
+
         var source = mapSources[sourceId];
         if (!source){
 			map.addSource(sourceId, {
 				type: 'geojson',
-				data: layer.source,
+				data: sourceOrigin,
 				buffer: 0,
 				maxzoom: 12
 			});
         }
 
-        var colorStops = [];
-        layer.filterItems.forEach(function(item){
-			colorStops.push([item.value,item.color]);
-        });
+		var circleColor = "blue";
+
+		var colorStops = [];
+
+        if (layer.display.color){
+			var items =  layer.display.color.data;
+			if (typeof layer.display.color.data === "function") items = layer.display.color.data();
+			items.forEach(function(item){
+				colorStops.push([item.value,item.color]);
+			});
+
+			circleColor = {
+					property: layer.display.color.property,
+					type: 'categorical',
+					stops: colorStops
+			}
+		}
+
+		var circleRadius = 5;
+		if (layer.display.size){
+			circleRadius = {
+				'default': 5,
+				'property': layer.display.size.property,
+				'type': 'interval',
+				'stops': layer.display.size.interval
+			}
+		}
+
 
 		map.addLayer({
 			'id': layer.id,
 			'type': 'circle',
 			'source': sourceId,
 			'paint': {
-				'circle-color': {
-					property: layer.filterOn,
-					type: 'categorical',
-					stops: colorStops
-				},
-				'circle-radius': {
-					'default': 5,
-					'property': layer.display.property,
-					'type': 'interval',
-					'stops': layer.display.interval
-				},
-				'circle-opacity': 0.6,
+				'circle-color': circleColor,
+				'circle-radius': circleRadius,
+				'circle-opacity': 0.5,
 				'circle-blur': 0.5
 			}
 		});
