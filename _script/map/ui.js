@@ -27,11 +27,34 @@ var UI = function(){
     };
 
     me.updateFilter = function(filter,item){
-        // filter specs
-        // see https://www.mapbox.com/mapbox-gl-js/style-spec/#types-filter
 
-        item.checked = !item.checked;
-        if (item.checked){item.elm.classList.remove("inactive")}else{item.elm.classList.add("inactive")}
+
+        var checkedCount = 0;
+        filter.filterItems.forEach(function(e){
+            if (e.checked) checkedCount++;
+        });
+
+        if (checkedCount === filter.filterItems.length){
+            // all items checked -> invert
+            filter.filterItems.forEach(function(e){
+                e.checked = e.value === item.value;
+                if (e.checked){e.elm.classList.remove("inactive")}else{e.elm.classList.add("inactive")}
+            });
+
+        }else{
+            if (checkedCount === 1 && item.checked){
+                // don't allow all select items to be unchecked -> select all
+                filter.filterItems.forEach(function(e){
+                    e.checked = true;
+                    if (e.checked){e.elm.classList.remove("inactive")}else{e.elm.classList.add("inactive")}
+                });
+            }else{
+                item.checked = !item.checked;
+                if (item.checked){item.elm.classList.remove("inactive")}else{item.elm.classList.add("inactive")}
+            }
+
+        }
+
 
         if (filter.onFilter){
             filter.onFilter(filter,item);
