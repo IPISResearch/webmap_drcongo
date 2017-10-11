@@ -12,6 +12,7 @@ var Data = function(){
     var services = [];    var servicesLookup = {};
 
     var filteredMineIds = [];
+    var filteredMines = [];
     var filterFunctionsLookup = {};
 
     var mineralColors = {
@@ -144,20 +145,18 @@ var Data = function(){
 
 			});
 
-			me.mines = mines;
-            me.years = years;
-            me.minerals = minerals;
-            me.armies = armies;
+            filteredMines = mines.features;
 
-			console.log(mines);
-			console.log(armies);
-			console.log(years);
-			console.log(minerals);
+			//console.log(mines);
+			//console.log(armies);
+			//console.log(years);
+			//console.log(minerals);
 
 			now = new Date().getTime();
 			console.log("datasets generated in " +  (now-checkpoint) + "ms");
 
 			EventBus.trigger(EVENT.preloadDone);
+            EventBus.trigger(EVENT.filterChanged);
 
         });
     };
@@ -214,6 +213,7 @@ var Data = function(){
 
     me.filterMines = function(){
         filteredMineIds = [];
+        filteredMines = [];
         var filterFunctions = [];
 
         for (var key in  filterFunctionsLookup){
@@ -230,9 +230,24 @@ var Data = function(){
                 passed =  filterFunctions[filterCount](mine);
                 filterCount++;
             }
-            if (passed) filteredMineIds.push(mine.properties.id);
+            if (passed) {
+                filteredMines.push(mine);
+                filteredMineIds.push(mine.properties.id);
+            }
         });
+
+        console.error(filteredMines);
+
         map.setFilter("mines", ['in', 'id'].concat(filteredMineIds));
+        EventBus.trigger(EVENT.filterChanged);
+    };
+
+    me.getMines = function(){
+        return mines;
+    };
+
+    me.getFilteredMines = function(){
+        return filteredMines;
     };
 
     me.getYears = function(){
@@ -260,6 +275,10 @@ var Data = function(){
         return result;
 
 
+    };
+
+    me.getColorForMineral = function(mineral){
+        return mineralColors[mineral] || "grey";
     };
 
 

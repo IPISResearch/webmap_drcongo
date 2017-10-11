@@ -106,6 +106,7 @@ var UI = function(){
 			.addTo(map);
     };
 
+
     function div(className,innerHTML){
         var d = document.createElement("div");
         if (className) d.className = className;

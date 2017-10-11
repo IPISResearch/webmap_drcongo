@@ -16,7 +16,7 @@ var Config = {
         visits: {
             id: "mines",
             label: "Sites miniers",
-            source: function(){return Data.mines},
+            source: function(){return Data.getMines()},
             sourceId: "mines",
             onClick: function(item){
                 UI.popup(item.properties,"minePopup",item.geometry.coordinates);

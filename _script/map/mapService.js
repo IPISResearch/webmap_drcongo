@@ -37,7 +37,6 @@ var MapService = (function() {
     		sourceOrigin = layer.source();
 		}
 		var sourceId = layer.sourceId || sourceOrigin.replace(/\W/g, '');
-		console.error(sourceId);
 
         var source = mapSources[sourceId];
         if (!source){

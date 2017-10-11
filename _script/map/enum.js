@@ -1,3 +1,4 @@
 var EVENT = {
-	preloadDone: 1
+	preloadDone: 1,
+	filterChanged: 2
 };
