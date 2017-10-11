@@ -9,6 +9,7 @@ var Data = function(){
     var minerals = [];  var mineralLookup = {};
     var years = [];     var yearsLookup = {};
     var armies = [];    var armiesLookup = {};
+    var services = [];    var servicesLookup = {};
 
     var filteredMineIds = [];
     var filterFunctionsLookup = {};
@@ -116,6 +117,19 @@ var Data = function(){
                         if (workers>=500) workergroup=3;
                         mine.properties.workergroup =  workergroup;
 
+                        // services
+                        mine.properties.services = []; // do we only include services from the last visit?
+                        for (var i = 1; i<5; i++){
+                            var service = d["s" + i];
+                            if (service){
+                                if (!servicesLookup[service]){
+                                    services.push(service);
+                                    servicesLookup[service] = services.length;
+                                }
+                                var serviceId = servicesLookup[service];
+                                mine.properties.services.push(serviceId);
+                            }
+                        }
                     }
                 }
 
@@ -235,6 +249,19 @@ var Data = function(){
 
 
     };
+
+    me.getServices = function(){
+        var result = [];
+
+        services.forEach(function(item){
+            result.push({label: item, value:servicesLookup[item]})
+        });
+
+        return result;
+
+
+    };
+
 
     return me;
 

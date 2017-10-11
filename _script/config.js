@@ -30,14 +30,16 @@ var Config = {
             filters:[
                 {id: "years", label: "Année de dernière visite",items: Data.getYears,onFilter: Data.updateFilter,filterProperty:"year"},
                 {id: "minerals", label: "Substances minérales",items: Data.getMinerals,onFilter: Data.updateFilter,filterProperty: "mineral"},
-                {id: "armedpresence", label: "Présence armée <small>lors de la dernière visite<small>",
+                {id: "armedpresence", label: "Présence armée<br><small>lors de la dernière visite<small>",
                     items:[
                         {label: "Pas de présence armée constatée", value:0},
                         {label: "Groupe armé local", value:1},
                         {label: "Groupe armé étranger", value:2},
                         {label: "FARDC", value:3}
                     ],onFilter: Data.updateFilter,filterProperty: "armygroup"},
-                {id: "qualification", label: "Qualification ministérielle <small>jusqu'à avril 2017</small>",items:[
+                {id: "services", label: "Présence services<br><small>(sites visités à partir de 2015)</small>",
+                        items:Data.getServices,onFilter: Data.updateFilter,filterProperty: "services",array:true},
+                {id: "qualification", label: "Qualification ministérielle<br><small>jusqu'à avril 2017</small>",items:[
                     {label: "Vert", value:1 , color: "#29b012"},
                     {label: "Jaune", value:2 , color : "#e0a500"},
                     {label: "Rouge", value:3, color: "#b00012"},
@@ -49,15 +51,6 @@ var Config = {
                     {label: ">50", value:2},
                     {label: ">500", value:3}
                 ],onFilter: Data.updateFilter,filterProperty: "workergroup"}
-            ],
-            filterOn: "type",
-            filterItems:[
-                //{id: 1, label: "Riots\/Protests", value: "Riots\/Protests", color: 'blue'},
-                //{id: 2, label: "Violence against civilians", value: "Violence against civilians", color: 'yellow'},
-                //{id: 3, label: "Violence among civilians", value: "Violence among civilians", color: 'green'},
-                //{id: 4, label: "Battle: Non-state actor overtakes territory", value: "Battle-Non-state actor overtakes territory", color: 'orange'},
-                //{id: 5, label: "Battle: No change of territory", value: "Battle-No change of territory", color: 'red'},
-                //{id: 6, label: "Headquarters or base established", value: "Headquarters or base established", color: 'purple'}
             ],
             display:{
                 size:{
