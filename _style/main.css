@@ -56,8 +56,38 @@ body,html{
     position: relative;
 }
 
+#menu .filter{
+    padding-left: 16px;
+    padding-top: 10px;
+}
+
 #menu .filter .label{
    font-weight: bold;
+    position: relative;
+    padding: 4px 2px;
+}
+
+#menu .filter .label.toggle:hover{
+    cursor: pointer;
+    background-color: #e9e9e9;
+}
+
+#menu .filter .label.toggle:before{
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    top: 5px;
+    border: 1px solid silver;
+    background-color: #4b8005;
+    margin-left: -16px;
+}
+
+#menu .filter .label.toggle.inactive{
+    opacity: 0.6;
+}
+#menu .filter .label.toggle.inactive:before{
+    background-color: transparent;
 }
 
 #menu .items{
@@ -100,15 +130,18 @@ body,html{
 
 #legend {
     position:absolute;
-    bottom: 50px;
+    bottom: 40px;
+    left: 10px;
     opacity:0.9;
-    padding: 5px;
     z-index: 100;
     display: none;
+    border-radius: 4px;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 #legend .charts {
-    background-color: rgba(255, 255, 255, 0.8);
+    margin: 5px;
     width: 200px;
     height: 330px;
     padding: 4px;

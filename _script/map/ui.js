@@ -26,8 +26,25 @@ var UI = function(){
 
     };
 
-    me.updateFilter = function(filter,item){
+    me.toggleLayer = function(layer){
 
+        var elm = layer.labelElm;
+        var visible;
+        if (elm){
+            elm.classList.toggle("inactive");
+            visible = !elm.classList.contains("inactive");
+        }else{
+            if (layer.added) visible = map.getLayoutProperty(layer.id, 'visibility') !== "visible";
+        }
+        if (layer.added){
+            map.setLayoutProperty(layer.id, 'visibility', visible ? 'visible' : 'none');
+        }else{
+            MapService.addLayer(layer);
+        }
+
+    };
+
+    me.updateFilter = function(filter,item){
 
         var checkedCount = 0;
         filter.filterItems.forEach(function(e){
@@ -55,7 +72,6 @@ var UI = function(){
 
         }
 
-
         if (filter.onFilter){
             filter.onFilter(filter,item);
         }
@@ -68,52 +84,61 @@ var UI = function(){
         for (var key in Config.layers){
             if (Config.layers.hasOwnProperty(key)){
                 var layer = Config.layers[key];
-                var layerContainer = div("filter");
-                var label  = div("label",layer.label);
-                layerContainer.appendChild(label);
+                if (layer.label){
+                    var layerContainer = div("filter");
+                    var label  = div("label",layer.label);
 
+                    if (layer.display && layer.display.canToggle){
+                        label.className += " toggle";
+                        if (layer.display && !layer.display.visible) label.className += " inactive";
+                        layer.labelElm = label;
+                        label.layer = layer;
 
-                layer.filters.forEach(function(filter){
-                    var filterContainer = div("filter");
-                    var filterLabel  = div("filterlabel",filter.label);
-
-                    filterContainer.appendChild(filterLabel);
-                    var itemContainer = div("items");
-
-                    var items = filter.items;
-                    if (typeof items === "function") items = filter.items();
-                    filter.layer = layer;
-
-                    var filterItems = [];
-                    items.forEach(function(item){
-
-                        var filterItem = item;
-                        if (typeof item === "string" || typeof item === "number"){
-                            filterItem = {label: item}
+                        label.onclick = function(){
+                            UI.toggleLayer(this.layer);
                         }
-                        filterItem.color = filterItem.color || "silver";
-                        if (typeof filterItem.value === "undefined") filterItem.value = filterItem.label;
+                    }
 
-                        var icon = '<i style="background-color: '+filterItem.color+'"></i>';
-                        var elm = div("filteritem",icon +  filterItem.label );
+                    layerContainer.appendChild(label);
 
-                        elm.onclick = function(){me.updateFilter(filter,filterItem)};
-                        itemContainer.appendChild(elm);
-                        filterItem.elm = elm;
-                        filterItem.checked = true;
-                        filterItems.push(filterItem);
+                    if (layer.filters) layer.filters.forEach(function(filter){
+                        var filterContainer = div("filter");
+                        var filterLabel  = div("filterlabel",filter.label);
+
+                        filterContainer.appendChild(filterLabel);
+                        var itemContainer = div("items");
+
+                        var items = filter.items;
+                        if (typeof items === "function") items = filter.items();
+                        filter.layer = layer;
+
+                        var filterItems = [];
+                        items.forEach(function(item){
+
+                            var filterItem = item;
+                            if (typeof item === "string" || typeof item === "number"){
+                                filterItem = {label: item}
+                            }
+                            filterItem.color = filterItem.color || "silver";
+                            if (typeof filterItem.value === "undefined") filterItem.value = filterItem.label;
+
+                            var icon = '<i style="background-color: '+filterItem.color+'"></i>';
+                            var elm = div("filteritem",icon +  filterItem.label );
+
+                            elm.onclick = function(){me.updateFilter(filter,filterItem)};
+                            itemContainer.appendChild(elm);
+                            filterItem.elm = elm;
+                            filterItem.checked = true;
+                            filterItems.push(filterItem);
+                        });
+                        filter.filterItems = filterItems;
+
+                        filterContainer.appendChild(itemContainer);
+                        layerContainer.appendChild(filterContainer);
                     });
-                    filter.filterItems = filterItems;
 
-                    filterContainer.appendChild(itemContainer);
-                    layerContainer.appendChild(filterContainer);
-                });
-
-
-
-
-
-                container.appendChild(layerContainer);
+                    container.appendChild(layerContainer);
+                }
             }
         }
     };

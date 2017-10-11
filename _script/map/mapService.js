@@ -22,11 +22,14 @@ var MapService = (function() {
 
 			for (var key in Config.layers){
 				if (Config.layers.hasOwnProperty(key)){
-					me.addLayer(Config.layers[key]);
+					var layer = Config.layers[key];
+					layer.display = layer.display || {visible: true};
+					if (typeof layer.display.visible === "undefined") layer.display.visible = true;
+
+					if (layer.display.visible) me.addLayer(Config.layers[key]);
 				}
 			}
         });
-
 
     };
 
@@ -76,18 +79,34 @@ var MapService = (function() {
 			}
 		}
 
+		var displayType = "circle";
+		if (layer.display.type) displayType = layer.display.type;
+
+		var paint = {
+			'circle-color': circleColor,
+			'circle-radius': circleRadius,
+			'circle-opacity': 0.5,
+			'circle-blur': 0.5
+		};
+
+		if (displayType == "fill"){
+			paint = {
+				'fill-color': layer.display.fillColor || '#088',
+				'fill-opacity': layer.display.fillOpacity || 0.7
+			}
+		}
+
 
 		map.addLayer({
 			'id': layer.id,
-			'type': 'circle',
+			'type': displayType,
 			'source': sourceId,
-			'paint': {
-				'circle-color': circleColor,
-				'circle-radius': circleRadius,
-				'circle-opacity': 0.5,
-				'circle-blur': 0.5
+			'paint': paint,
+			'layout': {
+				'visibility': 'visible'
 			}
 		});
+		layer.added = true;
 
 		map.on('mouseenter', layer.id, function () {
 			map.getCanvas().style.cursor = 'pointer';

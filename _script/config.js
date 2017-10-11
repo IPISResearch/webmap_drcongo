@@ -59,6 +59,9 @@ var Config = {
                 ],onFilter: Data.updateFilter,filterProperty: "workergroup"}
             ],
             display:{
+                type: 'circle',
+                visible: true,
+                canToggle: true,
                 size:{
                     property: 'workergroup',
                     interval: [[0, 3], [1, 5], [2, 8], [3, 10]]
@@ -67,6 +70,31 @@ var Config = {
                     property: "mineral",
                     data: function(){return Data.getMinerals();}
                 }
+            }
+        },
+        concessions:{
+            id: "concessions",
+            label: "Titres miniers (source CAMI)",
+            source: "http://ipis.annexmap.net/api/geojson/cod_titres.php",
+            sourceId: "concessions",
+            display:{
+                type: 'fill',
+                fillColor: "lightblue",
+                visible: false,
+                canToggle: true
+            }
+        },
+        protectedAreas:{
+            id: "protectedAreas",
+            label: "Aires protégées (source : WRI, 2017)",
+            source: "http://ipis.annexmap.net/api/geojson/cod_protectedArea.php",
+            sourceId: "protectedAreas",
+            display:{
+                type: 'fill',
+                fillColor: "#909E00",
+                fillOpacity: 0.4,
+                visible: false,
+                canToggle: true
             }
         }
     }

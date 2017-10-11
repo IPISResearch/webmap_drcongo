@@ -186,8 +186,8 @@ var Data = function(){
     }
 
     me.updateFilter = function(filter,item){
-        console.log(filter);
-        console.log(item);
+        //console.log(filter);
+        //console.log(item);
 
         var values = [];
         filter.filterItems.forEach(function(item){
@@ -243,7 +243,10 @@ var Data = function(){
 
         console.error(filteredMines);
 
+        // filter specs
+        // see https://www.mapbox.com/mapbox-gl-js/style-spec/#types-filter
         map.setFilter("mines", ['in', 'id'].concat(filteredMineIds));
+
         EventBus.trigger(EVENT.filterChanged);
     };
 
