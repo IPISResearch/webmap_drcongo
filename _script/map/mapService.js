@@ -105,7 +105,7 @@ var MapService = (function() {
 			'layout': {
 				'visibility': 'visible'
 			}
-		});
+		},layer.display.belowLayer);
 		layer.added = true;
 
 		map.on('mouseenter', layer.id, function () {

@@ -81,7 +81,8 @@ var Config = {
                 type: 'fill',
                 fillColor: "lightblue",
                 visible: false,
-                canToggle: true
+                canToggle: true,
+                belowLayer: 'mines'
             }
         },
         protectedAreas:{
@@ -94,7 +95,8 @@ var Config = {
                 fillColor: "#909E00",
                 fillOpacity: 0.4,
                 visible: false,
-                canToggle: true
+                canToggle: true,
+                belowLayer: 'mines'
             }
         }
     }
