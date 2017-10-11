@@ -37,6 +37,12 @@ var Config = {
                         {label: "Groupe armé étranger", value:2},
                         {label: "FARDC", value:3}
                     ],onFilter: Data.updateFilter,filterProperty: "armygroup"},
+                {id: "qualification", label: "Qualification ministérielle <small>jusqu'à avril 2017</small>",items:[
+                    {label: "Vert", value:1 , color: "#29b012"},
+                    {label: "Jaune", value:2 , color : "#e0a500"},
+                    {label: "Rouge", value:3, color: "#b00012"},
+                    {label: "Aucune", value:0, color: "grey"}
+                ],onFilter: Data.updateFilter,filterProperty: "qualification"},
                 {id: "workers", label: "Nombre de creuseurs",items:[
                     {label: "Aucune", value:0},
                     {label: "<50", value:1},

@@ -25,6 +25,12 @@ var Data = function(){
         "Améthyste" : "#9966CB"
     };
 
+    var qualifications = {
+        "vert": 1,
+        "jaune": 2,
+        "rouge" : 3
+    };
+
     me.init = function(next){
 
         var checkpoint = new Date().getTime();
@@ -53,6 +59,7 @@ var Data = function(){
                     filteredMineIds.push(counter);
 
                     mine.properties.name = d.n;
+                    mine.properties.qualification = 0;
 
 					mines.features.push(mine);
 					minesLookup[d.i] = mine;
@@ -64,6 +71,8 @@ var Data = function(){
                     minerals.push(mine.properties.mineral);
                     mineralLookup[mine.properties.mineral] = true;
                 }
+
+
 
                 // years and properties latest visit
                 var date = d.d;
@@ -108,6 +117,16 @@ var Data = function(){
 
                     }
                 }
+
+                if (d.q){
+                    var q = qualifications[d.q.toLowerCase()];
+                    if (q) {
+                        mine.properties.qualification = q;
+                    }else{
+                        console.error("Unknown Qualification: " + d.q);
+                    }
+                }
+
 			});
 
 			me.mines = mines;
