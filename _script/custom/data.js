@@ -26,6 +26,7 @@ var Data = function(){
     };
 
     var qualifications = {
+        "not class" : 0,
         "vert": 1,
         "jaune": 2,
         "rouge" : 3
@@ -174,9 +175,25 @@ var Data = function(){
         filter.filterItems.forEach(function(item){
             if (item.checked) values.push(item.value);
         });
-        filterFunctionsLookup[filter.id] = function(item){
-            return values.includes(item.properties[filter.filterProperty]);
-        };
+
+        if (values.length ===  filter.filterItems.length){
+            // all items checked - ignore filter
+            filterFunctionsLookup[filter.id] = undefined;
+        }else{
+            if (filter.array){
+                filterFunctionsLookup[filter.id] = function(item){
+                    var value = item.properties[filter.filterProperty];
+                    if (value && value.length){
+                        return value.some(function (v){return values.includes(v);});
+                    }
+                    return false;
+                };
+            }else{
+                filterFunctionsLookup[filter.id] = function(item){
+                    return values.includes(item.properties[filter.filterProperty]);
+                };
+            }
+        }
 
         me.filterMines();
     };
@@ -186,7 +203,7 @@ var Data = function(){
         var filterFunctions = [];
 
         for (var key in  filterFunctionsLookup){
-            if (filterFunctionsLookup.hasOwnProperty(key)){
+            if (filterFunctionsLookup.hasOwnProperty(key) && filterFunctionsLookup[key]){
                 filterFunctions.push(filterFunctionsLookup[key]);
             }
         }
