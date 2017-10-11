@@ -131,6 +131,11 @@ var Data = function(){
                                 mine.properties.services.push(serviceId);
                             }
                         }
+
+                        // mercury
+                        mine.properties.mercury = 0;
+                        if (d.m == 0) mine.properties.mercury = 1;
+                        if (d.m == 1) mine.properties.mercury = 2;
                     }
                 }
 

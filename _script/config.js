@@ -30,6 +30,12 @@ var Config = {
             filters:[
                 {id: "years", label: "Année de dernière visite",items: Data.getYears,onFilter: Data.updateFilter,filterProperty:"year"},
                 {id: "minerals", label: "Substances minérales",items: Data.getMinerals,onFilter: Data.updateFilter,filterProperty: "mineral"},
+                {id: "mercury", label: "Traitement de l’or observé<br><small>(sites visités à partir de 2015)</small>",
+                    items: [
+                        {label: "Traitement au mercure", value:2},
+                        {label: "Pas de traitement au mercure", value:1},
+                        {label: "Pas de données", value:0}
+                    ],onFilter: Data.updateFilter,filterProperty: "mercury"},
                 {id: "armedpresence", label: "Présence armée<br><small>lors de la dernière visite<small>",
                     items:[
                         {label: "Pas de présence armée constatée", value:0},
