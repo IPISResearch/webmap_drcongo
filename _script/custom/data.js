@@ -78,6 +78,7 @@ var Data = function(){
                         }
 
                         // armed presence
+                        var armygroup = 0;
                         var army = d.a1;
                         if (army){
                             mine.properties.army = army;
@@ -85,7 +86,12 @@ var Data = function(){
                                 armies.push(army);
                                 armiesLookup[army] = true;
                             }
+
+                            armygroup = 1;
+                            if (army.toLowerCase().indexOf("fdlr")>=0)  armygroup = 2;
+                            if (army.toLowerCase().indexOf("fardc")>=0)  armygroup = 3;
                         }
+                        mine.properties.armygroup = armygroup;
 
                         // workers
                         var workers = parseInt(d.w) || 0;

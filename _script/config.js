@@ -30,6 +30,13 @@ var Config = {
             filters:[
                 {id: "years", label: "Année de dernière visite",items: Data.getYears,onFilter: Data.updateFilter,filterProperty:"year"},
                 {id: "minerals", label: "Substances minérales",items: Data.getMinerals,onFilter: Data.updateFilter,filterProperty: "mineral"},
+                {id: "armedpresence", label: "Présence armée <small>lors de la dernière visite<small>",
+                    items:[
+                        {label: "Pas de présence armée constatée", value:0},
+                        {label: "Groupe armé local", value:1},
+                        {label: "Groupe armé étranger", value:2},
+                        {label: "FARDC", value:3}
+                    ],onFilter: Data.updateFilter,filterProperty: "armygroup"},
                 {id: "workers", label: "Nombre de creuseurs",items:[
                     {label: "Aucune", value:0},
                     {label: "<50", value:1},
