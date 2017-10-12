@@ -76,7 +76,6 @@ var Data = function(){
                 }
 
 
-
                 // years and properties latest visit
                 var date = d.d;
                 if (date){
@@ -89,21 +88,24 @@ var Data = function(){
                             yearsLookup[year] = true;
                         }
 
-                        // armed presence
-                        var armygroup = 0;
-                        var army = d.a1;
-                        if (army){
-                            mine.properties.army = army;
-                            if (!armiesLookup[army]){
-                                armies.push(army);
-                                armiesLookup[army] = true;
-                            }
+                        mine.properties.minerals = [];
+                        if (d.m1) mine.properties.minerals.push(d.m1);
+                        if (d.m2) mine.properties.minerals.push(d.m2);
 
-                            armygroup = 1;
-                            if (army.toLowerCase().indexOf("fdlr")>=0)  armygroup = 2;
-                            if (army.toLowerCase().indexOf("fardc")>=0)  armygroup = 3;
+                        // armed presence
+                        mine.properties.armygroups = [];
+                        mine.properties.armies = [];
+                        for (i = 1; i<3; i++){
+                            var army = d["a" + i];
+                            var armygroup = getArmyGroupFromArmy(army);
+                            if (armygroup){
+                                mine.properties.armies.push(army);
+                                mine.properties.armygroups.push(armygroup);
+                                if (i===1) mine.properties.army = army;
+                            }
                         }
-                        mine.properties.armygroup = armygroup;
+                        // also filter on "no army presence"
+                        if (mine.properties.armygroups.length === 0) mine.properties.armygroups.push(0);
 
                         // workers
                         var workers = parseInt(d.w) || 0;
@@ -120,7 +122,7 @@ var Data = function(){
 
                         // services
                         mine.properties.services = []; // do we only include services from the last visit?
-                        for (var i = 1; i<5; i++){
+                        for (i = 1; i<5; i++){
                             var service = d["s" + i];
                             if (service){
                                 if (!servicesLookup[service]){
@@ -185,6 +187,17 @@ var Data = function(){
 		}
     }
 
+    function getArmyGroupFromArmy(army){
+        var result = 0;
+        if (army){
+            army = army.toLowerCase();
+            result = 1;
+            if (army.indexOf("fdlr")>=0)  result = 2;
+            if (army.indexOf("fardc")>=0)  result = 3;
+        }
+        return result;
+    }
+
     me.updateFilter = function(filter,item){
         //console.log(filter);
         //console.log(item);
@@ -240,8 +253,6 @@ var Data = function(){
                 filteredMineIds.push(mine.properties.id);
             }
         });
-
-        console.error(filteredMines);
 
         // filter specs
         // see https://www.mapbox.com/mapbox-gl-js/style-spec/#types-filter

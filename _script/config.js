@@ -29,7 +29,7 @@ var Config = {
 			},
             filters:[
                 {id: "years", label: "Année de dernière visite",items: Data.getYears,onFilter: Data.updateFilter,filterProperty:"year"},
-                {id: "minerals", label: "Substances minérales",items: Data.getMinerals,onFilter: Data.updateFilter,filterProperty: "mineral"},
+                {id: "minerals", label: "Substances minérales",items: Data.getMinerals,onFilter: Data.updateFilter,filterProperty: "minerals",array:true},
                 {id: "mercury", label: "Traitement de l’or observé<br><small>(sites visités à partir de 2015)</small>",
                     items: [
                         {label: "Traitement au mercure", value:2},
@@ -42,7 +42,7 @@ var Config = {
                         {label: "Groupe armé local", value:1},
                         {label: "Groupe armé étranger", value:2},
                         {label: "FARDC", value:3}
-                    ],onFilter: Data.updateFilter,filterProperty: "armygroup"},
+                    ],onFilter: Data.updateFilter,filterProperty: "armygroups",array:true},
                 {id: "services", label: "Présence services<br><small>(sites visités à partir de 2015)</small>",
                         items:Data.getServices,onFilter: Data.updateFilter,filterProperty: "services",array:true},
                 {id: "qualification", label: "Qualification ministérielle<br><small>jusqu'à avril 2017</small>",items:[
