@@ -9,8 +9,110 @@
 
 <!--minePopup-->
     <div class="popup">
-        <b>Mine:</b><br>
-        {{{name}}}<br><br>
-        <small>Source: {{{source}}}</small>
+        <h2>Mine: {{{name}}}</h2>
+        <div class="popupColLeft">
+            <table class="infotable" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <th>Substance(s)</th>
+                    <td>{{mineralString}}</td>
+                </tr>
+                {{#mercuryString}}
+                <tr>
+                    <th nowrap="nowrap">Traitement de l'or observé</th>
+                    <td>{{{mercuryString}}}</td>
+                </tr>
+                {{/mercuryString}}
+                <tr>
+                    <th>Province</th>
+                    <td>{{{province}}}</td>
+                </tr>
+                <tr>
+                    <th>Territoire</th>
+                    <td>{{{territoire}}}</td>
+                </tr>
+                <tr>
+                    <th>Collectivité</th>
+                    <td>{{{collectivite}}}</td>
+                </tr>
+                <tr>
+                    <th>Groupement</th>
+                    <td>{{{groupement}}}</td>
+                </tr>
+                <tr>
+                    <th>Village</th>
+                    <td>{{{village}}}</td>
+                </tr>
+                <!--
+                <tr>
+                    <th>Origine</th>
+                    <td>{{{origin}}}</td>
+                </tr>
+                -->
+                <tr>
+                    <th>Source</th>
+                    <td class="source">{{{source}}}</td>
+                </tr>
+                <tr>
+                    <th>Code</th>
+                    <td>{{{pcode}}}</td>
+                </tr>
+                <tr>
+                    <th>Longitude</th>
+                    <td>{{{fLongitude}}}</td>
+                </tr>
+                <tr>
+                    <th class="multiline">Latitude</th>
+                    <td class="multiline">{{{fLatitude}}}</td>
+                </tr>
+                <tr>
+                    <th class="multiline">Date visite</th>
+                    <td class="multiline">{{{datesString}}}</td>
+                </tr>
+                <tr>
+                    <th class="multiline">Nombre de creuseurs</th>
+                    <td class="multiline">{{{workersString}}}</td>
+                </tr>
+                <tr>
+                    <th class="multiline">Nombre de puits</th>
+                    <td class="multiline">{{{pitsString}}}</td>
+                </tr>
+                {{#depthString}}
+                <tr>
+                    <th class="multiline">Profondeur</th>
+                    <td class="multiline">{{{depthString}}} m</td>
+                </tr>
+                {{/depthString}}
+                {{#soilString}}
+                <tr>
+                    <th class="multiline">Sol</th>
+                    <td class="multiline">{{{soilString}}}</td>
+                </tr>
+                {{/soilString}}
+                {{#consolidated.itsci_decoded}}
+                <tr>
+                    <th class="multiline">iTSCi</th>
+                    <td class="multiline">{{{consolidated.itsci_decoded}}}</td>
+                </tr>
+                {{/consolidated.itsci_decoded}}
+                <tr>
+                    <th class="multiline">Qualification</th>
+                    <td class="multiline">{{{qualificationString}}}</td>
+                </tr>
+                {{#arreteString}}
+                <tr>
+                    <th class="multiline">Arrêté</th>
+                    <td class="multiline">{{{arreteString}}}</td>
+                </tr>
+                {{/arreteString}}
+            </table>
+        </div>
     </div>
+
+
+
+
+
+
+
+
 <!--/minePopup-->

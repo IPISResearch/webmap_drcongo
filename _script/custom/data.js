@@ -5,7 +5,7 @@ var Data = function(){
 
     var visits;
 
-    var mines;          var minesLookup = {};
+    var mines;          var minesLookup = {};  var minesProperties = {}
     var minerals = [];  var mineralLookup = {};
     var years = [];     var yearsLookup = {};
     var armies = [];    var armiesLookup = {};
@@ -61,11 +61,23 @@ var Data = function(){
                     mine.properties.id = counter;
                     filteredMineIds.push(counter);
 
+                    mine.properties.pcode = d.i;
                     mine.properties.name = d.n;
+                    mine.properties.village = d.v;
+                    mine.properties.province = d.pv;
+                    mine.properties.territoire = d.te;
+                    mine.properties.collectivite = d.co;
+                    mine.properties.groupement = d.gr;
+                    mine.properties.source = d.s;
                     mine.properties.qualification = 0;
+
+                    mine.properties.visits=[];
 
 					mines.features.push(mine);
 					minesLookup[d.i] = mine;
+                    minesProperties[counter] = mine.properties;
+
+
                 }
 
                 // minerals
@@ -76,9 +88,26 @@ var Data = function(){
                 }
 
 
-                // years and properties latest visit
+                // years, visits and properties latest visit
                 var date = d.d;
                 if (date){
+
+                    var workers = parseInt(d.w) || 0;
+                    if (isNaN(workers)){
+                        console.error("Workers NAN: " + d.w);
+                        workers = 0;
+                    }
+
+                    var visit = {
+                        date: date,
+                        workers: workers,
+                        pits: d.p,
+                        depth: d.dp,
+                        soil: d.sl,
+                        qualification: d.q
+                    };
+                    mine.properties.visits.push(visit);
+
                     var year = parseInt(date.split("-")[0]);
                     if (!mine.properties.year || year>mine.properties.year){
                         mine.properties.year = year;
@@ -108,11 +137,6 @@ var Data = function(){
                         if (mine.properties.armygroups.length === 0) mine.properties.armygroups.push(0);
 
                         // workers
-                        var workers = parseInt(d.w) || 0;
-                        if (isNaN(workers)){
-                            console.error("Workers NAN: " + d.w);
-                            workers = 0;
-                        }
                         mine.properties.workers = workers;
                         var workergroup = 0;
                         if (workers>0) workergroup=1;
@@ -267,6 +291,54 @@ var Data = function(){
 
     me.getFilteredMines = function(){
         return filteredMines;
+    };
+
+    me.getMineDetail = function(mine){
+        console.error(mine);
+        // hmmm... don't use mine directly: apparently mapbox stores the features as shallow copies.
+
+        var p  = minesProperties[mine.properties.id];
+
+        if(!p.hasDetail){
+            p.mineralString = p.minerals.join(", ");
+
+            if (p.mercury === 1) p.mercuryString = "Non traité";
+            if (p.mercury === 2) p.mercuryString = "Mercure";
+
+            p.fLongitude = decimalToDegrees(mine.geometry.coordinates[0],"lon");
+            p.fLatitude = decimalToDegrees(mine.geometry.coordinates[1],"lat");
+
+            var dates = [];
+            var workers = [];
+            var soil = [];
+            var pits = [];
+            var depth = [];
+            var qualification = [];
+            var arrete = [];
+            p.visits.forEach(function(visit){
+                var parts = visit.date.split("-");
+                var year = parts[0] + ": ";
+                if (p.visits.length<2) year = "";
+                dates.push(parts[2] + "/" + parts[1] + "/" + parts[0]);
+                if (visit.workers) workers.push(year  + visit.workers);
+                if (visit.pits) pits.push(year  + visit.pits);
+                if (visit.depth) depth.push(year  + visit.depth);
+                if (visit.soil) soil.push(year + visit.soil);
+                if (visit.qualification) qualification.push(year + visit.qualification);
+            });
+
+            p.datesString = dates.join("<br>");
+            p.workersString = workers.join("<br>");
+            p.pitsString = pits.join("<br>");
+            p.depthString = depth.join("<br>");
+            p.soilString = soil.join("<br>");
+            p.qualificationString = qualification.join("<br>") || "Aucune";
+
+
+            p.hasDetail = true;
+        }
+
+        return p;
     };
 
     me.getYears = function(){

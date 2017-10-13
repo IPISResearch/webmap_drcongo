@@ -143,10 +143,12 @@ var UI = function(){
         }
     };
 
-    me.popup = function(data,template,point){
+    me.popup = function(data,template,point,flyTo){
 
         var html = data;
         if (template) html = Template.render(template,data);
+
+        map.flyTo({center: point});
 
 		new mapboxgl.Popup()
 			.setLngLat(point)

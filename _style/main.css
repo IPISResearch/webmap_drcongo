@@ -17,9 +17,6 @@ body,html{
     height: 100%;
 }
 
-.mapboxgl-popup-content{
-    max-width: 300px;
-}
 
 #menu{
     position: absolute;
@@ -151,7 +148,6 @@ body,html{
 }
 
 
-
 #legend .charts h3{
     margin: 0;
     font-size: 13px;
@@ -165,3 +161,31 @@ body,html{
 #legend .c3-tooltip td{
     white-space: nowrap;
 }
+
+
+/* popup */
+.mapboxgl-popup-content{
+    width: 300px;
+}
+
+.popup h2{
+    font-size: 14px;
+    padding: 0 1px;
+    margin: 0 0 2px 0;
+    border-bottom: 1px solid silver;
+}
+
+.infotable td,
+.infotable th{
+    text-align: left;
+    padding: 0 2px;
+    font-size: 12px;
+    line-height: 18px;
+    border-bottom: 1px solid #ececec;
+    color: #666;
+}
+
+.infotable th{
+    font-weight: bold;
+}
+

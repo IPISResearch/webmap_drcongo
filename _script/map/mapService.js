@@ -108,28 +108,21 @@ var MapService = (function() {
 		},layer.display.belowLayer);
 		layer.added = true;
 
-		map.on('mouseenter', layer.id, function () {
-			map.getCanvas().style.cursor = 'pointer';
-		});
-		map.on('mouseleave', layer.id, function () {
-			map.getCanvas().style.cursor = '';
-		});
+		if (layer.onClick){
+			map.on('mouseenter', layer.id, function () {
+				map.getCanvas().style.cursor = 'pointer';
+			});
+			map.on('mouseleave', layer.id, function () {
+				map.getCanvas().style.cursor = '';
+			});
+			map.on('click', layer.id, function (e) {
+				if (e.features.length>1) {
+					// TODO: Spiderify ?
+				}
+				 layer.onClick(e.features[0]);
 
-
-		map.on('click', layer.id, function (e) {
-			map.flyTo({center: e.features[0].geometry.coordinates});
-
-			if (e.features.length>1) {
-			    // TODO: Spiderify ?
-            }
-
-            if (layer.onClick) layer.onClick(e.features[0]);
-
-		});
-
-		map.on("filter",function(){
-			console.error("filter");
-		});
+			});
+		}
 
 		map.on("render", function() {
 			if(map.loaded()) {
