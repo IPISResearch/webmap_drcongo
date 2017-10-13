@@ -5,11 +5,12 @@ var Data = function(){
 
     var visits;
 
-    var mines;          var minesLookup = {};  var minesProperties = {}
+    var mines;          var minesLookup = {};  var minesProperties = {};
+    var pdvs;           var pdvsLookup = {};   var pdvsProperties = {};
     var minerals = [];  var mineralLookup = {};
     var years = [];     var yearsLookup = {};
     var armies = [];    var armiesLookup = {};
-    var services = [];    var servicesLookup = {};
+    var services = [];  var servicesLookup = {};
 
     var filteredMineIds = [];
     var filteredMines = [];
@@ -34,162 +35,208 @@ var Data = function(){
         "rouge" : 3
     };
 
-    me.init = function(next){
+    me.init = function(){
+
+        var minesLoaded, pdvLoaded;
 
         var checkpoint = new Date().getTime();
         var now;
 
-        var url = "http://ipis.annexmap.net/api/data/cod/all?key=ipis";
-        FetchService.json(url,function(data){
+        var dataDone = function(){
+            if (minesLoaded && pdvLoaded){
+                now = new Date().getTime();
+                console.log("datasets generated in " +  (now-checkpoint) + "ms");
 
-            console.log(data);
-            now = new Date().getTime();
-            console.log("data preloaded in " +  (now-checkpoint) + "ms");
-            checkpoint = now;
+                EventBus.trigger(EVENT.preloadDone);
+                EventBus.trigger(EVENT.filterChanged);
+            }
+        };
 
-            //build mines
-            var counter = 0;
-            mines = featureCollection();
-			data.result.forEach(function(d){
+        var buildProperties = function(item,data){
+            item.properties.pcode = data.i;
+            item.properties.name = data.n;
+            item.properties.village = data.v;
+            item.properties.province = data.pv;
+            item.properties.territoire = data.te;
+            item.properties.collectivite = data.co;
+            item.properties.groupement = data.gr;
+            item.properties.source = data.s;
+            item.properties.qualification = 0;
 
-			    var mine = minesLookup[d.i];
-			    if (mine){
+            item.properties.visits=[];
+        };
 
-                }else{
-					mine = featurePoint(d.lt,d.ln);
-                    counter ++;
-                    mine.properties.id = counter;
-                    filteredMineIds.push(counter);
+        function loadMines(){
+            var url = "http://ipis.annexmap.net/api/data/cod/all?key=ipis";
+            FetchService.json(url,function(data){
 
-                    mine.properties.pcode = d.i;
-                    mine.properties.name = d.n;
-                    mine.properties.village = d.v;
-                    mine.properties.province = d.pv;
-                    mine.properties.territoire = d.te;
-                    mine.properties.collectivite = d.co;
-                    mine.properties.groupement = d.gr;
-                    mine.properties.source = d.s;
-                    mine.properties.qualification = 0;
+                console.log(data);
+                now = new Date().getTime();
+                console.log("minedata loaded in " +  (now-checkpoint) + "ms");
+                checkpoint = now;
 
-                    mine.properties.visits=[];
+                //build mines
+                var counter = 0;
+                mines = featureCollection();
+                data.result.forEach(function(d){
 
-					mines.features.push(mine);
-					minesLookup[d.i] = mine;
-                    minesProperties[counter] = mine.properties;
+                    var mine = minesLookup[d.i];
+                    if (mine){
 
-
-                }
-
-                // minerals
-                mine.properties.mineral = d.m1;
-                if (mine.properties.mineral && !mineralLookup[mine.properties.mineral]){
-                    minerals.push(mine.properties.mineral);
-                    mineralLookup[mine.properties.mineral] = true;
-                }
-
-
-                // years, visits and properties latest visit
-                var date = d.d;
-                if (date){
-
-                    var workers = parseInt(d.w) || 0;
-                    if (isNaN(workers)){
-                        console.error("Workers NAN: " + d.w);
-                        workers = 0;
-                    }
-
-                    var visit = {
-                        date: date,
-                        workers: workers,
-                        pits: d.p,
-                        depth: d.dp,
-                        soil: d.sl,
-                        qualification: d.q
-                    };
-                    mine.properties.visits.push(visit);
-
-                    var year = parseInt(date.split("-")[0]);
-                    if (!mine.properties.year || year>mine.properties.year){
-                        mine.properties.year = year;
-
-                        if (!yearsLookup[year]){
-                            years.push(year);
-                            yearsLookup[year] = true;
-                        }
-
-                        mine.properties.minerals = [];
-                        if (d.m1) mine.properties.minerals.push(d.m1);
-                        if (d.m2) mine.properties.minerals.push(d.m2);
-
-                        // armed presence
-                        mine.properties.armygroups = [];
-                        mine.properties.armies = [];
-                        for (i = 1; i<3; i++){
-                            var army = d["a" + i];
-                            var armygroup = getArmyGroupFromArmy(army);
-                            if (armygroup){
-                                mine.properties.armies.push(army);
-                                mine.properties.armygroups.push(armygroup);
-                                if (i===1) mine.properties.army = army;
-                            }
-                        }
-                        // also filter on "no army presence"
-                        if (mine.properties.armygroups.length === 0) mine.properties.armygroups.push(0);
-
-                        // workers
-                        mine.properties.workers = workers;
-                        var workergroup = 0;
-                        if (workers>0) workergroup=1;
-                        if (workers>=50) workergroup=2;
-                        if (workers>=500) workergroup=3;
-                        mine.properties.workergroup =  workergroup;
-
-                        // services
-                        mine.properties.services = []; // do we only include services from the last visit?
-                        for (i = 1; i<5; i++){
-                            var service = d["s" + i];
-                            if (service){
-                                if (!servicesLookup[service]){
-                                    services.push(service);
-                                    servicesLookup[service] = services.length;
-                                }
-                                var serviceId = servicesLookup[service];
-                                mine.properties.services.push(serviceId);
-                            }
-                        }
-
-                        // mercury
-                        mine.properties.mercury = 0;
-                        if (d.m == 0) mine.properties.mercury = 1;
-                        if (d.m == 1) mine.properties.mercury = 2;
-                    }
-                }
-
-                if (d.q){
-                    var q = qualifications[d.q.toLowerCase()];
-                    if (q) {
-                        mine.properties.qualification = q;
                     }else{
-                        console.error("Unknown Qualification: " + d.q);
+                        mine = featurePoint(d.lt,d.ln);
+                        counter ++;
+                        mine.properties.id = counter;
+                        filteredMineIds.push(counter);
+                        buildProperties(mine,d);
+
+                        mines.features.push(mine);
+                        minesLookup[d.i] = mine;
+                        minesProperties[counter] = mine.properties;
                     }
-                }
 
-			});
+                    // minerals
+                    mine.properties.mineral = d.m1;
+                    if (mine.properties.mineral && !mineralLookup[mine.properties.mineral]){
+                        minerals.push(mine.properties.mineral);
+                        mineralLookup[mine.properties.mineral] = true;
+                    }
 
-            filteredMines = mines.features;
 
-			//console.log(mines);
-			//console.log(armies);
-			//console.log(years);
-			//console.log(minerals);
+                    // years, visits and properties latest visit
+                    var date = d.d;
+                    if (date){
 
-			now = new Date().getTime();
-			console.log("datasets generated in " +  (now-checkpoint) + "ms");
+                        var workers = parseInt(d.w) || 0;
+                        if (isNaN(workers)){
+                            console.error("Workers NAN: " + d.w);
+                            workers = 0;
+                        }
 
-			EventBus.trigger(EVENT.preloadDone);
-            EventBus.trigger(EVENT.filterChanged);
+                        var visit = {
+                            date: date,
+                            workers: workers,
+                            pits: d.p,
+                            depth: d.dp,
+                            soil: d.sl,
+                            qualification: d.q
+                        };
+                        mine.properties.visits.push(visit);
 
-        });
+                        var year = parseInt(date.split("-")[0]);
+                        if (!mine.properties.year || year>mine.properties.year){
+                            mine.properties.year = year;
+
+                            if (!yearsLookup[year]){
+                                years.push(year);
+                                yearsLookup[year] = true;
+                            }
+
+                            mine.properties.minerals = [];
+                            if (d.m1) mine.properties.minerals.push(d.m1);
+                            if (d.m2) mine.properties.minerals.push(d.m2);
+
+                            // armed presence
+                            mine.properties.armygroups = [];
+                            mine.properties.armies = [];
+                            for (i = 1; i<3; i++){
+                                var army = d["a" + i];
+                                var armygroup = getArmyGroupFromArmy(army);
+                                if (armygroup){
+                                    mine.properties.armies.push(army);
+                                    mine.properties.armygroups.push(armygroup);
+                                    if (i===1) mine.properties.army = army;
+                                }
+                            }
+                            // also filter on "no army presence"
+                            if (mine.properties.armygroups.length === 0) mine.properties.armygroups.push(0);
+
+                            // workers
+                            mine.properties.workers = workers;
+                            var workergroup = 0;
+                            if (workers>0) workergroup=1;
+                            if (workers>=50) workergroup=2;
+                            if (workers>=500) workergroup=3;
+                            mine.properties.workergroup =  workergroup;
+
+                            // services
+                            mine.properties.services = []; // do we only include services from the last visit?
+                            for (i = 1; i<5; i++){
+                                var service = d["s" + i];
+                                if (service){
+                                    if (!servicesLookup[service]){
+                                        services.push(service);
+                                        servicesLookup[service] = services.length;
+                                    }
+                                    var serviceId = servicesLookup[service];
+                                    mine.properties.services.push(serviceId);
+                                }
+                            }
+
+                            // mercury
+                            mine.properties.mercury = 0;
+                            if (d.m == 0) mine.properties.mercury = 1;
+                            if (d.m == 1) mine.properties.mercury = 2;
+                        }
+                    }
+
+                    if (d.q){
+                        var q = qualifications[d.q.toLowerCase()];
+                        if (q) {
+                            mine.properties.qualification = q;
+                        }else{
+                            console.error("Unknown Qualification: " + d.q);
+                        }
+                    }
+
+                });
+
+                filteredMines = mines.features;
+                minesLoaded = true;
+                dataDone();
+
+            });
+        }
+
+        function loadPdv(){
+            var url = "http://ipis.annexmap.net/api/data/cod/pdvall?key=ipis";
+            FetchService.json(url,function(data){
+
+                console.log(data);
+                now = new Date().getTime();
+                console.log("pdv data loaded in " +  (now-checkpoint) + "ms");
+
+                //build pdv
+                var counter = 0;
+                pdvs = featureCollection();
+                data.result.forEach(function(d){
+
+                    var pdv = pdvsLookup[d.i];
+                    if (pdv){
+
+                    }else{
+                        pdv = featurePoint(d.lt,d.ln);
+                        counter ++;
+                        pdv.properties.id = counter;
+                        buildProperties(pdv,d);
+
+                        pdvs.features.push(pdv);
+                        pdvsLookup[d.i] = pdv;
+                        pdvsProperties[counter] = pdv.properties;
+                    }
+
+                    pdv.properties.mineral = d.m1;
+
+                });
+
+                pdvLoaded = true;
+                dataDone();
+
+            });
+        }
+
+        loadMines();
+        loadPdv();
     };
 
 
@@ -283,6 +330,10 @@ var Data = function(){
         map.setFilter("mines", ['in', 'id'].concat(filteredMineIds));
 
         EventBus.trigger(EVENT.filterChanged);
+    };
+
+    me.getPdvs = function(){
+        return pdvs;
     };
 
     me.getMines = function(){

@@ -13,6 +13,24 @@ var Config = {
     preLoad : function(){Data.init();},
     // layer info
     layers:{
+        sellingpoints: {
+            id: "pdv",
+            label: "Points de vente",
+            source: function(){return Data.getPdvs()},
+            sourceId: "pdv",
+            onClick: function(item){
+                UI.popup(Data.getMineDetail(item),"pdvPopup",item.geometry.coordinates,true);
+            },
+            display:{
+                type: 'circle',
+                visible: false,
+                canToggle: true,
+                color: {
+                    property: "mineral",
+                    data: function(){return Data.getMinerals();}
+                }
+            }
+        },
         visits: {
             id: "mines",
             label: "Sites miniers",

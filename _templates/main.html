@@ -108,11 +108,69 @@
         </div>
     </div>
 
-
-
-
-
-
-
-
 <!--/minePopup-->
+
+
+
+<!--pdvPopup-->
+<div class="popup">
+    <h2>Point de vente: {{{name}}}</h2>
+    <div class="popupColLeft">
+        <table class="infotable" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th>Substance(s)</th>
+                <td>{{mineralString}}</td>
+            </tr>
+            <tr>
+                <th>Province</th>
+                <td>{{{province}}}</td>
+            </tr>
+            <tr>
+                <th>Territoire</th>
+                <td>{{{territoire}}}</td>
+            </tr>
+            <tr>
+                <th>Collectivité</th>
+                <td>{{{collectivite}}}</td>
+            </tr>
+            <tr>
+                <th>Groupement</th>
+                <td>{{{groupement}}}</td>
+            </tr>
+            <tr>
+                <th>Village</th>
+                <td>{{{village}}}</td>
+            </tr>
+            <!--
+            <tr>
+                <th>Origine</th>
+                <td>{{{origin}}}</td>
+            </tr>
+            -->
+            <tr>
+                <th>Source</th>
+                <td class="source">{{{source}}}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{{pcode}}}</td>
+            </tr>
+            <tr>
+                <th>Longitude</th>
+                <td>{{{fLongitude}}}</td>
+            </tr>
+            <tr>
+                <th>Latitude</th>
+                <td>{{{fLatitude}}}</td>
+            </tr>
+            {{#itsci}}
+            <tr>
+                <th>iTSCi</th>
+                <td>{{{itsci}}}</td>
+            </tr>
+            {{/itsci}}
+        </table>
+    </div>
+</div>
+
+<!--/pdvPopup-->
