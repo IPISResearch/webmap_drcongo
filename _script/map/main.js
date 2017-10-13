@@ -3,13 +3,15 @@ var Main = function(){
     var me = {};
 
     me.init = function(){
-        Template.load('_templates/'+Config.templateURL+'?v' + version, function(templates) {
-           if (Config.preLoad){
+        Template.load(Config.templateURL+'?v' + version, function(templates) {
+            if (Config.showDisclaimerOnFirstUse) UI.showDisclaimer(true);
+
+            if (Config.preLoad){
                 UI.showLoader();
                 Config.preLoad();
-           }else{
-               EventBus.trigger(EVENT.preloadDone);
-           }
+            }else{
+                EventBus.trigger(EVENT.preloadDone);
+            }
         });
     };
 

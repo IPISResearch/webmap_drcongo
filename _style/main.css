@@ -32,6 +32,10 @@ body,html{
     display: none;
 }
 
+body.disclaimer #menu{
+    display: none;
+}
+
 #menu.preloader{
     text-align: center;
     display: block;
@@ -46,11 +50,15 @@ body,html{
     display: block;
 }
 
-#menu #layers{
+#menu .inner{
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
     position: relative;
+}
+
+#menu #layers{
+
 }
 
 #menu .filter{
@@ -160,6 +168,58 @@ body,html{
 }
 #legend .c3-tooltip td{
     white-space: nowrap;
+}
+
+
+/* disclaimer */
+
+.blanket{
+
+}
+
+#disclaimer{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 200;
+    display: none;
+}
+
+#disclaimer #disclaimerbody{
+    position: relative;
+    background-color: white;
+    width: 60%;
+    margin: 5% auto 0 auto;
+    padding: 20px 30px;
+    border-radius: 4px;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+}
+
+#disclaimer #disclaimerbody a{
+    color: #1DA1F2;
+}
+
+#disclaimer #disclaimerbody .button{
+    width: 150px;
+    margin: 10px auto;
+    background-color: #1DA1F2;
+    color: white;
+    border-radius: 4px;
+    font-size: 16px;
+    text-align: center;
+    padding: 10px;
+}
+
+#disclaimer #disclaimerbody .button:hover{
+    background-color: #51c0fb;
+    cursor: pointer;
+}
+
+body.disclaimer #disclaimer{
+    display: block;
 }
 
 

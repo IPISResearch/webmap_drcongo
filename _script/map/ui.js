@@ -18,6 +18,36 @@ var UI = function(){
 		menuContainer.innerHTML = Template.get("loading");
     };
 
+    me.showDisclaimer = function(firstUse){
+
+        if (firstUse){
+            var cookieName = Config.mapId + "_disclaimer";
+            var hasReadDisclaimer = readCookie(cookieName);
+            if (hasReadDisclaimer) return;
+            createCookie(cookieName,true,100);
+        }
+
+        var container =  document.getElementById("disclaimer");
+        var content =  document.getElementById("disclaimerbody");
+        document.body.className = "disclaimer";
+        FetchService.get(Config.disclaimerUrl,function(html){
+            content.innerHTML = html;
+            var button = div("button","OK");
+            content.appendChild(button);
+            button.onclick = me.hideDisclaimer;
+            content.onclick = function(e){
+                if (!e) {e = window.event;}
+                e.cancelBubble = true;
+                if (e.stopPropagation) e.stopPropagation();
+            };
+            container.onclick = me.hideDisclaimer;
+        });
+    };
+
+    me.hideDisclaimer = function(){
+        document.body.className = "";
+    };
+
     me.buildMap = function(){
 
     };

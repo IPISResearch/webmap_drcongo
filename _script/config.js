@@ -1,7 +1,10 @@
 var version = "0.0.1";
 
 var Config = {
-    templateURL: "main.html",
+    mapId: "CODV5",
+    templateURL: "_templates/main.html",
+    showDisclaimerOnFirstUse: true,
+    disclaimerUrl: "_templates/disclaimer.html",
     // starting point for map
     mapCoordinates: {
         x: -4,
