@@ -1,4 +1,5 @@
 var map;
+var popup_hover;
 var MapService = (function() {
 
     var me = {};
@@ -15,10 +16,15 @@ var MapService = (function() {
             zoom: Config.mapCoordinates.zoom
         });
 
+        // Create a hover popup, but don't add it to the map yet.
+        popup_hover = new mapboxgl.Popup({
+          closeButton: false,
+          closeOnClick: false
+        });
 
         map.once('style.load', function(e) {
             map.addControl(new mapboxgl.NavigationControl(),'top-left');
-            map.fitBounds(Config.mapCoordinates.bounds);
+            // map.fitBounds(Config.mapCoordinates.bounds);
 
 			for (var key in Config.layers){
 				if (Config.layers.hasOwnProperty(key)){
@@ -69,10 +75,10 @@ var MapService = (function() {
 			}
 		}
 
-		var circleRadius = 5;
+		var circleRadius = 3;
 		if (layer.display.size){
 			circleRadius = {
-				'default': 5,
+				'default': 3,
 				'property': layer.display.size.property,
 				'type': 'interval',
 				'stops': layer.display.size.interval
@@ -85,8 +91,10 @@ var MapService = (function() {
 		var paint = {
 			'circle-color': circleColor,
 			'circle-radius': circleRadius,
-			'circle-opacity': 0.5,
-			'circle-blur': 0.5
+      'circle-opacity': 0.5,
+      'circle-blur': 0,
+      'circle-stroke-width': 0.5,
+      'circle-stroke-color': 'white'
 		};
 
 		if (displayType == "fill"){
@@ -109,18 +117,22 @@ var MapService = (function() {
 		layer.added = true;
 
 		if (layer.onClick){
-			map.on('mouseenter', layer.id, function () {
+			map.on('mouseenter', layer.id, function (e) {
 				map.getCanvas().style.cursor = 'pointer';
+        popup_hover.setLngLat(e.features[0].geometry.coordinates)
+        .setHTML(e.features[0].properties.name)
+        .addTo(map);
 			});
-			map.on('mouseleave', layer.id, function () {
+			map.on('mouseleave', layer.id, function (e) {
 				map.getCanvas().style.cursor = '';
+        popup_hover.remove();
 			});
 			map.on('click', layer.id, function (e) {
 				if (e.features.length>1) {
 					// TODO: Spiderify ?
 				}
-				 layer.onClick(e.features[0]);
-
+        popup_hover.remove();
+        layer.onClick(e.features[0]);
 			});
 		}
 
