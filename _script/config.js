@@ -25,13 +25,10 @@ var Config = {
                 UI.popup(Data.getMineDetail(item),"pdvPopup",item.geometry.coordinates,true);
             },
             display:{
-                type: 'circle',
                 visible: false,
                 canToggle: true,
-                color: {
-                    property: "mineral",
-                    data: function(){return Data.getMinerals();}
-                }
+				type: 'symbol',
+				symbol: "town-hall-11"
             }
         },
         visits: {
@@ -94,6 +91,25 @@ var Config = {
                 belowLayer: 'housenum-label'
             }
         },
+		roadblocks: {
+			id: "roadblocks",
+			label: "Barrage routier",
+			source: function(){return Data.getRoadBlocks()},
+			sourceId: "roadblocks",
+			onClick: function(item){
+				UI.popup(Data.getRoadBlockDetail(item),"roadblockPopup",item.geometry.coordinates,true);
+			},
+			display:{
+				visible: false,
+				canToggle: true,
+				type: 'symbol',
+				symbol: "police-11"
+			},
+			filters:[
+				{id: "op", label: "Operateurs",items: Data.getOperateurs,onFilter: Data.updateRoadblockFilter,filterProperty:"operateurs",array:true},
+				{id: "bar", label: "Barriere",items: Data.getRoadblockTypes,onFilter: Data.updateRoadblockFilter,filterProperty: "types",array:true}
+			]
+		},
         concessions:{
             id: "concessions",
             label: "Titres miniers<br>&ensp;<small>(source: CAMI, 2017)</small>",

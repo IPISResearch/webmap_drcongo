@@ -61,58 +61,71 @@ var MapService = (function() {
 
 		var colorStops = [];
 
-        if (layer.display.color){
-			var items =  layer.display.color.data;
-			if (typeof layer.display.color.data === "function") items = layer.display.color.data();
-			items.forEach(function(item){
-				colorStops.push([item.value,item.color]);
-			});
-
-			circleColor = {
-					property: layer.display.color.property,
-					type: 'categorical',
-					stops: colorStops
-			}
-		}
-
-		var circleRadius = 3;
-		if (layer.display.size){
-			circleRadius = {
-				'default': 3,
-				'property': layer.display.size.property,
-				'type': 'interval',
-				'stops': layer.display.size.interval
-			}
-		}
+		var paint = {};
+		var layout = {
+			'visibility': 'visible'
+		};
 
 		var displayType = "circle";
 		if (layer.display.type) displayType = layer.display.type;
 
-		var paint = {
-			'circle-color': circleColor,
-			'circle-radius': circleRadius,
-      'circle-opacity': 0.5,
-      'circle-blur': 0,
-      'circle-stroke-width': 0.5,
-      'circle-stroke-color': 'white'
-		};
+		if(layer.display.type === "circle"){
 
-		if (displayType == "fill"){
+			if (layer.display.color){
+				var items =  layer.display.color.data;
+				if (typeof layer.display.color.data === "function") items = layer.display.color.data();
+				items.forEach(function(item){
+					colorStops.push([item.value,item.color]);
+				});
+
+				circleColor = {
+					property: layer.display.color.property,
+					type: 'categorical',
+					stops: colorStops
+				}
+			}
+
+			var circleRadius = 3;
+			if (layer.display.size){
+				circleRadius = {
+					'default': 3,
+					'property': layer.display.size.property,
+					'type': 'interval',
+					'stops': layer.display.size.interval
+				}
+			}
+
+			paint = {
+				'circle-color': circleColor,
+				'circle-radius': circleRadius,
+				'circle-opacity': 0.5,
+				'circle-blur': 0,
+				'circle-stroke-width': 0.5,
+				'circle-stroke-color': 'white'
+			};
+		}
+
+		if (displayType === "fill"){
 			paint = {
 				'fill-color': layer.display.fillColor || '#088',
 				'fill-opacity': layer.display.fillOpacity || 0.7
 			}
 		}
 
+		if (displayType === "symbol"){
+			// list of standard icons: https://github.com/mapbox/mapbox-gl-styles/tree/master/sprites/basic-v9/_svg
+			layout = {
+				'icon-image': layer.display.symbol || "marker-11",
+				'icon-allow-overlap' : true
+			};
+		}
 
 		map.addLayer({
 			'id': layer.id,
 			'type': displayType,
 			'source': sourceId,
 			'paint': paint,
-			'layout': {
-				'visibility': 'visible'
-			}
+			'layout': layout
 		},layer.display.belowLayer);
 		layer.added = true;
 

@@ -180,3 +180,47 @@
 </div>
 
 <!--/pdvPopup-->
+
+
+
+<!--roadblockPopup-->
+<div class="popup">
+    <h2>Barrage routier: {{{name}}}</h2>
+    <div class="popupColLeft">
+        <table class="infotable" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th>Operateur(s)</th>
+                <td>{{operateur}}</td>
+            </tr>
+            <tr>
+                <th>Type operateur(s)</th>
+                <td>{{{type}}}</td>
+            </tr>
+            {{#taxCible}}
+            <tr>
+                <th>Taxe cible</th>
+                <td>{{{taxCible}}}</td>
+            </tr>
+            {{/taxCible}}
+            {{#taxMontant}}
+            <tr>
+                <th>Taxe montant</th>
+                <td>{{{taxMontant}}}</td>
+            </tr>
+            {{/taxMontant}}
+            <tr>
+                <th>Type de barrière</th>
+                <td>{{{barriere}}}</td>
+            </tr>
+            {{#resourcesNaturelles}}
+            <tr>
+                <th>Ressources naturelles</th>
+                <td>{{{resourcesNaturelles}}}</td>
+            </tr>
+            {{/resourcesNaturelles}}
+
+        </table>
+    </div>
+</div>
+
+<!--/roadblockPopup-->

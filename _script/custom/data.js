@@ -5,16 +5,20 @@ var Data = function(){
 
     var visits;
 
-    var mines;          var minesLookup = {};  var minesProperties = {};
-    var pdvs;           var pdvsLookup = {};   var pdvsProperties = {};
+    var mines;          var minesLookup = {};       var minesProperties = {};
+    var pdvs;           var pdvsLookup = {};        var pdvsProperties = {};
+    var roadblocks;    var roadblocksLookup = {};  var roadblocksProperties = {};
     var minerals = [];  var mineralLookup = {};
     var years = [];     var yearsLookup = {};
     var armies = [];    var armiesLookup = {};
     var services = [];  var servicesLookup = {};
+    var operateurs = [];  var operateursLookup = {};
+    var roadblockTypes = [];  var roadblockTypesLookup = {};
 
     var filteredMineIds = [];
     var filteredMines = [];
     var filterFunctionsLookup = {};
+    var roadBlockFilterFunctionsLookup = {};
 
     var mineralColors = {
         "Or" : "#DAA520",
@@ -37,18 +41,19 @@ var Data = function(){
 
     me.init = function(){
 
-        var minesLoaded, pdvLoaded;
+        var minesLoaded, pdvLoaded, roadblocksLoaded;
 
         var checkpoint = new Date().getTime();
         var now;
 
         var dataDone = function(){
-            if (minesLoaded && pdvLoaded){
+            if (minesLoaded && pdvLoaded && roadblocksLoaded){
                 now = new Date().getTime();
                 console.log("datasets generated in " +  (now-checkpoint) + "ms");
 
                 EventBus.trigger(EVENT.preloadDone);
                 EventBus.trigger(EVENT.filterChanged);
+
             }
         };
 
@@ -235,8 +240,84 @@ var Data = function(){
             });
         }
 
+		function loadRoadBlocks(){
+			var url = "http://ipis.annexmap.net/api/data/cod/roadblocksall?key=ipis";
+			FetchService.json(url,function(data){
+
+				console.log(data);
+				now = new Date().getTime();
+				console.log("roadblock data loaded in " +  (now-checkpoint) + "ms");
+
+				//build roadBlocks
+				var counter = 0;
+				roadblocks = featureCollection();
+				data.result.forEach(function(d){
+
+					var roadblock = featurePoint(d.lt,d.ln);
+					var type = d.t;
+					var barriere = d.b;
+
+					counter ++;
+					roadblock.properties.id = counter;
+					roadblock.properties.name = d.n;
+					roadblock.properties.operateur = d.o;
+					roadblock.properties.type = type;
+					roadblock.properties.taxCible = d.tc;
+					roadblock.properties.taxMontant = d.tm;
+					roadblock.properties.barriere = d.b;
+					roadblock.properties.resourcesNaturelles = d.r;
+
+					roadblocks.features.push(roadblock);
+					roadblocksLookup[counter] = roadblock;
+					roadblocksProperties[counter] = roadblock.properties;
+
+					roadblock.properties.operateurs = [];
+					roadblock.properties.types = [];
+
+
+					if (type){
+					    var list = type.split(",");
+					    list.forEach(function(s){
+							s = s.trim();
+							if (!operateursLookup[s]){
+								operateurs.push(s);
+								operateursLookup[s] = operateurs.length;
+							}
+							roadblock.properties.operateurs.push(operateursLookup[s]);
+                        });
+
+					}
+
+					var hasResourcesNaturelles = false;
+					if (barriere){
+						list = barriere.split(",");
+						list.forEach(function(s){
+							s = s.trim();
+							if (!roadblockTypesLookup[s]){
+								roadblockTypes.push(s);
+								roadblockTypesLookup[s] = roadblockTypes.length;
+							}
+							roadblock.properties.types.push(roadblockTypesLookup[s]);
+							if (s.indexOf("naturelles")>0) hasResourcesNaturelles = true;
+						});
+
+					}
+					if (!hasResourcesNaturelles) roadblock.properties.resourcesNaturelles="";
+
+				});
+
+				operateurs.sort();
+				roadblockTypes.sort();
+
+				roadblocksLoaded = true;
+				dataDone();
+
+			});
+		}
+
         loadMines();
         loadPdv();
+        loadRoadBlocks();
     };
 
 
@@ -332,6 +413,9 @@ var Data = function(){
         EventBus.trigger(EVENT.filterChanged);
     };
 
+
+
+
     me.getPdvs = function(){
         return pdvs;
     };
@@ -415,9 +499,102 @@ var Data = function(){
         });
 
         return result;
-
-
     };
+
+    // ---- roadblocks ----
+
+	me.getRoadBlocks = function(){
+		return roadblocks;
+	};
+
+	me.getRoadBlockDetail = function(roadBlock){
+		var p  = roadblocksProperties[roadBlock.properties.id];
+		return p;
+	};
+
+    me.getOperateurs = function(){
+		var result = [];
+
+		operateurs.forEach(function(item){
+			result.push({label: item, value:operateursLookup[item]})
+		});
+
+		return result;
+    };
+
+	me.getRoadblockTypes = function(){
+		var result = [];
+
+		roadblockTypes.forEach(function(item){
+			result.push({label: item, value:roadblockTypesLookup[item]})
+		});
+
+		return result;
+	};
+
+	me.updateRoadblockFilter = function(filter,item){
+		var values = [];
+		filter.filterItems.forEach(function(item){
+			if (item.checked) values.push(item.value);
+		});
+
+		if (values.length ===  filter.filterItems.length){
+			// all items checked - ignore filter
+			roadBlockFilterFunctionsLookup[filter.id] = undefined;
+		}else{
+			if (filter.array){
+				roadBlockFilterFunctionsLookup[filter.id] = function(item){
+					var value = item.properties[filter.filterProperty];
+					if (value && value.length){
+						return value.some(function (v){return values.includes(v);});
+					}
+					return false;
+				};
+			}else{
+				roadBlockFilterFunctionsLookup[filter.id] = function(item){
+					return values.includes(item.properties[filter.filterProperty]);
+				};
+			}
+		}
+
+
+		me.filterRoadBlocks();
+	};
+
+	me.filterRoadBlocks = function(){
+		var filteredIds = [];
+		var filtered = [];
+		var filterFunctions = [];
+
+		for (var key in  roadBlockFilterFunctionsLookup){
+			if (roadBlockFilterFunctionsLookup.hasOwnProperty(key) && roadBlockFilterFunctionsLookup[key]){
+				filterFunctions.push(roadBlockFilterFunctionsLookup[key]);
+			}
+		}
+
+		roadblocks.features.forEach(function(roadblock){
+			var passed = true;
+			var filterCount = 0;
+			var filterMax = filterFunctions.length;
+			while (passed && filterCount<filterMax){
+				passed =  filterFunctions[filterCount](roadblock);
+				filterCount++;
+			}
+			if (passed) {
+				filtered.push(roadblock);
+				filteredIds.push(roadblock.properties.id);
+			}
+		});
+
+		console.error(filteredIds);
+
+		map.setFilter("roadblocks", ['in', 'id'].concat(filteredIds));
+
+		EventBus.trigger(EVENT.filterChanged);
+	};
+
+
+	// ---- end roadblocks ----
 
     me.getColorForMineral = function(mineral){
         return mineralColors[mineral] || "grey";
