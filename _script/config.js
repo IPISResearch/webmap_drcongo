@@ -18,6 +18,7 @@ var Config = {
     layers:{
         sellingpoints: {
             id: "pdv",
+			filterId: 2,
             label: "Points de vente",
             source: function(){return Data.getPdvs()},
             sourceId: "pdv",
@@ -45,31 +46,32 @@ var Config = {
 			onLoaded: function(){
 				//Chart.update();
 			},
+            filterId: 1,
             filters:[
-                {id: "years", label: "Année de dernière visite",items: Data.getYears,onFilter: Data.updateFilter,filterProperty:"year"},
-                {id: "minerals", label: "Substances minérales",items: Data.getMinerals,onFilter: Data.updateFilter,filterProperty: "minerals",array:true},
-                {id: "mercury", label: "Traitement de l’or observé<br>&ensp;<small>(enrégistré à partir de 2015)</small>",
+                {id: "years", index: 1, label: "Année de dernière visite",items: Data.getYears,onFilter: Data.updateFilter,filterProperty:"year"},
+                {id: "minerals", index: 2, label: "Substances minérales",items: Data.getMinerals,onFilter: Data.updateFilter,filterProperty: "minerals",array:true},
+                {id: "mercury", index: 3, label: "Traitement de l’or observé<br>&ensp;<small>(enrégistré à partir de 2015)</small>",
                     items: [
                         {label: "Traitement au mercure", value:2},
                         {label: "Pas de traitement au mercure", value:1},
                         {label: "Pas de données", value:0}
                     ],onFilter: Data.updateFilter,filterProperty: "mercury"},
-                {id: "armedpresence", label: "Présence armée<br>&ensp;<small>(lors de la dernière visite)<small>",
+                {id: "armedpresence", index: 4,label: "Présence armée<br>&ensp;<small>(lors de la dernière visite)<small>",
                     items:[
                         {label: "Pas de présence armée constatée", value:0},
                         {label: "Groupe armé local", value:1},
                         {label: "Groupe armé étranger", value:2},
                         {label: "FARDC", value:3}
                     ],onFilter: Data.updateFilter,filterProperty: "armygroups",array:true},
-                {id: "services", label: "Présence services<br>&ensp;<small>(enrégistré à partir de 2015)</small>",
+                {id: "services", index: 5, label: "Présence services<br>&ensp;<small>(enrégistré à partir de 2015)</small>",
                         items:Data.getServices,onFilter: Data.updateFilter,filterProperty: "services",array:true},
-                {id: "qualification", label: "Qualification ministérielle<br>&ensp;<small>(source: BGR, avril 2017)</small>",items:[
+                {id: "qualification", index: 6, label: "Qualification ministérielle<br>&ensp;<small>(source: BGR, avril 2017)</small>",items:[
                     {label: "Vert", value:1 , color: "#29b012"},
                     {label: "Jaune", value:2 , color : "#e0a500"},
                     {label: "Rouge", value:3, color: "#b00012"},
                     {label: "Aucune", value:0, color: "grey"}
                 ],onFilter: Data.updateFilter,filterProperty: "qualification"},
-                {id: "workers", label: "Nombre de creuseurs",items:[
+                {id: "workers", index: 7, label: "Nombre de creuseurs",items:[
                     {label: "Aucune", value:0},
                     {label: "<50", value:1},
                     {label: ">50", value:2},
@@ -105,13 +107,15 @@ var Config = {
 				type: 'symbol',
 				symbol: "police-11"
 			},
+			filterId: 3,
 			filters:[
-				{id: "op", label: "Operateurs",items: Data.getOperateurs,onFilter: Data.updateRoadblockFilter,filterProperty:"operateurs",array:true},
-				{id: "bar", label: "Barriere",items: Data.getRoadblockTypes,onFilter: Data.updateRoadblockFilter,filterProperty: "types",array:true}
+				{id: "op", index: 31, label: "Operateurs",items: Data.getOperateurs,onFilter: Data.updateRoadblockFilter,filterProperty:"operateurs",array:true},
+				{id: "bar", index: 32, label: "Barriere",items: Data.getRoadblockTypes,onFilter: Data.updateRoadblockFilter,filterProperty: "types",array:true}
 			]
 		},
         concessions:{
             id: "concessions",
+			filterId: 4,
             label: "Titres miniers<br>&ensp;<small>(source: CAMI, 2017)</small>",
             source: "http://ipis.annexmap.net/api/geojson/cod_titres.php",
             sourceId: "concessions",
@@ -125,6 +129,7 @@ var Config = {
         },
         protectedAreas:{
             id: "protectedAreas",
+			filterId: 5,
             label: "Aires protégées<br>&ensp;<small>(source: WRI, 2017)</small>",
             source: "http://ipis.annexmap.net/api/geojson/cod_protectedArea.php",
             sourceId: "protectedAreas",

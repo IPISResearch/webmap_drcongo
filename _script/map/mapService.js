@@ -1,14 +1,36 @@
 var map;
-var popup_hover;
 var MapService = (function() {
 
     var me = {};
 
     var mapSources = {};
     var mapLoaded;
+	var updateHashTimeout;
+	var popupHover;
 
     me.init = function(){
         mapboxgl.accessToken = 'pk.eyJ1IjoiaXBpc3Jlc2VhcmNoIiwiYSI6IklBazVQTWcifQ.K13FKWN_xlKPJFj9XjkmbQ';
+
+
+		var requestedLayerIdString = "";
+		var requestedFilterIdString = "";
+		var requestedTimeChartString = "";
+
+
+		var hash = document.location.hash.substr(1);
+		if (hash.indexOf("/")>0){
+			var urlparams = hash.split("/");
+			if (urlparams.length>2){
+				Config.mapCoordinates.y = urlparams[0];
+				Config.mapCoordinates.x = urlparams[1];
+				Config.mapCoordinates.zoom = urlparams[2];
+				requestedLayerIdString = urlparams[3] || "";
+				requestedFilterIdString = urlparams[4] || "";
+				requestedTimeChartString = urlparams[5] || "";
+			}
+		}
+
+
         map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v9',
@@ -16,8 +38,18 @@ var MapService = (function() {
             zoom: Config.mapCoordinates.zoom
         });
 
+		map.on("zoomend",function(){
+			updateHash();
+		});
+
+
+		map.on("moveend",function(){
+			updateHash();
+		});
+
+
         // Create a hover popup, but don't add it to the map yet.
-        popup_hover = new mapboxgl.Popup({
+        popupHover = new mapboxgl.Popup({
           closeButton: false,
           closeOnClick: false
         });
@@ -35,6 +67,8 @@ var MapService = (function() {
 					if (layer.display.visible) me.addLayer(Config.layers[key]);
 				}
 			}
+
+			updateHash();
         });
 
     };
@@ -127,25 +161,26 @@ var MapService = (function() {
 			'paint': paint,
 			'layout': layout
 		},layer.display.belowLayer);
+
 		layer.added = true;
 
 		if (layer.onClick){
 			map.on('mouseenter', layer.id, function (e) {
 				map.getCanvas().style.cursor = 'pointer';
-        popup_hover.setLngLat(e.features[0].geometry.coordinates)
-        .setHTML(e.features[0].properties.name)
-        .addTo(map);
+				popupHover.setLngLat(e.features[0].geometry.coordinates)
+				.setHTML(e.features[0].properties.name)
+				.addTo(map);
 			});
 			map.on('mouseleave', layer.id, function (e) {
-				map.getCanvas().style.cursor = '';
-        popup_hover.remove();
+					map.getCanvas().style.cursor = '';
+					popupHover.remove();
 			});
 			map.on('click', layer.id, function (e) {
 				if (e.features.length>1) {
 					// TODO: Spiderify ?
 				}
-        popup_hover.remove();
-        layer.onClick(e.features[0]);
+				popupHover.remove();
+				layer.onClick(e.features[0]);
 			});
 		}
 
@@ -154,13 +189,69 @@ var MapService = (function() {
 				if (!mapLoaded){
 					mapLoaded = true;
 					if (layer.onLoaded) layer.onLoaded();
+					updateHash();
                 }
 
                 if (UI.onRender) UI.onRender();
 			}
 		});
 
+
     };
+
+
+
+	// updates the url Hash so links can reproduce the current map state
+	function updateHash(){
+		clearTimeout(updateHashTimeout);
+
+		updateHashTimeout = setTimeout(function(){
+			var zoom = map.getZoom();
+			var center = map.getCenter();
+			var bounds = map.getBounds();
+
+			var latitude = center.lat;
+			var longitude = center.lng;
+
+			var layerIds = [];
+			var filterIds = [];
+
+
+			for (var key in Config.layers){
+				if (Config.layers.hasOwnProperty(key)){
+					var layer = Config.layers[key];
+					if (layer.id && layer.filterId){
+						if (map.getLayer(layer.id)){
+							layerIds.push(layer.filterId);
+						}
+
+						if (layer.filters && layer.filters.length){
+							layer.filters.forEach(function(filter){
+								if (filter.index){
+									filterIds.push(filter.index);
+								}
+							});
+						}
+					}
+
+
+				}
+			}
+
+
+			window.location.hash = latitude + "/" + longitude + "/" + zoom + "/" + layerIds.join(",") + "/" + filterIds.join(",");
+		},50);
+
+	}
+
+
+	EventBus.on(EVENT.filterChanged,function(){
+		updateHash();
+	});
+
+	EventBus.on(EVENT.layerChanged,function(){
+		updateHash();
+	});
 
     return me;
 

@@ -72,6 +72,8 @@ var UI = function(){
             MapService.addLayer(layer);
         }
 
+        EventBus.trigger(EVENT.layerChanged);
+
     };
 
     me.updateFilter = function(filter,item){
