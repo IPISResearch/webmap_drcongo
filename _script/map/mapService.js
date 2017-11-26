@@ -33,7 +33,7 @@ var MapService = (function() {
 
     map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v9',
+      style: 'mapbox://styles/ipisresearch/ciw6jpn5s002r2jtb615o6shz',
       center: [Config.mapCoordinates.x,Config.mapCoordinates.y],
       zoom: Config.mapCoordinates.zoom
     });
@@ -95,6 +95,7 @@ var MapService = (function() {
     var fillColor;
 
     var colorStops = [];
+    var symbolStops = [];
 
     var paint = {};
     var layout = {
@@ -167,8 +168,26 @@ var MapService = (function() {
 
     if (displayType === "symbol"){
       // list of standard icons: https://github.com/mapbox/mapbox-gl-styles/tree/master/sprites/basic-v9/_svg
+      if (layer.display.symbol.data){
+        var items =  layer.display.symbol.data;
+        if (typeof layer.display.symbol.data === "function") items = layer.display.symbol.data();
+        items.forEach(function(item){
+          symbolStops.push([item.value,item.symbol]);
+        });
+
+        symbol = {
+          property: layer.display.symbol.property,
+          type: 'categorical',
+          stops: symbolStops
+        }
+      } else {
+        if (layer.display.symbol){
+          symbol = layer.display.symbol
+        }
+      }
+
       layout = {
-        'icon-image': layer.display.symbol || "marker-11",
+        'icon-image': symbol || "marker-11",
         'icon-allow-overlap' : true
       };
     }

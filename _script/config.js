@@ -106,7 +106,16 @@ var Config = {
         visible: false,
         canToggle: true,
         type: 'symbol',
-        symbol: "police-11",
+        symbol: {
+          property: "typeFirst",
+          data: [
+            {label: "Acteurs civils", value: "Acteurs civils" , symbol: "roadblock-11-acteurs_civils"},
+            {label: "Acteurs étatiques", value: "Acteurs étatiques" , symbol : "roadblock-11-acteurs_etatiques"},
+            {label: "Eléments indépendants", value: "Eléments indépendants", symbol: "roadblock-11-elements_independants"},
+            {label: "Forces de sécurité", value: "Forces de sécurité", symbol: "roadblock-11-forces_de_securite"},
+            {label: "Groupes armés", value: "Groupes armés", symbol: "roadblock-11_groups_armes"}
+          ]
+        },
         belowLayer: 'housenum-label'
       },
       filterId: 3,

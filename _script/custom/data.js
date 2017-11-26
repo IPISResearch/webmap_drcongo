@@ -35,6 +35,14 @@ var Data = function(){
     "Améthyste" : "#9966CB"
   };
 
+  var operateurColors = {
+    "Acteurs civils": "#f48500",
+    "Acteurs étatiques": "#9300CE",
+    "Eléments indépendants": "#9300CE",
+    "Forces de sécurité": "#A50700",
+    "Groupes armés": "#F3FE00"
+  };
+
   var qualifications = {
     "not class" : 0,
     "vert": 1,
@@ -265,6 +273,7 @@ var Data = function(){
           roadblock.properties.name = d.n;
           roadblock.properties.operateur = d.o;
           roadblock.properties.type = type;
+          roadblock.properties.typeFirst = type ? type.split(",")[0].trim() : null;
           roadblock.properties.taxCible = d.tc;
           roadblock.properties.taxMontant = d.tm;
           roadblock.properties.barriere = d.b;
@@ -573,7 +582,7 @@ var Data = function(){
     var result = [];
 
     operateurs.forEach(function(item){
-      result.push({label: item, value:operateursLookup[item]})
+      result.push({label: item, value:operateursLookup[item], color: operateurColors[item]})
     });
 
     return result;
