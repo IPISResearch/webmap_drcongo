@@ -95,7 +95,7 @@ var MapService = (function() {
     var fillColor;
 
     var colorStops = [];
-    var symbolStops = [];
+    var iconImageStops = [];
 
     var paint = {};
     var layout = {
@@ -168,27 +168,32 @@ var MapService = (function() {
 
     if (displayType === "symbol"){
       // list of standard icons: https://github.com/mapbox/mapbox-gl-styles/tree/master/sprites/basic-v9/_svg
-      if (layer.display.symbol.data){
-        var items =  layer.display.symbol.data;
-        if (typeof layer.display.symbol.data === "function") items = layer.display.symbol.data();
+      if (layer.display.iconImage.data){
+        var items =  layer.display.iconImage.data;
+        if (typeof layer.display.iconImage.data === "function") items = layer.display.iconImage.data();
         items.forEach(function(item){
-          symbolStops.push([item.value,item.symbol]);
+          iconImageStops.push([item.value,item.iconImage]);
         });
 
-        symbol = {
-          property: layer.display.symbol.property,
+        iconImage = {
+          property: layer.display.iconImage.property,
           type: 'categorical',
-          stops: symbolStops
+          stops: iconImageStops
         }
       } else {
-        if (layer.display.symbol){
-          symbol = layer.display.symbol
+        if (layer.display.iconImage){
+          iconImage = layer.display.iconImage
         }
       }
 
       layout = {
-        'icon-image': symbol || "marker-11",
-        'icon-allow-overlap' : true
+        'icon-image': iconImage || "marker-11",
+        'icon-allow-overlap' : true,
+        'icon-size': layer.display.iconSize || 1
+      };
+
+      paint = {
+        'icon-opacity': layer.display.iconOpacity || 1
       };
     }
 

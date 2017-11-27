@@ -36,11 +36,11 @@ var Data = function(){
   };
 
   var operateurColors = {
-    "Acteurs civils": "#f48500",
-    "Acteurs étatiques": "#9300CE",
-    "Eléments indépendants": "#9300CE",
-    "Forces de sécurité": "#A50700",
-    "Groupes armés": "#F3FE00"
+    "Acteurs civils": "#eb4b8b",
+    "Acteurs étatiques": "#cc490c",
+    "Eléments indépendants": "#a87e7f",
+    "Forces de sécurité": "#520c07",
+    "Groupes armés": "#e80c0f"
   };
 
   var qualifications = {

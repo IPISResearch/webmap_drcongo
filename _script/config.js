@@ -29,8 +29,8 @@ var Config = {
         visible: false,
         canToggle: true,
         type: 'symbol',
-        symbol: "town-hall-11",
-        belowLayer: 'housenum-label'
+        iconImage: "home-7",
+        belowLayer: 'mines'
       }
     },
     visits: {
@@ -106,15 +106,21 @@ var Config = {
         visible: false,
         canToggle: true,
         type: 'symbol',
-        symbol: {
+        iconImage: {
           property: "typeFirst",
           data: [
-            {label: "Acteurs civils", value: "Acteurs civils" , symbol: "roadblock-11-acteurs_civils"},
-            {label: "Acteurs étatiques", value: "Acteurs étatiques" , symbol : "roadblock-11-acteurs_etatiques"},
-            {label: "Eléments indépendants", value: "Eléments indépendants", symbol: "roadblock-11-elements_independants"},
-            {label: "Forces de sécurité", value: "Forces de sécurité", symbol: "roadblock-11-forces_de_securite"},
-            {label: "Groupes armés", value: "Groupes armés", symbol: "roadblock-11_groups_armes"}
+            {label: "Acteurs civils", value: "Acteurs civils" , iconImage: "roadblock-7-acteurs_civils"},
+            {label: "Acteurs étatiques", value: "Acteurs étatiques" , iconImage : "roadblock-7-acteurs_etatiques"},
+            {label: "Eléments indépendants", value: "Eléments indépendants", iconImage: "roadblock-7-elements_independants"},
+            {label: "Forces de sécurité", value: "Forces de sécurité", iconImage: "roadblock-7-forces_de_securite"},
+            {label: "Groupes armés", value: "Groupes armés", iconImage: "roadblock-7-groupes_armes"}
           ]
+        },
+        iconSize: {
+          stops: [[1, 0.5], [7, 0.7], [9, 1]]
+        },
+        iconOpacity: {
+          stops: [[1, 0.5], [5, 0.5], [7, 1]]
         },
         belowLayer: 'housenum-label'
       },
