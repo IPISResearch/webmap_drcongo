@@ -625,7 +625,6 @@ var Data = function(){
 
     return result;
 
-
   };
 
   me.getArmyGroups = function(){

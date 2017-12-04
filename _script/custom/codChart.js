@@ -50,6 +50,11 @@ var CodChart = function(){
             donut: {
                 title: current
             },
+			legend: {
+				item: {
+					onclick: function (id) {}
+				}
+			},
             tooltip: {
                 format: {
                     title: function (d) { return 'Substance&nbsp;minérale&nbsp;principale'},
