@@ -62,12 +62,7 @@ var Config = {
                   {label: "Pas de données", value:0}
                 ],onFilter: Data.updateFilter,filterProperty: "mercury"},
                 {id: "armedpresence", index: 4,label: "Présence armée<br>&ensp;<small>(lors de la dernière visite)<small>",
-                items:[
-                  {label: "Pas de présence armée constatée", value:0},
-                  {label: "Groupe armé local", value:1},
-                  {label: "Groupe armé étranger", value:2},
-                  {label: "FARDC", value:3}
-                ],onFilter: Data.updateFilter,filterProperty: "armygroups",array:true},
+                items: Data.getArmyGroups,onFilter: Data.updateFilter,filterProperty: "armygroups",array:true},
                 {id: "services", index: 5, label: "Présence services<br>&ensp;<small>(enrégistré à partir de 2015)</small>",
                 items:Data.getServices,onFilter: Data.updateFilter,filterProperty: "services",array:true},
                 {id: "qualification", index: 6, label: "Qualification ministérielle<br>&ensp;<small>(source: BGR, avril 2017)</small>",items:[

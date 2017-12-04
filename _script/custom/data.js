@@ -11,7 +11,7 @@ var Data = function(){
   var concessions;  var concessionsLookup = {};  var concessionsProperties = {};
   var minerals = [];  var mineralLookup = {};
   var years = [];     var yearsLookup = {};
-  var armies = [];    var armiesLookup = {};
+  var armyGroups = [];    var armyGroupLookup = {};
   var services = [];  var servicesLookup = {};
   var operateurs = [];  var operateursLookup = {};
   var roadblockTypes = [];  var roadblockTypesLookup = {};
@@ -94,6 +94,12 @@ var Data = function(){
         //build mines
         var counter = 0;
         mines = featureCollection();
+
+		armyGroups.push({
+            label: "Pas de présence armée constatée",
+            value: 0
+        });
+
         data.result.forEach(function(d){
 
           var mine = minesLookup[d.i];
@@ -143,8 +149,7 @@ var Data = function(){
 
 			for (var i = 1; i<3; i++){
                 var army = d["a" + i];
-                var armygroup = getArmyGroupFromArmy(army);
-                if (armygroup){
+                if (army){
 					visit.armies.push({
                         name: army,
                         frequency:  d["a" + i + "f"],
@@ -177,10 +182,26 @@ var Data = function(){
               mine.properties.armies = [];
               for (i = 1; i<3; i++){
                 var army = d["a" + i];
-                var armygroup = getArmyGroupFromArmy(army);
-                if (armygroup){
+
+                var armyType = d["a" + i + "y"];
+                if (armyType === "0") armyType = 0;
+                var armygroupId = 0;
+                if (armyType){
+                  var armyGroup = armyGroupLookup[armyType];
+                  if (!armyGroup){
+					  armyGroup = {
+					      label: armyType,
+                          value: armyGroups.length + 1
+                      };
+                      armyGroups.push(armyGroup);
+					  armyGroupLookup[armyType] = armyGroup;
+                  }
+                  armygroupId = armyGroup.value;
+				}
+
+                if (armygroupId){
                   mine.properties.armies.push(army);
-                  mine.properties.armygroups.push(armygroup);
+                  mine.properties.armygroups.push(armygroupId);
                   if (i===1) mine.properties.army = army;
                 }
               }
@@ -228,6 +249,7 @@ var Data = function(){
         });
 
         filteredMines = mines.features;
+        armyGroups.sort(function(a,b) {return (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0);});
         minesLoaded = true;
         dataDone();
 
@@ -428,16 +450,6 @@ var Data = function(){
     }
   }
 
-  function getArmyGroupFromArmy(army){
-    var result = 0;
-    if (army){
-      army = army.toLowerCase();
-      result = 1;
-      if (army.indexOf("fdlr")>=0)  result = 2;
-      if (army.indexOf("fardc")>=0)  result = 3;
-    }
-    return result;
-  }
 
   me.updateFilter = function(filter,item){
     //console.log(filter);
@@ -614,6 +626,10 @@ var Data = function(){
     return result;
 
 
+  };
+
+  me.getArmyGroups = function(){
+    return armyGroups;
   };
 
   me.getServices = function(){
