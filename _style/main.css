@@ -11,12 +11,15 @@ body,html{
     font-family: arial,helvetica, sans-serif;
     font-size: 13px;
 }
+
+.hidden{
+    display: none;
+}
 #map{
     position: absolute;
     width: 100%;
     height: 100%;
 }
-
 
 #menu{
     position: absolute;
@@ -145,6 +148,13 @@ body.disclaimer #menu{
     background-color: rgba(255, 255, 255, 0.8);
 }
 
+#legend.show{
+    display: block;
+}
+#legend.hidden.show{
+    display: none;
+}
+
 #legend .charts {
     margin: 5px;
     width: 200px;
@@ -225,7 +235,7 @@ body.disclaimer #disclaimer{
 
 /* popup */
 .mapboxgl-popup-content{
-    max-width: 300px; /* also concerns tooltip*/
+    max-width: 600px; /* also concerns tooltip*/
 }
 
 .popup h2{
@@ -247,4 +257,92 @@ body.disclaimer #disclaimer{
 
 .infotable th{
     font-weight: bold;
+}
+
+.popup.cols2{
+    min-width: 580px;
+}
+
+
+.popupColLeft{
+    width: 200px;
+    float: left;
+    border-right: 1px solid silver;
+}
+
+.popupColRight{
+    width: 380px;
+    float: left;
+    padding: 0 0 0 4px;
+    margin-top: -6px;
+}
+
+.popupColRight .tabs{
+    height: 30px;
+}
+
+.popupColRight .tabs div{
+    display: inline-block;
+    font-size: 11px;
+    color: grey;
+    background-color: #ebebeb;
+    position: relative;
+    margin-top: 4px;
+    float: left;
+    height: 26px;
+    padding: 2px 6px;
+}
+
+.popupColRight .tabs div:hover{
+    background-color: white;
+    cursor: pointer;
+}
+
+.popupColRight .tabs div.active{
+    display: inline-block;
+    font-size: 11px;
+    background-color: white;
+    height: 30px;
+    margin-top: 0;
+    color: black;
+    box-shadow: 0 0 6px;
+    z-index: 100;
+}
+
+.popupColRight .tabs div.active::after{
+    content: " ";
+    position: absolute;
+    background-color: white;
+    height: 10px;
+    width: 100%;
+    left: 0;
+    top: 26px;
+}
+
+.tabcontent{
+    border-top: 1px solid silver;
+    padding: 6px 4px;
+}
+
+.subtab{
+    border: 1px solid silver;
+    display: inline-block;
+    padding: 2px 6px;
+}
+
+.subtabcontent{
+    padding: 4px 10px;
+}
+
+.armycolheader{
+    float: left;
+    width: 145px;
+    text-align: right;
+    padding-right: 4px;
+}
+
+.armycol{
+    float: left;
+    width: 145px;
+    text-align: center;
 }

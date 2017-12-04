@@ -14,7 +14,7 @@
 
 
 <!--minePopup-->
-    <div class="popup">
+    <div class="popup cols2">
         <h2>Mine: {{{name}}}</h2>
         <div class="popupColLeft">
             <table class="infotable" border="0" cellspacing="0" cellpadding="0">
@@ -24,7 +24,7 @@
                 </tr>
                 {{#mercuryString}}
                 <tr>
-                    <th nowrap="nowrap">Traitement de l'or observé</th>
+                    <th>Traitement de l'or observé</th>
                     <td>{{{mercuryString}}}</td>
                 </tr>
                 {{/mercuryString}}
@@ -112,6 +112,28 @@
                 {{/arreteString}}
             </table>
         </div>
+        <div class="popupColRight">
+                <div class="tabs">
+                    <div class="active first" onclick="UI.activatePopupTab(1,this)">Présence armée</div><div onclick="UI.activatePopupTab(2,this)">Services</div><div onclick="UI.activatePopupTab(3,this)">Femmes et enfants</div><div onclick="UI.activatePopupTab(4,this)">Couverture téléphone</div>
+                </div>
+
+                <div class="tabcontent">
+                    <div class="tab tab1">
+                        {{{armyTab}}}
+                    </div>
+                    <div class="tab tab2 hidden">
+                        {{serviceTab}}
+                    </div>
+                    <div class="tab tab3 hidden">
+                        {{childrenTab}}
+                    </div>
+                    <div class="tab tab4 hidden">
+                        {{phoneTab}}
+                    </div>
+                </div>
+
+        </div>
+
     </div>
 
 <!--/minePopup-->
@@ -224,3 +246,63 @@
 </div>
 
 <!--/roadblockPopup-->
+
+<!--protectedAreaPopup-->
+<div class="popup">
+    <h2>Aire protégée</h2>
+    <table>
+        <tr>
+            <th>Nom</th>
+            <td>{{{name}}}</td>
+        </tr>
+        <tr>
+            <th>Source</th>
+            <td>{{{source}}}</td>
+        </tr>
+    </table>
+</div>
+<!--/protectedAreaPopup-->
+
+
+<!--yeartabs-->
+<div class="yeartabs">
+    {{#.}}
+        <span class="subtab">{{year}}</span>
+    {{/.}}
+</div>
+<div class="subtabcontent">
+    {{#.}}
+    {{{data}}}
+    {{/.}}
+</div>
+<!--/yeartabs-->
+
+<!--armydetailheader-->
+<div class="armycolheader">
+    <div>&nbsp;</div>
+    <div><b>Fréquence de présence</b></div>
+    <div><b>Contrôle(s) exercé(s)</b></div>
+    <div>taxation</div>
+    <div>achètent des minerais</div>
+    <div>travaux forcés</div>
+    <div>creusent eux-mêmes	</div>
+    <div>monopole de commerce</div>
+    <div>pillage</div>
+
+</div>
+<!--/armydetailheader-->
+
+<!--armydetail-->
+<div class="armycol">
+    <div><b>{{name}}</b></div>
+    <div>{{frequency}}</div>
+    <div>&nbsp;</div>
+    <div>{{taxation}}</div>
+    <div>{{buying}}</div>
+    <div>{{digging}}</div>
+    <div>{{forcedLabour}}</div>
+    <div>{{pillaging}}</div>
+</div>
+<!--/armydetail-->
+
+

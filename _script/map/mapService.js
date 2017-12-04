@@ -210,7 +210,9 @@ var MapService = (function() {
     if (layer.onClick){
       map.on('mouseenter', layer.id, function (e) {
         map.getCanvas().style.cursor = 'pointer';
-        popupHover.setLngLat(e.features[0].geometry.coordinates)
+
+        // e.features[0].geometry.coordinates
+        popupHover.setLngLat(e.lngLat)
         .setHTML(e.features[0].properties.name)
         .addTo(map);
       });
@@ -223,7 +225,7 @@ var MapService = (function() {
           // TODO: Spiderify ?
         }
         popupHover.remove();
-        layer.onClick(e.features[0]);
+        layer.onClick(e.features[0],e.lngLat);
       });
     }
 

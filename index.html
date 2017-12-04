@@ -3,6 +3,7 @@
     <meta charset=utf-8 />
 
     <link href='_style/main.css' rel='stylesheet' />
+    <link href='_style/search.css' rel='stylesheet' />
 
     <!-- Mapbox GL -->
     <link href='_style/mapboxgl.0.40.1.css' rel='stylesheet' />
@@ -21,6 +22,7 @@
 
     <script src="_script/map/enum.js"></script>
     <script src="_script/map/mapService.js"></script>
+    <script src="_script/map/searchService.js"></script>
     <script src="_script/map/main.js"></script>
     <script src="_script/map/ui.js"></script>
     <script src="_script/map/util.js"></script>
@@ -52,6 +54,19 @@
     </div>
 
 </div>
+
+<div id='searchbox'>
+    <a class="control-search" href="javascript:UI.initSearch()">
+        Search
+    </a>
+    <div id="searchpanel" class="hidden">
+        <div class="searchinput"><form id="searchForm"><input type="text" placeholder="Search"></form></div>
+        <div id="searchresults">
+        </div>
+    </div>
+</div>
+
+
 <div id="disclaimer"><div id="disclaimerbody"></div></div>
 
 

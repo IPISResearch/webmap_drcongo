@@ -52,13 +52,13 @@ var Data = function(){
 
   me.init = function(){
 
-    var minesLoaded, pdvLoaded, roadblocksLoaded;
+    var minesLoaded, pdvLoaded, roadblocksLoaded,concessionsLoaded;
 
     var checkpoint = new Date().getTime();
     var now;
 
     var dataDone = function(){
-      if (minesLoaded && pdvLoaded && roadblocksLoaded){
+      if (minesLoaded && pdvLoaded && roadblocksLoaded && concessionsLoaded){
         now = new Date().getTime();
         console.log("datasets generated in " +  (now-checkpoint) + "ms");
 
@@ -135,8 +135,28 @@ var Data = function(){
               pits: d.p,
               depth: d.dp,
               soil: d.sl,
-              qualification: d.q
+              qualification: d.q,
+              armies: [],
+              services : [],
+              tel : []
             };
+
+			for (var i = 1; i<3; i++){
+                var army = d["a" + i];
+                var armygroup = getArmyGroupFromArmy(army);
+                if (armygroup){
+					visit.armies.push({
+                        name: army,
+                        frequency:  d["a" + i + "f"],
+                        taxation:  d["a" + i + "t"],
+                        buying:  d["a" + i + "b"],
+                        digging:  d["a" + i + "d"],
+                        forcedLabour:  d["a" + i + "l"],
+                        pillaging:  d["a" + i + "p"]
+                    });
+                }
+			}
+
             mine.properties.visits.push(visit);
 
             var year = parseInt(date.split("-")[0]);
@@ -477,6 +497,8 @@ var Data = function(){
 
     // filter specs
     // see https://www.mapbox.com/mapbox-gl-js/style-spec/#types-filter
+    // performance tests indicate that the fastest way to combine multiple filters is to
+    // generate an array with all the matching id's and have only 1 filter of type "id in array"
     map.setFilter("mines", ['in', 'id'].concat(filteredMineIds));
 
     EventBus.trigger(EVENT.filterChanged);
@@ -495,7 +517,6 @@ var Data = function(){
   };
 
   me.getMineDetail = function(mine){
-    console.error(mine);
     // hmmm... don't use mine directly: apparently mapbox stores the features as shallow copies.
 
     var p  = minesProperties[mine.properties.id];
@@ -516,16 +537,34 @@ var Data = function(){
       var depth = [];
       var qualification = [];
       var arrete = [];
+      var armyYears = [];
+      var armyData = {};
+
       p.visits.forEach(function(visit){
         var parts = visit.date.split("-");
-        var year = parts[0] + ": ";
-        if (p.visits.length<2) year = "";
+        var year = parts[0];
+        var yearString = year + ": ";
+        if (p.visits.length<2) yearString = "";
         dates.push(parts[2] + "/" + parts[1] + "/" + parts[0]);
-        if (visit.workers) workers.push(year  + visit.workers);
-        if (visit.pits) pits.push(year  + visit.pits);
-        if (visit.depth) depth.push(year  + visit.depth);
-        if (visit.soil) soil.push(year + visit.soil);
-        if (visit.qualification) qualification.push(year + visit.qualification);
+        if (visit.workers) workers.push(yearString  + visit.workers);
+        if (visit.pits) pits.push(yearString  + visit.pits);
+        if (visit.depth) depth.push(yearString  + visit.depth);
+        if (visit.soil) soil.push(yearString + visit.soil);
+        if (visit.qualification) qualification.push(yearString + visit.qualification);
+        if (visit.armies){
+            var hasArmy = false;
+            var armyDetails = [];
+			visit.armies.forEach(function(army){
+              if (army.name){
+                  hasArmy = true;
+				  armyDetails.push(Template.render("armydetail",army));
+              }
+			});
+			if (hasArmy) {
+			    armyYears.push(year);
+				armyData[year] = Template.get("armydetailheader") + armyDetails.join("");
+			}
+        }
       });
 
       p.datesString = dates.join("<br>");
@@ -535,6 +574,26 @@ var Data = function(){
       p.soilString = soil.join("<br>");
       p.qualificationString = qualification.join("<br>") || "Aucune";
 
+      p.armyTab = "";
+      if (armyYears.length){
+		  p.armyYears = [];
+		  armyYears.forEach(function(armyYear){
+			  p.armyYears.push({
+                  year: armyYear,
+                  data: armyData[armyYear]
+              })
+		  });
+
+		  p.armyTab = Template.render("yeartabs",p.armyYears)
+      }else{
+		  p.armyTab = "Pas de données";
+      }
+
+      p.serviceTab = "Pas de données";
+      p.childrenTab = "Pas de données";
+      p.phoneTab = "Pas de données";
+
+      console.error(p);
 
       p.hasDetail = true;
     }

@@ -15,7 +15,7 @@ var CodChart = function(){
 
         document.getElementById("chart_current").innerHTML = current;
         document.getElementById("chart_total").innerHTML = max;
-        document.getElementById("legend").style.display = "block";
+        document.getElementById("legend").classList.add("show");
 
         var data = {};
         var chartData = {

@@ -9,6 +9,8 @@ var UI = function(){
         menuContainer.className = "active";
 
         me.buildMenu();
+
+		document.body.classList.remove("loading");
         //Chart.init();
     };
 
@@ -16,6 +18,7 @@ var UI = function(){
 		menuContainer = menuContainer || document.getElementById("menu");
 		menuContainer.className = "preloader";
 		menuContainer.innerHTML = Template.get("loading");
+		document.body.classList.add("loading");
     };
 
     me.showDisclaimer = function(firstUse){
@@ -29,7 +32,7 @@ var UI = function(){
 
         var container =  document.getElementById("disclaimer");
         var content =  document.getElementById("disclaimerbody");
-        document.body.className = "disclaimer";
+        document.body.classList.add("disclaimer");
         FetchService.get(Config.disclaimerUrl,function(html){
             content.innerHTML = html;
             var button = div("button","OK");
@@ -45,7 +48,7 @@ var UI = function(){
     };
 
     me.hideDisclaimer = function(){
-        document.body.className = "";
+		document.body.classList.remove("disclaimer");
     };
 
     me.buildMap = function(){
@@ -70,6 +73,10 @@ var UI = function(){
             map.setLayoutProperty(layer.id, 'visibility', visible ? 'visible' : 'none');
         }else{
             MapService.addLayer(layer);
+        }
+
+        if (layer.onToggle){
+            layer.onToggle(visible);
         }
 
         EventBus.trigger(EVENT.layerChanged);
@@ -188,6 +195,26 @@ var UI = function(){
 			.addTo(map);
     };
 
+    me.activatePopupTab = function(index,elm){
+
+        var panel = document.querySelector(".popupColRight");
+		panel.querySelectorAll(".tabs div").forEach(function(tab){
+		    tab.classList.remove("active");
+        });
+        elm.classList.add("active");
+
+		panel.querySelectorAll(".tab").forEach(function(tab){
+			tab.classList.add("hidden");
+		});
+        var tab = panel.querySelector(".tab" + index);
+        console.error(tab);
+        if (tab) tab.classList.remove("hidden");
+    };
+
+
+    me.initSearch = function(){
+
+    };
 
     function div(className,innerHTML){
         var d = document.createElement("div");
