@@ -2,6 +2,7 @@ var UI = function(){
     var me = {};
 
     var menuContainer;
+    var currentPopup;
 
     me.init = function(){
 		menuContainer = menuContainer || document.getElementById("menu");
@@ -15,6 +16,7 @@ var UI = function(){
             item.onclick=function(){
 				baselayers.forEach(function(elm){elm.classList.remove("active");});
 				item.classList.add("active");
+				if (currentPopup) currentPopup.remove();
 				MapService.setStyle(item.dataset["id"])
             }
         });
@@ -198,7 +200,8 @@ var UI = function(){
 
         map.flyTo({center: point});
 
-		new mapboxgl.Popup()
+        if (currentPopup) currentPopup.remove();
+		currentPopup = new mapboxgl.Popup()
 			.setLngLat(point)
 			.setHTML(html)
 			.addTo(map);
@@ -207,7 +210,9 @@ var UI = function(){
     me.activatePopupTab = function(index,elm){
 
         var panel = document.querySelector(".popupColRight");
+		console.error(panel);
 		panel.querySelectorAll(".tabs div").forEach(function(tab){
+		    console.error(tab);
 		    tab.classList.remove("active");
         });
         elm.classList.add("active");
