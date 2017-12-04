@@ -5,6 +5,7 @@ var MapService = (function() {
 
   var mapSources = {};
   var mapLoaded;
+  var initStyleLoaded;
   var updateHashTimeout;
   var popupHover;
 
@@ -54,9 +55,11 @@ var MapService = (function() {
       closeOnClick: false
     });
 
-    map.once('style.load', function(e) {
-      map.addControl(new mapboxgl.NavigationControl(),'top-left');
-      // map.fitBounds(Config.mapCoordinates.bounds);
+    map.on('style.load', function(e) {
+      if (!initStyleLoaded){
+		  map.addControl(new mapboxgl.NavigationControl(),'top-left');
+		  initStyleLoaded = true;
+      }
 
       for (var key in Config.layers){
         if (Config.layers.hasOwnProperty(key)){
@@ -244,6 +247,10 @@ var MapService = (function() {
 
   };
 
+
+  me.setStyle = function(styleId){
+	  map.setStyle('mapbox://styles/mapbox/' + styleId + '-v9');
+  };
 
 
   // updates the url Hash so links can reproduce the current map state

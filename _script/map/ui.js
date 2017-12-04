@@ -10,6 +10,15 @@ var UI = function(){
 
         me.buildMenu();
 
+        var baselayers=document.getElementById("baselayers").querySelectorAll("div");
+        baselayers.forEach(function(item){
+            item.onclick=function(){
+				baselayers.forEach(function(elm){elm.classList.remove("active");});
+				item.classList.add("active");
+				MapService.setStyle(item.dataset["id"])
+            }
+        });
+
 		document.body.classList.remove("loading");
         //Chart.init();
     };
