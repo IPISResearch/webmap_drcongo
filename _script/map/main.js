@@ -22,7 +22,7 @@ var Main = function(){
 	EventBus.on(EVENT.preloadDone,function(){
 		MapService.init();
 		UI.init();
-		//SearchService.init();
+		SearchService.init();
     });
 
     return me;
