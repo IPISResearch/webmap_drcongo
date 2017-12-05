@@ -163,7 +163,9 @@ var UI = function(){
                         filter.layer = layer;
 
                         var filterItems = [];
-                        items.forEach(function(item){
+                        var max = filter.maxVisibleItems;
+                        var hasOverflow = false;
+                        items.forEach(function(item,index){
 
                             var filterItem = item;
                             if (typeof item === "string" || typeof item === "number"){
@@ -176,12 +178,37 @@ var UI = function(){
                             var elm = div("filteritem",icon +  filterItem.label );
 
                             elm.onclick = function(){me.updateFilter(filter,filterItem)};
+
+                            if (max && index>=max){
+                            	elm.classList.add("overflow");
+								hasOverflow = true;
+							}
+
                             itemContainer.appendChild(elm);
+
                             filterItem.elm = elm;
                             filterItem.checked = true;
                             filterItems.push(filterItem);
                         });
                         filter.filterItems = filterItems;
+
+                        if (hasOverflow){
+							var toggleMore = div("moreless","Plus ...");
+							toggleMore.onclick = function(){
+								console.log(itemContainer);
+								if (itemContainer.classList.contains("expanded")){
+									itemContainer.classList.remove("expanded");
+									toggleMore.innerHTML = "Plus ...";
+									toggleMore.classList.remove("less");
+								}else{
+									itemContainer.classList.add("expanded");
+									toggleMore.innerHTML = "Moin ...";
+									toggleMore.classList.add("less");
+								}
+							};
+							itemContainer.appendChild(toggleMore);
+						}
+
 
                         filterContainer.appendChild(itemContainer);
                         layerContainer.appendChild(filterContainer);
