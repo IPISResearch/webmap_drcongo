@@ -73,17 +73,27 @@ var SearchService = (function() {
             return false;
         };
 
+        popupHover = new mapboxgl.Popup({
+          closeButton: false,
+        });
+
 
 		searchResultElement.onclick = function(e){
 		    var target = e.target;
 		    if (target){
 		        if (target.classList.contains("result")){
-					var co = target.dataset["co"];
-					var location = co.split(',');
-					var point = [location[1],location[0]];
-					map.flyTo({center: point,zoom:11});
-                }
+    					var co = target.dataset["co"];
+    					var location = co.split(',');
+    					var point = [location[1],location[0]];
+    					map.flyTo({center: point,zoom:11});
+              popupHover.setLngLat(point)
+              .setHTML(target.innerHTML)
+              .addTo(map);
+              setTimeout(function () {
+                popupHover.remove();
+              }, 3000);
             }
+          }
         };
         /*
         $("#searchresults").on("click",".result",function(){
@@ -267,4 +277,3 @@ var SearchService = (function() {
     }
 
 }());
-
