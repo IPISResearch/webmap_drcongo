@@ -73,6 +73,7 @@ var UI = function(){
     me.toggleLayer = function(layer){
 
         var elm = layer.labelElm;
+        var container = layer.containerElm;
         var visible;
         if (elm){
             elm.classList.toggle("inactive");
@@ -80,6 +81,8 @@ var UI = function(){
         }else{
             if (layer.added) visible = map.getLayoutProperty(layer.id, 'visibility') !== "visible";
         }
+        if (container) container.classList.toggle("inactive",!visible);
+
         if (layer.added){
             map.setLayoutProperty(layer.id, 'visibility', visible ? 'visible' : 'none');
         }else{
@@ -135,13 +138,17 @@ var UI = function(){
             if (Config.layers.hasOwnProperty(key)){
                 var layer = Config.layers[key];
                 if (layer.label){
-                    var layerContainer = div("filter");
+                    var layerContainer = div("layer");
                     var label  = div("label",layer.label);
 
                     if (layer.display && layer.display.canToggle){
                         label.className += " toggle";
-                        if (layer.display && !layer.display.visible) label.className += " inactive";
+                        if (layer.display && !layer.display.visible) {
+                        	label.className += " inactive";
+							layerContainer.className += " inactive";
+						}
                         layer.labelElm = label;
+                        layer.containerElm = layerContainer;
                         label.layer = layer;
 
                         label.onclick = function(){

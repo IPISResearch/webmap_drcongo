@@ -73,24 +73,25 @@ body.disclaimer #menu{
 
 }
 
-#menu .filter{
+#menu .filter,
+#menu .layer{
     padding-left: 16px;
     padding-top: 10px;
 }
 
-#menu .filter .label{
+#menu .layer .label{
    font-weight: bold;
     position: relative;
     padding: 4px 2px;
     margin-left: 8px;
 }
 
-#menu .filter .label.toggle:hover{
+#menu .layer .label.toggle:hover{
     cursor: pointer;
     background-color: #e9e9e9;
 }
 
-#menu .filter .label.toggle:before{
+#menu .layer .label.toggle:before{
     content: "";
     position: absolute;
     width: 12px;
@@ -101,11 +102,15 @@ body.disclaimer #menu{
     margin-left: -16px;
 }
 
-#menu .filter .label.toggle.inactive{
+#menu .layer .label.toggle.inactive{
     opacity: 0.6;
 }
-#menu .filter .label.toggle.inactive:before{
+#menu .layer .label.toggle.inactive:before{
     background-color: transparent;
+}
+
+#menu .layer.inactive .filter{
+    display: none;
 }
 
 #menu .items{
