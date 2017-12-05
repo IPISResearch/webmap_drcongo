@@ -60,13 +60,18 @@ body.disclaimer #menu{
     position: relative;
 }
 
+#menu h2{
+    margin: 4px 0px 20px 0px;
+    font-size: 20px;
+}
+
 #menu h3{
-    margin: 4px 0;
+    margin: 2px 0px 8px 0px;
     font-size: 13px;
 }
 
 #menu h3.section{
-    margin-top: 12px;
+    margin: 12px 0px 8px 0px;
 }
 
 #menu #layers{
@@ -76,7 +81,7 @@ body.disclaimer #menu{
 #menu .filter,
 #menu .layer{
     padding-left: 16px;
-    padding-top: 10px;
+    padding-top: 2px;
 }
 
 #menu .layer .label{
@@ -167,6 +172,20 @@ body.disclaimer #menu{
     height: 12px;
     border: 1px solid silver;
     margin-left: -16px;
+}
+
+#menu .button {
+    background-color: whitesmoke;
+    border-color: grey;
+    margin: 2px 2px 8px 6px;
+    color: #717171;
+    padding: 5px 8px 5px 8px;
+    border-radius: 2px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
 }
 
 #baselayers div{

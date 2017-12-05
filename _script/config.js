@@ -16,26 +16,9 @@ var Config = {
     preLoad : function(){Data.init();},
     // layer info
     layers:{
-        sellingpoints: {
-            id: "pdv",
-            filterId: 2,
-            label: "Points de vente",
-            source: function(){return Data.getPdvs()},
-            sourceId: "pdv",
-            onClick: function(item){
-              UI.popup(Data.getMineDetail(item),"pdvPopup",item.geometry.coordinates,true);
-            },
-            display:{
-              visible: false,
-              canToggle: true,
-              type: 'symbol',
-              iconImage: "home-7",
-              belowLayer: 'mines'
-            }
-        },
         visits: {
             id: "mines",
-            label: "Sites miniers",
+            label: "Sites miniers artisanales",
             source: function(){return Data.getMines()},
             sourceId: "mines",
             onClick: function(item){
@@ -55,12 +38,6 @@ var Config = {
             filters:[
                 {id: "years", index: 1, label: "Année de dernière visite",items: Data.getYears,onFilter: Data.updateFilter,filterProperty:"year",maxVisibleItems:5},
                 {id: "minerals", index: 2, label: "Substances minérales",items: Data.getMinerals,onFilter: Data.updateFilter,filterProperty: "minerals",array:true,maxVisibleItems: 5},
-                {id: "mercury", index: 3, label: "Traitement de l’or observé<br>&ensp;<small>(enrégistré à partir de 2015)</small>",
-                items: [
-                  {label: "Traitement au mercure", value:2},
-                  {label: "Pas de traitement au mercure", value:1},
-                  {label: "Pas de données", value:0}
-                ],onFilter: Data.updateFilter,filterProperty: "mercury"},
                 {id: "armedpresence", index: 4,label: "Présence armée<br>&ensp;<small>(lors de la dernière visite)<small>",
                 items: Data.getArmyGroups,onFilter: Data.updateFilter,filterProperty: "armygroups",array:true},
                 {id: "services", index: 5, label: "Présence services<br>&ensp;<small>(enrégistré à partir de 2015)</small>",
@@ -76,7 +53,13 @@ var Config = {
                   {label: "1 à 50", value:1},
                   {label: "50 à 500", value:2},
                   {label: "Plus que 500", value:3}
-                ],onFilter: Data.updateFilter,filterProperty: "workergroup"}
+                ],onFilter: Data.updateFilter,filterProperty: "workergroup"},
+                {id: "mercury", index: 3, label: "Traitement de l’or au mercure<br>&ensp;<small>(enrégistré à partir de 2015)</small>",
+                items: [
+                  {label: "Traitement au mercure", value:2},
+                  {label: "Pas de traitement au mercure", value:1},
+                  {label: "Pas de données", value:0}
+                ],onFilter: Data.updateFilter,filterProperty: "mercury"}
             ],
             display:{
                 type: 'circle',
@@ -91,6 +74,23 @@ var Config = {
                   data: function(){return Data.getMinerals();}
                 },
                 belowLayer: 'housenum-label'
+            }
+        },
+        sellingpoints: {
+            id: "pdv",
+            filterId: 2,
+            label: "Points de vente de minerais",
+            source: function(){return Data.getPdvs()},
+            sourceId: "pdv",
+            onClick: function(item){
+              UI.popup(Data.getMineDetail(item),"pdvPopup",item.geometry.coordinates,true);
+            },
+            display:{
+              visible: false,
+              canToggle: true,
+              type: 'symbol',
+              iconImage: "home-7",
+              belowLayer: 'mines'
             }
         },
         roadblocks: {
