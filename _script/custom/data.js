@@ -320,6 +320,7 @@ var Data = function(){
           roadblock.properties.taxMontant = d.tm;
           roadblock.properties.barriere = d.b;
           roadblock.properties.resourcesNaturelles = d.r;
+          roadblock.properties.source = d.s;
 
           roadblocks.features.push(roadblock);
           roadblocksLookup[counter] = roadblock;
