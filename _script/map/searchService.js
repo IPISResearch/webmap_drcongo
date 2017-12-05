@@ -80,11 +80,11 @@ var SearchService = (function() {
 		        if (target.classList.contains("result")){
 					var co = target.dataset["co"];
 					var location = co.split(',');
-					var point = [location[1],location[0]]
-					map.flyTo({center: point,zoom:13});
+					var point = [location[1],location[0]];
+					map.flyTo({center: point,zoom:11});
                 }
             }
-        }
+        };
         /*
         $("#searchresults").on("click",".result",function(){
             var co = this.getAttribute("data-co");
