@@ -623,6 +623,9 @@ var Data = function(){
     minerals.forEach(function(mineral){
       result.push({label: mineral, value: mineral, color: mineralColors[mineral] || "grey"})
     });
+    result.sort(function(a, b) {
+      return ['Or', 'Cassitérite', "Coltan", "Wolframite", "Diamant"].indexOf(a.label) < 0;
+    })
 
     return result;
 
