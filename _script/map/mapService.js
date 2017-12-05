@@ -12,11 +12,9 @@ var MapService = (function() {
   me.init = function(){
     mapboxgl.accessToken = 'pk.eyJ1IjoiaXBpc3Jlc2VhcmNoIiwiYSI6IklBazVQTWcifQ.K13FKWN_xlKPJFj9XjkmbQ';
 
-
     var requestedLayerIdString = "";
     var requestedFilterIdString = "";
     var requestedTimeChartString = "";
-
 
     var hash = document.location.hash.substr(1);
     if (hash.indexOf("/")>0){
@@ -31,7 +29,6 @@ var MapService = (function() {
       }
     }
 
-
     map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/ipisresearch/ciw6jpn5s002r2jtb615o6shz',
@@ -43,11 +40,9 @@ var MapService = (function() {
       updateHash();
     });
 
-
     map.on("moveend",function(){
       updateHash();
     });
-
 
     // Create a hover popup, but don't add it to the map yet.
     popupHover = new mapboxgl.Popup({
@@ -211,25 +206,25 @@ var MapService = (function() {
     layer.added = true;
 
     if (layer.onClick){
-      map.on('mouseenter', layer.id, function (e) {
-        map.getCanvas().style.cursor = 'pointer';
-
-        // e.features[0].geometry.coordinates
-        popupHover.setLngLat(e.lngLat)
-        .setHTML(e.features[0].properties.name)
-        .addTo(map);
-      });
-      map.on('mouseleave', layer.id, function (e) {
-        map.getCanvas().style.cursor = '';
-        popupHover.remove();
-      });
-      map.on('click', layer.id, function (e) {
-        if (e.features.length>1) {
-          // TODO: Spiderify ?
-        }
-        popupHover.remove();
-        layer.onClick(e.features[0],e.lngLat);
-      });
+        map.on('mouseenter', layer.id, function (e) {
+            map.getCanvas().style.cursor = 'pointer';
+            // e.features[0].geometry.coordinates
+            var co = e.features[0] && e.features[0].geometry && e.features[0].geometry.coordinates ? e.features[0].geometry.coordinates : e.lngLat;
+            popupHover.setLngLat(co)
+            .setHTML(e.features[0].properties.name)
+            .addTo(map);
+        });
+        map.on('mouseleave', layer.id, function (e) {
+            map.getCanvas().style.cursor = '';
+            popupHover.remove();
+        });
+        map.on('click', layer.id, function (e) {
+            if (e.features.length>1) {
+              // TODO: Spiderify ?
+            }
+            popupHover.remove();
+            layer.onClick(e.features[0],e.lngLat);
+        });
     }
 
     map.on("render", function() {
