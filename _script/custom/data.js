@@ -614,7 +614,7 @@ var Data = function(){
   };
 
   me.getYears = function(){
-    return years;
+    return years.reverse();
   };
   me.getMinerals = function(){
     var result = [];
