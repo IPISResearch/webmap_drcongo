@@ -73,7 +73,7 @@ var Config = {
                   property: "mineral",
                   data: function(){return Data.getMinerals();}
                 },
-                belowLayer: 'housenum-label'
+                belowLayer: 'ref_layer_mines'
             }
         },
         sellingpoints: {
@@ -90,7 +90,7 @@ var Config = {
               canToggle: true,
               type: 'symbol',
               iconImage: "home-7",
-              belowLayer: 'mines'
+              belowLayer: 'ref_layer_pdv'
             }
         },
         roadblocks: {
@@ -121,7 +121,7 @@ var Config = {
               iconOpacity: {
                 stops: [[1, 0.5], [5, 0.5], [7, 1]]
               },
-              belowLayer: 'housenum-label'
+              belowLayer: 'ref_layer_roadblocks'
           },
           filterId: 3,
           filters:[
@@ -157,7 +157,7 @@ var Config = {
             fillOpacity: 0.3,
             visible: false,
             canToggle: true,
-            belowLayer: 'mines'
+            belowLayer: 'ref_layer_concessions'
           }
         },
         protectedAreas:{
@@ -172,7 +172,7 @@ var Config = {
               fillOpacity: 0.4,
               visible: false,
               canToggle: true,
-              belowLayer: 'mines'
+              belowLayer: 'ref_layer_protectedAreas'
             },
             onClick: function(item,lngLat){
                 UI.popup(item.properties,"protectedAreaPopup",lngLat,true);
