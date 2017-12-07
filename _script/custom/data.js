@@ -78,7 +78,7 @@ var Data = function(){
       item.properties.groupement = data.gr;
       item.properties.source = data.s;
       item.properties.qualification = 0;
-
+      item.properties.workergroup = 0;
       item.properties.visits=[];
     };
 
@@ -129,10 +129,12 @@ var Data = function(){
           var date = d.d;
           if (date){
 
-            var workers = parseInt(d.w) || 0;
+            console.log(date);
+
+            var workers = parseInt(d.w) || -1;
             if (isNaN(workers)){
               console.error("Workers NAN: " + d.w);
-              workers = 0;
+              workers = -1;
             }
 
             var visit = {
@@ -209,12 +211,14 @@ var Data = function(){
               if (mine.properties.armygroups.length === 0) mine.properties.armygroups.push(0);
 
               // workers
-              mine.properties.workers = workers;
-              var workergroup = 0;
-              if (workers>0) workergroup=1;
-              if (workers>=50) workergroup=2;
-              if (workers>=500) workergroup=3;
-              mine.properties.workergroup =  workergroup;
+              if (workers>=0) {
+                mine.properties.workers = workers;
+                var workergroup = 0;
+                if (workers>0) workergroup=1;
+                if (workers>=50) workergroup=2;
+                if (workers>=500) workergroup=3;
+                mine.properties.workergroup =  workergroup;
+              }
 
               // services
               mine.properties.services = []; // do we only include services from the last visit?
@@ -559,7 +563,7 @@ var Data = function(){
         var yearString = year + ": ";
         if (p.visits.length<2) yearString = "";
         dates.push(parts[2] + "/" + parts[1] + "/" + parts[0]);
-        if (visit.workers) workers.push(yearString  + visit.workers);
+        if (visit.workers >=0) workers.push(yearString  + visit.workers);
         if (visit.pits) pits.push(yearString  + visit.pits);
         if (visit.depth) depth.push(yearString  + visit.depth);
         if (visit.soil) soil.push(yearString + visit.soil);
