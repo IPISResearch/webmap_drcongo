@@ -3,6 +3,8 @@ var UI = function(){
 
     var menuContainer;
     var currentPopup;
+    var dashBoard;
+    var currentDashBoard;
 
     me.init = function(){
 		menuContainer = menuContainer || document.getElementById("menu");
@@ -262,6 +264,35 @@ var UI = function(){
 
     me.initSearch = function(){
 
+    };
+
+    me.showDashboard = function(data,template){
+        var delay = 0;
+        if (!dashBoard){
+            dashBoard = div();
+            document.body.appendChild(dashBoard);
+            dashBoard.outerHTML = Template.get("dashboard");
+            dashBoard = document.getElementById("dashboard");
+
+            var button = dashBoard.querySelector("button");
+            button.onclick = me.hideDashboard;
+
+            delay = 20;
+        }
+
+        setTimeout(function(){
+            // me.generateDashBoard(data,template);
+            dashBoard.className = "active";
+            document.body.classList.add("dashboard");
+        },delay);
+
+    };
+
+    me.hideDashboard = function(){
+        if (dashBoard){
+            dashBoard.className = "";
+            document.body.classList.remove("dashboard");
+        }
     };
 
     function div(className,innerHTML){

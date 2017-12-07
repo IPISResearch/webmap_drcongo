@@ -33,10 +33,15 @@ body,html{
     border-radius: 4px;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
     display: none;
+    transition: bottom 0.3s ease-in-out;
 }
 
 body.disclaimer #menu{
     display: none;
+}
+
+body.dashboard #menu{
+    bottom: 262px;
 }
 
 #menu.preloader{
@@ -266,7 +271,9 @@ body.disclaimer #menu{
 #legend.show{
     display: block;
 }
-#legend.hidden.show{
+#legend.hidden.show,
+body.dashboard #legend,
+body.dashboard #legend.show{
     display: none;
 }
 
@@ -498,4 +505,19 @@ body.disclaimer #disclaimer{
     opacity: 1;
     background-color: #ebebeb;
     cursor: pointer;
+}
+
+#dashboard{
+    position: absolute;
+    width: 100%;
+    height: 250px;
+    background-color: white;
+    bottom: -250px;
+    z-index: 1000;
+    box-shadow: 0 0 3px 0 #000000b5;
+    transition: bottom 0.3s ease-in-out;
+}
+
+#dashboard.active{
+    bottom: -0px;
 }

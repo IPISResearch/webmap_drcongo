@@ -22,129 +22,143 @@
     <div id="loading">Loading ...</div>
 <!--/loading-->
 
+<!--dashboard-->
+<div id="dashboard">
+    <button class="mapboxgl-popup-close-button" type="button" aria-label="Close popup">×</button>
+    <div id="dashboardcontent">
+
+    </div>
+</div>
+<!--/dashboard-->
+
 
 <!--minePopup-->
-    <div class="popup cols2">
-        <h2>Mine: {{{name}}}</h2>
-        <div class="popupColLeft">
-            <table class="infotable" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                    <th>Substance(s)</th>
-                    <td>{{mineralString}}</td>
-                </tr>
-                {{#mercuryString}}
-                <tr>
-                    <th>Traitement de l'or observé</th>
-                    <td>{{{mercuryString}}}</td>
-                </tr>
-                {{/mercuryString}}
-                <tr>
-                    <th>Province</th>
-                    <td>{{{province}}}</td>
-                </tr>
-                <tr>
-                    <th>Territoire</th>
-                    <td>{{{territoire}}}</td>
-                </tr>
-                <tr>
-                    <th>Collectivité</th>
-                    <td>{{{collectivite}}}</td>
-                </tr>
-                <tr>
-                    <th>Groupement</th>
-                    <td>{{{groupement}}}</td>
-                </tr>
-                <tr>
-                    <th>Village</th>
-                    <td>{{{village}}}</td>
-                </tr>
-                <!--
-                <tr>
-                    <th>Origine</th>
-                    <td>{{{origin}}}</td>
-                </tr>
-                -->
-                <tr>
-                    <th>Source</th>
-                    <td class="source">{{{source}}}</td>
-                </tr>
-                <tr>
-                    <th>Code</th>
-                    <td>{{{pcode}}}</td>
-                </tr>
-                <tr>
-                    <th>Longitude</th>
-                    <td>{{{fLongitude}}}</td>
-                </tr>
-                <tr>
-                    <th class="multiline">Latitude</th>
-                    <td class="multiline">{{{fLatitude}}}</td>
-                </tr>
-                <tr>
-                    <th class="multiline">Date visite</th>
-                    <td class="multiline">{{{datesString}}}</td>
-                </tr>
-                <tr>
-                    <th class="multiline">Nombre de creuseurs</th>
-                    <td class="multiline">{{{workersString}}}</td>
-                </tr>
-                <tr>
-                    <th class="multiline">Nombre de puits</th>
-                    <td class="multiline">{{{pitsString}}}</td>
-                </tr>
-                {{#depthString}}
-                <tr>
-                    <th class="multiline">Profondeur</th>
-                    <td class="multiline">{{{depthString}}} m</td>
-                </tr>
-                {{/depthString}}
-                {{#soilString}}
-                <tr>
-                    <th class="multiline">Sol</th>
-                    <td class="multiline">{{{soilString}}}</td>
-                </tr>
-                {{/soilString}}
-                {{#consolidated.itsci_decoded}}
-                <tr>
-                    <th class="multiline">iTSCi</th>
-                    <td class="multiline">{{{consolidated.itsci_decoded}}}</td>
-                </tr>
-                {{/consolidated.itsci_decoded}}
-                <tr>
-                    <th class="multiline">Qualification</th>
-                    <td class="multiline">{{{qualificationString}}}</td>
-                </tr>
-                {{#arreteString}}
-                <tr>
-                    <th class="multiline">Arrêté</th>
-                    <td class="multiline">{{{arreteString}}}</td>
-                </tr>
-                {{/arreteString}}
-            </table>
+    Mine: {{{name}}}
+<!--/minePopup-->
+
+
+<!--mineDashboard-->
+<div class="popup cols2">
+    <h2>Mine: {{{name}}}</h2>
+    <div class="popupColLeft">
+        <table class="infotable" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th>Substance(s)</th>
+                <td>{{mineralString}}</td>
+            </tr>
+            {{#mercuryString}}
+            <tr>
+                <th>Traitement de l'or observé</th>
+                <td>{{{mercuryString}}}</td>
+            </tr>
+            {{/mercuryString}}
+            <tr>
+                <th>Province</th>
+                <td>{{{province}}}</td>
+            </tr>
+            <tr>
+                <th>Territoire</th>
+                <td>{{{territoire}}}</td>
+            </tr>
+            <tr>
+                <th>Collectivité</th>
+                <td>{{{collectivite}}}</td>
+            </tr>
+            <tr>
+                <th>Groupement</th>
+                <td>{{{groupement}}}</td>
+            </tr>
+            <tr>
+                <th>Village</th>
+                <td>{{{village}}}</td>
+            </tr>
+            <!--
+            <tr>
+                <th>Origine</th>
+                <td>{{{origin}}}</td>
+            </tr>
+            -->
+            <tr>
+                <th>Source</th>
+                <td class="source">{{{source}}}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{{pcode}}}</td>
+            </tr>
+            <tr>
+                <th>Longitude</th>
+                <td>{{{fLongitude}}}</td>
+            </tr>
+            <tr>
+                <th class="multiline">Latitude</th>
+                <td class="multiline">{{{fLatitude}}}</td>
+            </tr>
+            <tr>
+                <th class="multiline">Date visite</th>
+                <td class="multiline">{{{datesString}}}</td>
+            </tr>
+            <tr>
+                <th class="multiline">Nombre de creuseurs</th>
+                <td class="multiline">{{{workersString}}}</td>
+            </tr>
+            <tr>
+                <th class="multiline">Nombre de puits</th>
+                <td class="multiline">{{{pitsString}}}</td>
+            </tr>
+            {{#depthString}}
+            <tr>
+                <th class="multiline">Profondeur</th>
+                <td class="multiline">{{{depthString}}} m</td>
+            </tr>
+            {{/depthString}}
+            {{#soilString}}
+            <tr>
+                <th class="multiline">Sol</th>
+                <td class="multiline">{{{soilString}}}</td>
+            </tr>
+            {{/soilString}}
+            {{#consolidated.itsci_decoded}}
+            <tr>
+                <th class="multiline">iTSCi</th>
+                <td class="multiline">{{{consolidated.itsci_decoded}}}</td>
+            </tr>
+            {{/consolidated.itsci_decoded}}
+            <tr>
+                <th class="multiline">Qualification</th>
+                <td class="multiline">{{{qualificationString}}}</td>
+            </tr>
+            {{#arreteString}}
+            <tr>
+                <th class="multiline">Arrêté</th>
+                <td class="multiline">{{{arreteString}}}</td>
+            </tr>
+            {{/arreteString}}
+        </table>
+    </div>
+    <div class="popupColRight">
+        <div class="tabs">
+            <div class="active first" onclick="UI.activatePopupTab(1,this)">Présence armée</div><div onclick="UI.activatePopupTab(2,this)">Services</div><div onclick="UI.activatePopupTab(3,this)">Femmes et enfants</div><div onclick="UI.activatePopupTab(4,this)">Couverture téléphone</div>
         </div>
-        <div class="popupColRight">
-                <div class="tabs">
-                    <div class="active first" onclick="UI.activatePopupTab(1,this)">Présence armée</div><div onclick="UI.activatePopupTab(2,this)">Services</div><div onclick="UI.activatePopupTab(3,this)">Femmes et enfants</div><div onclick="UI.activatePopupTab(4,this)">Couverture téléphone</div>
-                </div>
 
-                <div class="tabcontent">
-                    <div class="tab tab1">
-                        {{{armyTab}}}
-                    </div>
-                    <div class="tab tab2 hidden">
-                        {{serviceTab}}
-                    </div>
-                    <div class="tab tab3 hidden">
-                        {{childrenTab}}
-                    </div>
-                    <div class="tab tab4 hidden">
-                        {{phoneTab}}
-                    </div>
-                </div>
-
+        <div class="tabcontent">
+            <div class="tab tab1">
+                {{{armyTab}}}
+            </div>
+            <div class="tab tab2 hidden">
+                {{serviceTab}}
+            </div>
+            <div class="tab tab3 hidden">
+                {{childrenTab}}
+            </div>
+            <div class="tab tab4 hidden">
+                {{phoneTab}}
+            </div>
         </div>
 
     </div>
+
+</div>
 
 <!--/minePopup-->
 

@@ -22,7 +22,8 @@ var Config = {
             source: function(){return Data.getMines()},
             sourceId: "mines",
             onClick: function(item){
-              UI.popup(Data.getMineDetail(item),"minePopup",item.geometry.coordinates,true);
+                UI.popup(Data.getMineDetail(item),"minePopup",item.geometry.coordinates,true);
+                UI.showDashboard(Data.getMineDetail(item),"mineDashBoard");
             },
             onFilter: function(){
               //Chart.update();
