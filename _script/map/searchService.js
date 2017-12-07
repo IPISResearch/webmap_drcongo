@@ -77,6 +77,7 @@ var SearchService = (function() {
           closeButton: false,
         });
 
+        var timer
 
 		searchResultElement.onclick = function(e){
 		    var target = e.target;
@@ -89,9 +90,10 @@ var SearchService = (function() {
               popupHover.setLngLat(point)
               .setHTML(target.innerHTML)
               .addTo(map);
-              setTimeout(function () {
+              window.clearTimeout(timer)
+              timer = window.setTimeout(function () {
                 popupHover.remove();
-              }, 3000);
+              }, 5000);
             }
           }
         };

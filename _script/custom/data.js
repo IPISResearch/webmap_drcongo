@@ -662,11 +662,6 @@ var Data = function(){
   };
 
   me.getProjects = function(){
-    console.log(projects);
-    console.log(projects[0]);
-    console.log(projects[4]);
-    console.log(projects[0]);
-    console.log(projects[4]);
     return projects.reverse().sort(function(a, b) {
       return a.indexOf('status') >= 0;
     });
