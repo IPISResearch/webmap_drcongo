@@ -11,6 +11,7 @@ var Data = function(){
   var concessions;  var concessionsLookup = {};  var concessionsProperties = {};
   var minerals = [];  var mineralLookup = {};
   var years = [];     var yearsLookup = {};
+  var projects = [];     var projectsLookup = {};
   var armyGroups = [];    var armyGroupLookup = {};
   var services = [];  var servicesLookup = {};
   var operateurs = [];  var operateursLookup = {};
@@ -95,9 +96,9 @@ var Data = function(){
         var counter = 0;
         mines = featureCollection();
 
-		armyGroups.push({
-            label: "Pas de présence armée constatée",
-            value: 0
+        armyGroups.push({
+          label: "Pas de présence armée constatée",
+          value: 0
         });
 
         data.result.forEach(function(d){
@@ -142,25 +143,26 @@ var Data = function(){
               depth: d.dp,
               soil: d.sl,
               qualification: d.q,
+              project: d.pj,
               armies: [],
               services : [],
               tel : []
             };
 
-			for (var i = 1; i<3; i++){
-                var army = d["a" + i];
-                if (army){
-					visit.armies.push({
-                        name: army,
-                        frequency:  d["a" + i + "f"],
-                        taxation:  d["a" + i + "t"],
-                        buying:  d["a" + i + "b"],
-                        digging:  d["a" + i + "d"],
-                        forcedLabour:  d["a" + i + "l"],
-                        pillaging:  d["a" + i + "p"]
-                    });
-                }
-			}
+            for (var i = 1; i<3; i++){
+              var army = d["a" + i];
+              if (army){
+                visit.armies.push({
+                  name: army,
+                  frequency:  d["a" + i + "f"],
+                  taxation:  d["a" + i + "t"],
+                  buying:  d["a" + i + "b"],
+                  digging:  d["a" + i + "d"],
+                  forcedLabour:  d["a" + i + "l"],
+                  pillaging:  d["a" + i + "p"]
+                });
+              }
+            }
 
             mine.properties.visits.push(visit);
 
@@ -190,15 +192,15 @@ var Data = function(){
                 if (armyType){
                   var armyGroup = armyGroupLookup[armyType];
                   if (!armyGroup){
-					  armyGroup = {
-					      label: armyType,
-                          value: armyGroups.length + 1
-                      };
-                      armyGroups.push(armyGroup);
-					  armyGroupLookup[armyType] = armyGroup;
+                    armyGroup = {
+                      label: armyType,
+                      value: armyGroups.length + 1
+                    };
+                    armyGroups.push(armyGroup);
+                    armyGroupLookup[armyType] = armyGroup;
                   }
                   armygroupId = armyGroup.value;
-				}
+                }
 
                 if (armygroupId){
                   mine.properties.armies.push(army);
@@ -237,6 +239,15 @@ var Data = function(){
               mine.properties.mercury = 0;
               if (d.m == 0) mine.properties.mercury = 1;
               if (d.m == 1) mine.properties.mercury = 2;
+
+              // projects
+              if (d.pj) {
+                mine.properties.project = d.pj;
+                if (!projectsLookup[d.pj]){
+                  projects.push(d.pj);
+                  projectsLookup[d.pj] = true;
+                }
+              }
             }
           }
 
@@ -567,19 +578,20 @@ var Data = function(){
         if (visit.depth) depth.push(yearString  + visit.depth);
         if (visit.soil) soil.push(yearString + visit.soil);
         if (visit.qualification) qualification.push(yearString + visit.qualification);
+        if (visit.project) qualification.push(yearString + visit.project);
         if (visit.armies){
-            var hasArmy = false;
-            var armyDetails = [];
-			visit.armies.forEach(function(army){
-              if (army.name){
-                  hasArmy = true;
-				  armyDetails.push(Template.render("armydetail",army));
-              }
-			});
-			if (hasArmy) {
-			    armyYears.push(year);
-				armyData[year] = Template.get("armydetailheader") + armyDetails.join("");
-			}
+          var hasArmy = false;
+          var armyDetails = [];
+          visit.armies.forEach(function(army){
+            if (army.name){
+              hasArmy = true;
+              armyDetails.push(Template.render("armydetail",army));
+            }
+          });
+          if (hasArmy) {
+            armyYears.push(year);
+            armyData[year] = Template.get("armydetailheader") + armyDetails.join("");
+          }
         }
       });
 
@@ -592,17 +604,17 @@ var Data = function(){
 
       p.armyTab = "";
       if (armyYears.length){
-		  p.armyYears = [];
-		  armyYears.forEach(function(armyYear){
-			  p.armyYears.push({
-                  year: armyYear,
-                  data: armyData[armyYear]
-              })
-		  });
+        p.armyYears = [];
+        armyYears.forEach(function(armyYear){
+          p.armyYears.push({
+            year: armyYear,
+            data: armyData[armyYear]
+          })
+        });
 
-		  p.armyTab = Template.render("yeartabs",p.armyYears)
+        p.armyTab = Template.render("yeartabs",p.armyYears)
       }else{
-		  p.armyTab = "Pas de données";
+        p.armyTab = "Pas de données";
       }
 
       p.serviceTab = "Pas de données";
@@ -620,6 +632,7 @@ var Data = function(){
   me.getYears = function(){
     return years.reverse();
   };
+
   me.getMinerals = function(){
     var result = [];
 
@@ -646,6 +659,17 @@ var Data = function(){
     });
 
     return result;
+  };
+
+  me.getProjects = function(){
+    console.log(projects);
+    console.log(projects[0]);
+    console.log(projects[4]);
+    console.log(projects[0]);
+    console.log(projects[4]);
+    return projects.reverse().sort(function(a, b) {
+      return a.indexOf('status') >= 0;
+    });
   };
 
   // ---- roadblocks ----

@@ -60,7 +60,8 @@ var Config = {
                   {label: "Traitement au mercure", value:2},
                   {label: "Pas de traitement au mercure", value:1},
                   {label: "Pas de données", value:0}
-                ],onFilter: Data.updateFilter,filterProperty: "mercury"}
+                ],onFilter: Data.updateFilter,filterProperty: "mercury"},
+                {id: "projects", index: 8, label: "Projets",items: Data.getProjects,onFilter: Data.updateFilter,filterProperty:"project",maxVisibleItems:5}
             ],
             display:{
                 type: 'circle',
