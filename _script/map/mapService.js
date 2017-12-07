@@ -62,7 +62,11 @@ var MapService = (function() {
           layer.display = layer.display || {visible: true};
           if (typeof layer.display.visible === "undefined") layer.display.visible = true;
 
-          if (layer.display.visible) me.addLayer(Config.layers[key]);
+          if (layer.display.visible){
+            me.addLayer(Config.layers[key]);
+          }else{
+            layer.added = false;
+          }
         }
       }
 
@@ -244,7 +248,7 @@ var MapService = (function() {
 
 
   me.setStyle = function(styleId){
-	  map.setStyle('mapbox://styles/mapbox/' + styleId + '-v9');
+	  map.setStyle('mapbox://styles/' + styleId);
   };
 
 
