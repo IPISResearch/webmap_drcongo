@@ -129,8 +129,6 @@ var Data = function(){
           var date = d.d;
           if (date){
 
-            console.log(date);
-
             var workers = parseInt(d.w) || -1;
             if (isNaN(workers)){
               console.error("Workers NAN: " + d.w);
@@ -167,8 +165,9 @@ var Data = function(){
             mine.properties.visits.push(visit);
 
             var year = parseInt(date.split("-")[0]);
-            if (!mine.properties.year || year>mine.properties.year){
+            if (!mine.lastVisit || date>mine.lastVisit){
               mine.properties.year = year;
+              mine.lastVisit = date;
 
               if (!yearsLookup[year]){
                 years.push(year);
