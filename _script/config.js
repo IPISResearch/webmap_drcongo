@@ -91,7 +91,10 @@ var Config = {
               visible: false,
               canToggle: true,
               type: 'symbol',
-              iconImage: "home-7",
+              iconImage: "home-11",
+              iconSize: {
+                stops: [[1, 0.5], [7, 0.7], [9, 1]]
+              },
               belowLayer: 'ref_layer_pdv'
             }
         },
