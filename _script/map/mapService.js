@@ -12,36 +12,22 @@ var MapService = (function() {
   me.init = function(){
     mapboxgl.accessToken = 'pk.eyJ1IjoiaXBpc3Jlc2VhcmNoIiwiYSI6IklBazVQTWcifQ.K13FKWN_xlKPJFj9XjkmbQ';
 
-    var requestedLayerIdString = "";
-    var requestedFilterIdString = "";
-    var requestedTimeChartString = "";
-
     var hash = document.location.hash.substr(1);
-    if (hash.indexOf("/")>0){
-      var urlparams = hash.split("/");
-      if (urlparams.length>2){
-        Config.mapCoordinates.y = urlparams[0];
-        Config.mapCoordinates.x = urlparams[1];
-        Config.mapCoordinates.zoom = urlparams[2];
-        requestedLayerIdString = urlparams[3] || "";
-        requestedFilterIdString = urlparams[4] || "";
-        requestedTimeChartString = urlparams[5] || "";
-      }
-    }
+    decodeHash(hash);
 
     map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/ipisresearch/ciw6jpn5s002r2jtb615o6shz',
+      style: 'mapbox://styles/' + Config.initStyle || 'ipisresearch/ciw6jpn5s002r2jtb615o6shz',
       center: [Config.mapCoordinates.x,Config.mapCoordinates.y],
       zoom: Config.mapCoordinates.zoom
     });
 
     map.on("zoomend",function(){
-      updateHash();
+      updateHash("zoom ended");
     });
 
     map.on("moveend",function(){
-      updateHash();
+      updateHash("move ended");
     });
 
     // Create a hover popup, but don't add it to the map yet.
@@ -51,26 +37,53 @@ var MapService = (function() {
     });
 
     map.on('style.load', function(e) {
-      if (!initStyleLoaded){
-		  map.addControl(new mapboxgl.NavigationControl(),'top-left');
-		  initStyleLoaded = true;
-      }
-
       for (var key in Config.layers){
         if (Config.layers.hasOwnProperty(key)){
           var layer = Config.layers[key];
           layer.display = layer.display || {visible: true};
           if (typeof layer.display.visible === "undefined") layer.display.visible = true;
 
+          if (layer.filterId && Config.initLayerIds.length){
+            layer.display.visible = Config.initLayerIds.indexOf("" + layer.filterId)>=0;
+          }
+
           if (layer.display.visible){
             me.addLayer(Config.layers[key]);
+            if (layer.containerElm) layer.containerElm.classList.remove("inactive");
+            if (layer.labelElm) layer.labelElm.classList.remove("inactive");
+
+            // check initial filter
+            if (Config.initfilterIds.length && layer.filters){
+              layer.filters.forEach(function(filter){
+                var state = getFilterState(filter.index);
+                if (state && filter.filterItems &&  filter.filterItems.length){
+                  for (var i = 0, max = filter.filterItems.length; i<max; i++){
+                    // note: filter state contains a leading "1" to handle leading zeros
+                    var item = filter.filterItems[i];
+                    item.checked = state[i+1]=="1";
+                    if (item.elm) item.elm.classList.toggle("inactive",!item.checked);
+                  }
+                  if (filter.onFilter) filter.onFilter(filter);
+                }
+              });
+
+            }
+
           }else{
+            if (layer.containerElm) layer.containerElm.classList.add("inactive");
+            if (layer.labelElm) layer.labelElm.classList.add("inactive");
             layer.added = false;
           }
         }
       }
 
-      updateHash();
+      if (!initStyleLoaded){
+        map.addControl(new mapboxgl.NavigationControl(),'top-left');
+        initStyleLoaded = true;
+      }else{
+        updateHash("style loaded");
+      }
+
     });
 
   };
@@ -236,7 +249,7 @@ var MapService = (function() {
         if (!mapLoaded){
           mapLoaded = true;
           if (layer.onLoaded) layer.onLoaded();
-          updateHash();
+          updateHash("render");
         }
 
         if (UI.onRender) UI.onRender();
@@ -253,7 +266,8 @@ var MapService = (function() {
 
 
   // updates the url Hash so links can reproduce the current map state
-  function updateHash(){
+  function updateHash(reason){
+    console.log("update hash " + reason);
     clearTimeout(updateHashTimeout);
 
     updateHashTimeout = setTimeout(function(){
@@ -278,8 +292,6 @@ var MapService = (function() {
           var layer = Config.layers[key];
           if (layer.id && layer.filterId){
             if (map.getLayer(layer.id)){
-              console.error(map.getLayoutProperty(layer.id, 'visibility'));
-
               if (map.getLayoutProperty(layer.id, 'visibility') !== "none"){
                 layerIds.push(layer.filterId);
 
@@ -300,10 +312,11 @@ var MapService = (function() {
                             }
                           });
                           if (count<max){
+                            // this filter has a state - decode binary state as base36
                             index += "." + parseInt(a.join(""),2).toString(36);
+                            filterIds.push(index);
                           }
                       }
-                      filterIds.push(index);
                     }
                   });
                 }
@@ -313,24 +326,61 @@ var MapService = (function() {
         }
       }
 
-
-      window.location.hash = latitude + "/" + longitude + "/" + zoom + "/" + baseLayer + "/" + layerIds.join(",") + "/" + filterIds.join(",");
+      var hash = latitude + "/" + longitude + "/" + zoom + "/" + baseLayer + "/" + layerIds.join(",") + "/" + filterIds.join(",");
+      decodeHash(hash);
+      window.location.hash = hash;
     },50);
 
   }
 
+  function decodeHash(hash){
+
+    Config.initLayerIds = ["1"];
+    Config.initfilterIds = [];
+    Config.initBaselayer = Config.defaultBaseLayerIndex;
+
+    if (hash.indexOf("/")>0){
+      var urlparams = hash.split("/");
+      if (urlparams.length>2){
+        Config.mapCoordinates.y = urlparams[0];
+        Config.mapCoordinates.x = urlparams[1];
+        Config.mapCoordinates.zoom = urlparams[2];
+        Config.initBaselayer = urlparams[3] || 2;
+        if (urlparams[4]) Config.initLayerIds =  (urlparams[4]).split(",");
+        if (urlparams[5]) Config.initfilterIds =  (urlparams[5]).split(",");
+      }
+    }
+
+    Config.baselayers.forEach(function(baseLayer){
+      if (Config.initBaselayer == baseLayer.index){
+        Config.initStyle = baseLayer.url;
+        baseLayer.active = true;
+      }
+    });
+
+  }
+
+  function getFilterState(index){
+    var sIndex = index + ".";
+    var sLen = sIndex.length;
+    for (var i = 0, max = Config.initfilterIds.length; i<max;i++){
+      if (Config.initfilterIds[i].substr(0,sLen) == sIndex) {
+        var stateString = Config.initfilterIds[i].substr(sLen);
+        if (stateString){
+          return parseInt(stateString,36).toString(2).split("");
+        }
+      }
+    }
+  }
 
   EventBus.on(EVENT.filterChanged,function(){
-    updateHash();
+    updateHash("filter Changed");
   });
 
   EventBus.on(EVENT.layerChanged,function(){
-    updateHash();
+    updateHash("layer Changed");
   });
 
-  EventBus.on(EVENT.layerChanged,function(){
-    updateHash();
-  });
 
   return me;
 

@@ -64,7 +64,7 @@ var Data = function(){
         console.log("datasets generated in " +  (now-checkpoint) + "ms");
 
         EventBus.trigger(EVENT.preloadDone);
-        EventBus.trigger(EVENT.filterChanged);
+        //EventBus.trigger(EVENT.filterChanged);
 
       }
     };
@@ -86,8 +86,6 @@ var Data = function(){
     function loadMines(){
       var url = "http://ipis.annexmap.net/api/data/cod/all?key=ipis";
       FetchService.json(url,function(data){
-
-        console.log(data);
         now = new Date().getTime();
         console.log("minedata loaded in " +  (now-checkpoint) + "ms");
         checkpoint = now;
@@ -273,8 +271,6 @@ var Data = function(){
     function loadPdv(){
       var url = "http://ipis.annexmap.net/api/data/cod/pdvall?key=ipis";
       FetchService.json(url,function(data){
-
-        console.log(data);
         now = new Date().getTime();
         console.log("pdv data loaded in " +  (now-checkpoint) + "ms");
 
@@ -310,8 +306,6 @@ var Data = function(){
     function loadRoadBlocks(){
       var url = "http://ipis.annexmap.net/api/data/cod/roadblocksall?key=ipis";
       FetchService.json(url,function(data){
-
-        console.log(data);
         now = new Date().getTime();
         console.log("roadblock data loaded in " +  (now-checkpoint) + "ms");
 
@@ -387,8 +381,6 @@ var Data = function(){
     function loadConcessions(){
       var url = "http://ipis.annexmap.net/api/geojson/cod_titres.php";
       FetchService.json(url,function(data){
-
-        console.log(data);
         now = new Date().getTime();
         console.log("concession data loaded in " +  (now-checkpoint) + "ms");
 
@@ -621,7 +613,6 @@ var Data = function(){
       p.childrenTab = "Pas de données";
       p.phoneTab = "Pas de données";
 
-      console.error(p);
 
       p.hasDetail = true;
     }
@@ -752,7 +743,6 @@ var Data = function(){
       }
     });
 
-    console.error(filteredIds);
 
     map.setFilter("roadblocks", ['in', 'id'].concat(filteredIds));
 
@@ -820,7 +810,6 @@ var Data = function(){
       }
     });
 
-    console.error(filteredIds);
 
     map.setFilter("concessions", ['in', 'id'].concat(filteredIds));
 

@@ -12,12 +12,13 @@ var Config = {
       zoom: 5,
       bounds: [[13.42,-14.66],[45.59,6.67]]
     },
+    defaultBaseLayerIndex : 2,
     // if preLoad is defined, this occurs before the map is shown - used to pre-generate datasets etc.
     preLoad : function(){Data.init();},
     // baselayer info
     baselayers:[
         {index: 1, id: "satellite", label: "Satellite", url:"ipisresearch/cjawnny7g405e2qstsp49s92u"},
-        {index: 2, id: "streets", label: "Rues", url:"ipisresearch/ciw6jpn5s002r2jtb615o6shz", active: true},
+        {index: 2, id: "streets", label: "Rues", url:"ipisresearch/ciw6jpn5s002r2jtb615o6shz"},
         {index: 3, id: "empty", label: "Aucune", url:"ipisresearch/cjawmk6c7n1xy2rl0pwzxv7e3"}
     ],
     // layer info

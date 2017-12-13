@@ -141,7 +141,6 @@ var UI = function(){
                 layerdiv.item.active = true;
                 if (currentPopup) currentPopup.remove();
                 MapService.setStyle(layerdiv.dataset["id"]);
-                EventBus.trigger(EVENT.baseLayerChanged,layerdiv.item);
             };
             basecontainer.appendChild(layerdiv);
         });
@@ -214,7 +213,6 @@ var UI = function(){
                         if (hasOverflow){
 							var toggleMore = div("moreless","Plus ...");
 							toggleMore.onclick = function(){
-								console.log(itemContainer);
 								if (itemContainer.classList.contains("expanded")){
 									itemContainer.classList.remove("expanded");
 									toggleMore.innerHTML = "Plus ...";
@@ -256,9 +254,7 @@ var UI = function(){
     me.activatePopupTab = function(index,elm){
 
         var panel = document.querySelector(".popupColRight");
-		console.error(panel);
 		panel.querySelectorAll(".tabs div").forEach(function(tab){
-		    console.error(tab);
 		    tab.classList.remove("active");
         });
         elm.classList.add("active");
@@ -267,7 +263,6 @@ var UI = function(){
 			tab.classList.add("hidden");
 		});
         var tab = panel.querySelector(".tab" + index);
-        console.error(tab);
         if (tab) tab.classList.remove("hidden");
     };
 
