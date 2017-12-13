@@ -14,6 +14,12 @@ var Config = {
     },
     // if preLoad is defined, this occurs before the map is shown - used to pre-generate datasets etc.
     preLoad : function(){Data.init();},
+    // baselayer info
+    baselayers:[
+        {id: "satellite", label: "Satellite", url:"ipisresearch/cjawnny7g405e2qstsp49s92u"},
+        {id: "streets", label: "Rues", url:"ipisresearch/ciw6jpn5s002r2jtb615o6shz", active: true},
+        {id: "empty", label: "Aucune", url:"ipisresearch/cjawmk6c7n1xy2rl0pwzxv7e3"}
+    ],
     // layer info
     layers:{
         visits: {

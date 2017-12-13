@@ -13,16 +13,6 @@ var UI = function(){
 
         me.buildMenu();
 
-        var baselayers=document.getElementById("baselayers").querySelectorAll("div");
-        baselayers.forEach(function(item){
-            item.onclick=function(){
-				baselayers.forEach(function(elm){elm.classList.remove("active");});
-				item.classList.add("active");
-				if (currentPopup) currentPopup.remove();
-				MapService.setStyle(item.dataset["id"])
-            }
-        });
-
 		document.body.classList.remove("loading");
         //Chart.init();
     };
@@ -135,6 +125,25 @@ var UI = function(){
 
     me.buildMenu = function(){
         var container = document.getElementById("layers");
+        var basecontainer = document.getElementById("baselayers");
+
+        Config.baselayers.forEach(function(baselayer){
+            var layerdiv = div(baselayer.id + (baselayer.active ? " active":""),baselayer.label || baselayer.id);
+            layerdiv.dataset.id = baselayer.url;
+            baselayer.elm = layerdiv;
+            layerdiv.item = baselayer;
+            layerdiv.onclick=function(){
+                Config.baselayers.forEach(function(item){
+                    item.elm.classList.remove("active");
+                    item.active = false;
+                });
+                layerdiv.classList.add("active");
+                layerdiv.item.active = true;
+                if (currentPopup) currentPopup.remove();
+                MapService.setStyle(layerdiv.dataset["id"])
+            };
+            basecontainer.appendChild(layerdiv);
+        });
 
         for (var key in Config.layers){
             if (Config.layers.hasOwnProperty(key)){
