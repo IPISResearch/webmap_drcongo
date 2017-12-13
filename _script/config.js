@@ -16,9 +16,9 @@ var Config = {
     preLoad : function(){Data.init();},
     // baselayer info
     baselayers:[
-        {id: "satellite", label: "Satellite", url:"ipisresearch/cjawnny7g405e2qstsp49s92u"},
-        {id: "streets", label: "Rues", url:"ipisresearch/ciw6jpn5s002r2jtb615o6shz", active: true},
-        {id: "empty", label: "Aucune", url:"ipisresearch/cjawmk6c7n1xy2rl0pwzxv7e3"}
+        {index: 1, id: "satellite", label: "Satellite", url:"ipisresearch/cjawnny7g405e2qstsp49s92u"},
+        {index: 2, id: "streets", label: "Rues", url:"ipisresearch/ciw6jpn5s002r2jtb615o6shz", active: true},
+        {index: 3, id: "empty", label: "Aucune", url:"ipisresearch/cjawmk6c7n1xy2rl0pwzxv7e3"}
     ],
     // layer info
     layers:{
@@ -144,7 +144,7 @@ var Config = {
           id: "concessions",
           filterId: 4,
           filters: [
-              {id: "group", index: 8, label: "License", items:[
+              {id: "group", index: 41, label: "License", items:[
                   {label: "PR", value: "PR" , color: "#43b7ff"},
                   {label: "PE", value: "PE", color : "#36ae71"},
                   {label: "ZEA", value: "ZEA", color: "#9f2bae"},

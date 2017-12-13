@@ -140,7 +140,8 @@ var UI = function(){
                 layerdiv.classList.add("active");
                 layerdiv.item.active = true;
                 if (currentPopup) currentPopup.remove();
-                MapService.setStyle(layerdiv.dataset["id"])
+                MapService.setStyle(layerdiv.dataset["id"]);
+                EventBus.trigger(EVENT.baseLayerChanged,layerdiv.item);
             };
             basecontainer.appendChild(layerdiv);
         });

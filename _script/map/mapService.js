@@ -264,39 +264,67 @@ var MapService = (function() {
       var latitude = center.lat;
       var longitude = center.lng;
 
+      var baseLayer = 0;
+
       var layerIds = [];
       var filterIds = [];
 
+      Config.baselayers.forEach(function(layer){
+        if (layer.active) baseLayer = layer.index;
+      });
 
       for (var key in Config.layers){
         if (Config.layers.hasOwnProperty(key)){
           var layer = Config.layers[key];
           if (layer.id && layer.filterId){
             if (map.getLayer(layer.id)){
-              layerIds.push(layer.filterId);
-            }
+              console.error(map.getLayoutProperty(layer.id, 'visibility'));
 
-            if (layer.filters && layer.filters.length){
-              layer.filters.forEach(function(filter){
-                if (filter.index){
-                  filterIds.push(filter.index);
+              if (map.getLayoutProperty(layer.id, 'visibility') !== "none"){
+                layerIds.push(layer.filterId);
+
+                if (layer.filters && layer.filters.length){
+                  layer.filters.forEach(function(filter){
+                    if (filter.index){
+                      var index = filter.index;
+                      if (filter.filterItems && filter.filterItems.length){
+                          var max = filter.filterItems.length;
+                          var count = 0;
+                          var a = [1];
+                          filter.filterItems.forEach(function(e){
+                            if (e.checked){
+                              a.push(1);
+                              count++;
+                            }else{
+                              a.push(0);
+                            }
+                          });
+                          if (count<max){
+                            index += "." + parseInt(a.join(""),2).toString(36);
+                          }
+                      }
+                      filterIds.push(index);
+                    }
+                  });
                 }
-              });
+              }
             }
           }
-
-
         }
       }
 
 
-      window.location.hash = latitude + "/" + longitude + "/" + zoom + "/" + layerIds.join(",") + "/" + filterIds.join(",");
+      window.location.hash = latitude + "/" + longitude + "/" + zoom + "/" + baseLayer + "/" + layerIds.join(",") + "/" + filterIds.join(",");
     },50);
 
   }
 
 
   EventBus.on(EVENT.filterChanged,function(){
+    updateHash();
+  });
+
+  EventBus.on(EVENT.layerChanged,function(){
     updateHash();
   });
 
