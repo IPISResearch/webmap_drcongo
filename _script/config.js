@@ -17,9 +17,9 @@ var Config = {
     preLoad : function(){Data.init();},
     // baselayer info
     baselayers:[
-        {index: 1, id: "satellite", label: "Satellite", url:"ipisresearch/cjawnny7g405e2qstsp49s92u"},
+        {index: 1, id: "satellite", label: "Satellite", url:"ipisresearch/ciw6jsekm003a2jql0w0a7qca"},
         {index: 2, id: "streets", label: "Rues", url:"ipisresearch/ciw6jpn5s002r2jtb615o6shz"},
-        {index: 3, id: "empty", label: "Aucune", url:"ipisresearch/cjawmk6c7n1xy2rl0pwzxv7e3"}
+        {index: 3, id: "empty", label: "Aucune", url:"ipisresearch/cjav3e31blm5w2smunhb32kzm"}
     ],
     // layer info
     layers:{
