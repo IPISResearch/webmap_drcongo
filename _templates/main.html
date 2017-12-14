@@ -34,10 +34,10 @@
 <!--/minePopup-->
 
 
-<!--mineDashboard-->
+<!--mineDashBoard-->
 <div class="popup cols2">
     <h2>Mine: {{{name}}}</h2>
-    <div class="popupColLeft">
+    <div class="dashboardColLeft">
         <table class="infotable" border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <th>Substance(s)</th>
@@ -45,7 +45,7 @@
             </tr>
             {{#mercuryString}}
             <tr>
-                <th>Traitement de l'or observé</th>
+                <th>Traitement de l'or</th>
                 <td>{{{mercuryString}}}</td>
             </tr>
             {{/mercuryString}}
@@ -76,21 +76,22 @@
             </tr>
             -->
             <tr>
-                <th>Source</th>
-                <td class="source">{{{source}}}</td>
+                <th>Longitude</th>
+                <td>{{{fLongitude}}}</td>
+            </tr>
+            <tr>
+                <th>Latitude</th>
+                <td>{{{fLatitude}}}</td>
             </tr>
             <tr>
                 <th>Code</th>
                 <td>{{{pcode}}}</td>
             </tr>
             <tr>
-                <th>Longitude</th>
-                <td>{{{fLongitude}}}</td>
+                <th>Source</th>
+                <td class="source">{{{source}}}</td>
             </tr>
-            <tr>
-                <th class="multiline">Latitude</th>
-                <td class="multiline">{{{fLatitude}}}</td>
-            </tr>
+            <!--
             <tr>
                 <th class="multiline">Date visite</th>
                 <td class="multiline">{{{datesString}}}</td>
@@ -131,12 +132,20 @@
                 <td class="multiline">{{{arreteString}}}</td>
             </tr>
             {{/arreteString}}
+            -->
         </table>
     </div>
+    <div class="dashboardtabs">
+        {{#picture}}
+        <a href="http://www.ipisresearch.be/mapping/webmapping/drcongo/v4/images/sites/{{picture}}" target="_blank" data-simplbox class="image" style="background-image: url('http://www.ipisresearch.be/mapping/webmapping/drcongo/v4/images/sites/{{picture}}')">
+
+        </a>
+        {{/picture}}
+        <div class="active first" onclick="UI.activateDashboardTab(1,this)">Présence armée</div>
+        <div onclick="UI.activateDashboardTab(2,this)">Services</div>
+        <div onclick="UI.activateDashboardTab(3,this)">Femmes et enfants</div>
+    </div>
     <div class="popupColRight">
-        <div class="tabs">
-            <div class="active first" onclick="UI.activatePopupTab(1,this)">Présence armée</div><div onclick="UI.activatePopupTab(2,this)">Services</div><div onclick="UI.activatePopupTab(3,this)">Femmes et enfants</div><div onclick="UI.activatePopupTab(4,this)">Couverture téléphone</div>
-        </div>
 
         <div class="tabcontent">
             <div class="tab tab1">
@@ -157,7 +166,7 @@
 
 </div>
 
-<!--/mineDashboard-->
+<!--/mineDashBoard-->
 
 
 
@@ -277,7 +286,7 @@
 <!--protectedAreaPopup-->
 <div class="popup">
     <h2>Aire protégée</h2>
-    <table>
+    <table border="0" cellspacing="0" cellpadding="0" class="infotable">
         <tr>
             <th>Nom</th>
             <td>{{{name}}}</td>
@@ -290,6 +299,18 @@
 </div>
 <!--/protectedAreaPopup-->
 
+<!--yearlist-->
+{{#.}}
+<div class="year">
+    <div class="yeartitle" data-target=".panel{{year}}" onclick="UI.togglePanel(this)">{{year}}</div>
+    <div class="yeardata panel{{year}}">
+        {{{data}}}
+        <div class="clear"></div>
+    </div>
+
+</div>
+{{/.}}
+<!--/yearlist-->
 
 <!--yeartabs-->
 <div class="yeartabs">
@@ -322,12 +343,13 @@
 <!--armydetail-->
 <div class="armycol">
     <div><b>{{name}}</b></div>
-    <div>{{frequency}}</div>
+    <div>&nbsp;{{frequency}}&nbsp;</div>
     <div>&nbsp;</div>
-    <div>{{taxation}}</div>
-    <div>{{buying}}</div>
-    <div>{{digging}}</div>
-    <div>{{forcedLabour}}</div>
-    <div>{{pillaging}}</div>
+    <div class="col{{taxation}}">&nbsp;{{taxation}}</div>
+    <div class="col{{buying}}">&nbsp;{{buying}}</div>
+    <div class="col{{forcedLabour}}">&nbsp;{{forcedLabour}}</div>
+    <div class="col{{digging}}">&nbsp;{{digging}}</div>
+    <div class="col{{monopoly}}">&nbsp;{{monopoly}}</div>
+    <div class="col{{pillaging}}">&nbsp;{{pillaging}}</div>
 </div>
 <!--/armydetail-->

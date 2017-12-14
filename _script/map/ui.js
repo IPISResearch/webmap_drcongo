@@ -251,18 +251,19 @@ var UI = function(){
 			.addTo(map);
     };
 
-    me.activatePopupTab = function(index,elm){
+    me.activateDashboardTab = function(index,elm){
 
-        var panel = document.querySelector(".popupColRight");
-		panel.querySelectorAll(".tabs div").forEach(function(tab){
+        var panel = document.querySelector(".dashboardtabs");
+        var tabs = document.querySelector(".tabcontent");
+		panel.querySelectorAll("div").forEach(function(tab){
 		    tab.classList.remove("active");
         });
         elm.classList.add("active");
 
-		panel.querySelectorAll(".tab").forEach(function(tab){
+        tabs.querySelectorAll(".tab").forEach(function(tab){
 			tab.classList.add("hidden");
 		});
-        var tab = panel.querySelector(".tab" + index);
+        var tab = tabs.querySelector(".tab" + index);
         if (tab) tab.classList.remove("hidden");
     };
 
@@ -286,7 +287,14 @@ var UI = function(){
         }
 
         setTimeout(function(){
-            // me.generateDashBoard(data,template);
+
+            var html = data;
+            if (template) html = Template.render(template,data);
+
+            var container = document.getElementById("dashboardcontent");
+            container.innerHTML = html;
+
+
             dashBoard.className = "active";
             document.body.classList.add("dashboard");
         },delay);
@@ -297,6 +305,18 @@ var UI = function(){
         if (dashBoard){
             dashBoard.className = "";
             document.body.classList.remove("dashboard");
+        }
+    };
+
+    me.togglePanel = function(elm){
+        if (elm && elm.dataset.target){
+            elm.classList.toggle("contracted");
+            var container = elm.parentElement;
+            var target = container.querySelector(elm.dataset.target);
+            if (target){
+                target.classList.toggle("contracted",elm.classList.contains("contracted"));
+            }
+            //console.error(elm.parentElement);
         }
     };
 

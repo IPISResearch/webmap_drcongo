@@ -12,8 +12,20 @@ body,html{
     font-size: 13px;
 }
 
+body{
+    overflow: hidden;
+}
+
+body.disclaimer{
+    overflow: auto;
+}
+
 .hidden{
     display: none;
+}
+
+.clear{
+    clear: both;
 }
 #map{
     position: absolute;
@@ -366,6 +378,12 @@ body.disclaimer #disclaimer{
     border-bottom: 1px solid silver;
 }
 
+#dashboardcontent .popup h2{
+    margin: 0;
+    padding: 2px 2px 2px 6px;
+    height: 24px;
+}
+
 .infotable td,
 .infotable th{
     text-align: left;
@@ -386,70 +404,92 @@ body.disclaimer #disclaimer{
 
 
 .popupColLeft{
-    width: 200px;
+    /*width: 200px;*/
+}
+
+#dashboardcontent{
+    overflow: hidden;
+}
+
+.dashboardColLeft{
+    width: 270px;
     float: left;
+    padding-left: 4px;
+}
+
+.dashboardtabs{
+    width: 120px;
+    float: left;
+    background-color: #ebebeb;
+    height: 225px;
+    border-left: 1px solid silver;
     border-right: 1px solid silver;
+    z-index: 100;
+    position: relative;
 }
 
-.popupColRight{
-    width: 384px;
-    float: left;
-    padding: 0;
-    margin-top: -6px;
-}
-
-.popupColRight .tabs{
-    height: 30px;
-}
-
-.popupColRight .tabs div{
-    display: inline-block;
+.dashboardtabs div{
+    display: block;
     font-size: 11px;
     color: grey;
     background-color: #ebebeb;
     position: relative;
-    margin-top: 8px;
-    float: left;
-    height: 22px;
-    padding: 2px 6px;
-    border: 1px solid silver;
-    border-bottom: none;
-    border-radius: 5px 5px 0 0;
+    padding: 8px;
+    border-bottom: 1px solid silver;
 }
 
-.popupColRight .tabs div.first{
-    margin-left: 4px;
-}
-
-.popupColRight .tabs div:hover{
+.dashboardtabs div:hover{
     background-color: white;
     cursor: pointer;
 }
 
-.popupColRight .tabs div.active{
-    display: inline-block;
-    font-size: 11px;
+.dashboardtabs div.active{
     background-color: white;
-    height: 30px;
-    margin-top: 0;
     color: black;
-    box-shadow: 0 0 5px  #000000ab;
+    box-shadow: 0 2px 5px  #000000ab;
     z-index: 100;
     border: none;
 }
 
-.popupColRight .tabs div.active::after{
+.dashboardtabs div.active::before{
     content: " ";
     position: absolute;
     background-color: white;
-    height: 10px;
+    height: 100%;
+    width: 4px;
+    left: 100%;
+    top: 0;
+}
+
+.dashboardtabs .image{
+    position: absolute;
+    bottom: 0;
+    display: block;
+    height: 80px;
     width: 100%;
-    left: 0;
-    top: 26px;
+    background-color: grey;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    transition: height 0.3s ease-in-out;
+}
+
+.dashboardtabs .image:hover{
+    cursor: zoom-in;
+    height: 90px;
+}
+
+
+.popupColRight{
+    position: absolute;
+    padding-left: 395px;
+    height: 228px;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .tabcontent{
-    border-top: 1px solid silver;
     padding: 6px 4px;
 }
 
@@ -465,9 +505,26 @@ body.disclaimer #disclaimer{
 
 .armycolheader{
     float: left;
-    width: 145px;
+    width: 185px;
     text-align: right;
     padding-right: 4px;
+}
+
+.armycolheader div,
+.armycol div{
+    padding: 2px 0;
+    border-bottom: 1px solid #ececec;
+}
+
+.armycol div.coloui{
+    color: #f45d45;
+    background-color: rgba(255, 242, 228, 0.98);
+    text-transform: capitalize;
+}
+
+.armycol div.col---{
+    color: silver;
+    background-color: #f4f4f4;
 }
 
 .armycol{
@@ -520,4 +577,39 @@ body.disclaimer #disclaimer{
 
 #dashboard.active{
     bottom: -0px;
+}
+
+
+.yeartitle{
+    background-color: #ebebeb;
+    border-bottom: 1px solid silver;
+    padding: 4px 4px 4px 20px;
+}
+
+.yeartitle:hover{
+    background-color: white;
+    cursor: pointer;
+}
+
+.yeartitle:before{
+    content: " ";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-image: url("../_img/ui_icons.png");
+    background-repeat: no-repeat;
+    background-position: 0 -221px;
+    margin-left: -16px;
+}
+
+.yeartitle.contracted:before{
+    background-position: 0 -201px;
+}
+
+.yeardata{
+    padding: 2px 4px;
+}
+
+.yeardata.contracted{
+    display: none;
 }

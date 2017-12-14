@@ -123,6 +123,8 @@ var Data = function(){
             mineralLookup[mine.properties.mineral] = true;
           }
 
+          mine.properties.picture = d.pi;
+
 
           // years, visits and properties latest visit
           var date = d.d;
@@ -153,11 +155,12 @@ var Data = function(){
                 visit.armies.push({
                   name: army,
                   frequency:  d["a" + i + "f"],
-                  taxation:  d["a" + i + "t"],
-                  buying:  d["a" + i + "b"],
-                  digging:  d["a" + i + "d"],
-                  forcedLabour:  d["a" + i + "l"],
-                  pillaging:  d["a" + i + "p"]
+                  taxation:  d["a" + i + "t"]  == 1 ? "oui" : "---",
+                  buying:  d["a" + i + "b"]  == 1 ? "oui" : "---",
+                  digging:  d["a" + i + "d"]  == 1 ? "oui" : "---",
+                  forcedLabour:  d["a" + i + "l"]  == 1 ? "oui" : "---",
+                  monopoly:  d["a" + i + "m"]  == 1 ? "oui" : "---",
+                  pillaging:  d["a" + i + "p"]  == 1  ? "oui" : "---"
                 });
               }
             }
@@ -598,13 +601,13 @@ var Data = function(){
       if (armyYears.length){
         p.armyYears = [];
         armyYears.forEach(function(armyYear){
-          p.armyYears.push({
+          p.armyYears.unshift({
             year: armyYear,
             data: armyData[armyYear]
           })
         });
 
-        p.armyTab = Template.render("yeartabs",p.armyYears)
+        p.armyTab = Template.render("yearlist",p.armyYears)
       }else{
         p.armyTab = "Pas de données";
       }
@@ -612,6 +615,7 @@ var Data = function(){
       p.serviceTab = "Pas de données";
       p.childrenTab = "Pas de données";
       p.phoneTab = "Pas de données";
+
 
 
       p.hasDetail = true;
