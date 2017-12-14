@@ -141,24 +141,25 @@
 
         </span>
         {{/picture}}
-        <div class="active first" onclick="UI.activateDashboardTab(1,this)">Présence armée</div>
-        <div onclick="UI.activateDashboardTab(2,this)">Services</div>
-        <div onclick="UI.activateDashboardTab(3,this)">Femmes et enfants</div>
+        <div class="active first" onclick="UI.activateDashboardTab(1,this)">Information</div>
+        <div onclick="UI.activateDashboardTab(2,this)">Présence armée</div>
+        <div onclick="UI.activateDashboardTab(3,this)">Services</div>
+        <div onclick="UI.activateDashboardTab(4,this)">Femmes et enfants</div>
     </div>
     <div class="popupColRight">
 
         <div class="tabcontent">
             <div class="tab tab1">
-                {{{armyTab}}}
+                {{{infoTab}}}
             </div>
             <div class="tab tab2 hidden">
-                {{serviceTab}}
+                {{{armyTab}}}
             </div>
             <div class="tab tab3 hidden">
-                {{childrenTab}}
+                {{{servicesTab}}}
             </div>
             <div class="tab tab4 hidden">
-                {{phoneTab}}
+                {{womanchildrenTab}}
             </div>
         </div>
 
@@ -168,6 +169,51 @@
 
 <!--/mineDashBoard-->
 
+
+<!--visitInfo-->
+<table class="infotable" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <th>Project</th>
+        <td>{{{project}}}</td>
+    </tr>
+    {{#workers}}
+    <tr>
+        <th class="multiline">Nombre de creuseurs</th>
+        <td class="multiline">{{{workers}}}</td>
+    </tr>
+    {{/workers}}
+    {{#pits}}
+    <tr>
+        <th class="multiline">Nombre de puits</th>
+        <td class="multiline">{{{pits}}}</td>
+    </tr>
+    {{/pits}}
+    {{#depth}}
+    <tr>
+        <th class="multiline">Profondeur</th>
+        <td class="multiline">{{{depth}}} m</td>
+    </tr>
+    {{/depth}}
+    {{#soil}}
+    <tr>
+        <th class="multiline">Sol</th>
+        <td class="multiline">{{{soil}}}</td>
+    </tr>
+    {{/soil}}
+    {{#qualification}}
+    <tr>
+        <th class="multiline">Qualification</th>
+        <td class="multiline">{{{qualification}}}</td>
+    </tr>
+    {{/qualification}}
+    {{#arrete}}
+    <tr>
+        <th class="multiline">Arrêté</th>
+        <td class="multiline">{{{arrete}}}</td>
+    </tr>
+    {{/arrete}}
+</table>
+<!--/visitInfo-->
 
 
 <!--pdvPopup-->
@@ -302,8 +348,8 @@
 <!--yearlist-->
 {{#.}}
 <div class="year">
-    <div class="yeartitle" data-target=".panel{{year}}" onclick="UI.togglePanel(this)">{{year}}</div>
-    <div class="yeardata panel{{year}}">
+    <div class="yeartitle" data-target=".panel{{id}}" onclick="UI.togglePanel(this)">{{year}}</div>
+    <div class="yeardata panel{{id}}">
         {{{data}}}
         <div class="clear"></div>
     </div>
@@ -353,6 +399,15 @@
     <div class="col{{pillaging}}">&nbsp;{{pillaging}}</div>
 </div>
 <!--/armydetail-->
+
+<!--servicesdetail-->
+<div class="yearpanel">
+{{#.}}
+<div class="serviceline">{{{.}}}</div>
+{{/.}}
+</div>
+<!--/servicesdetail-->
+
 
 <!--lightbox-->
 <div id="lightbox">

@@ -614,6 +614,15 @@ body.disclaimer #disclaimer{
     display: none;
 }
 
+.yearpanel{
+    padding: 10px;
+}
+
+.serviceline{
+    padding: 2px;
+    border-bottom: 1px solid #ebebeb;
+}
+
 #lightbox{
     position: absolute;
     background-color: rgba(0, 0, 0, 0.9);

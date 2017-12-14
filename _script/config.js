@@ -92,7 +92,8 @@ var Config = {
             source: function(){return Data.getPdvs()},
             sourceId: "pdv",
             onClick: function(item){
-              UI.popup(Data.getMineDetail(item),"pdvPopup",item.geometry.coordinates,true);
+                UI.hideDashboard();
+                UI.popup(Data.getMineDetail(item),"pdvPopup",item.geometry.coordinates,true);
             },
             display:{
               visible: false,
@@ -111,7 +112,8 @@ var Config = {
           source: function(){return Data.getRoadBlocks()},
           sourceId: "roadblocks",
           onClick: function(item){
-            UI.popup(Data.getRoadBlockDetail(item),"roadblockPopup",item.geometry.coordinates,true);
+              UI.hideDashboard();
+              UI.popup(Data.getRoadBlockDetail(item),"roadblockPopup",item.geometry.coordinates,true);
           },
           display:{
               visible: false,
@@ -187,6 +189,7 @@ var Config = {
               belowLayer: 'ref_layer_protectedAreas'
             },
             onClick: function(item,lngLat){
+                UI.hideDashboard();
                 UI.popup(item.properties,"protectedAreaPopup",lngLat,true);
             }
         }

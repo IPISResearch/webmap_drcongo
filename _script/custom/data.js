@@ -125,7 +125,6 @@ var Data = function(){
 
           mine.properties.picture = d.pi;
 
-
           // years, visits and properties latest visit
           var date = d.d;
           if (date){
@@ -143,10 +142,11 @@ var Data = function(){
               depth: d.dp,
               soil: d.sl,
               qualification: d.q,
+              source: d.s,
               project: d.pj,
               armies: [],
               services : [],
-              tel : []
+              children : []
             };
 
             for (var i = 1; i<3; i++){
@@ -164,6 +164,20 @@ var Data = function(){
                 });
               }
             }
+
+            // services
+            for (i = 1; i<5; i++){
+              if (d["s" + i])visit.services.push(d["s" + i]);
+            }
+            var phone = d.ph;
+            if (phone){
+              phone = "Couverture téléphone: " + phone;
+              if (d.pc) phone += " (<small>" + d.pc + "</small>)";
+              visit.services.push(phone);
+            }
+            if (d.it) visit.services.push("ITSCI: " + d.it);
+
+            // women and children
 
             mine.properties.visits.push(visit);
 
@@ -252,6 +266,7 @@ var Data = function(){
             }
           }
 
+          // TODO: filter on source/project outside lastvistit check?
           if (d.q){
             var q = qualifications[d.q.toLowerCase()];
             if (q) {
@@ -553,27 +568,29 @@ var Data = function(){
       p.fLatitude = decimalToDegrees(mine.geometry.coordinates[1],"lat");
 
       var dates = [];
-      var workers = [];
-      var soil = [];
-      var pits = [];
-      var depth = [];
-      var qualification = [];
-      var arrete = [];
       var armyYears = [];
       var armyData = {};
+
+      var infoData = {};
+
+      var servicesYears = [];
+      var servicesData = {};
+      var childrenYears = [];
+      var childrenData = {};
+
 
       p.visits.forEach(function(visit){
         var parts = visit.date.split("-");
         var year = parts[0];
         var yearString = year + ": ";
         if (p.visits.length<2) yearString = "";
-        dates.push(parts[2] + "/" + parts[1] + "/" + parts[0]);
-        if (visit.workers >=0) workers.push(yearString  + visit.workers);
-        if (visit.pits) pits.push(yearString  + visit.pits);
-        if (visit.depth) depth.push(yearString  + visit.depth);
-        if (visit.soil) soil.push(yearString + visit.soil);
-        if (visit.qualification) qualification.push(yearString + visit.qualification);
-        if (visit.project) qualification.push(yearString + visit.project);
+
+        var dateString = parts[2] + "/" + parts[1] + "/" + parts[0];
+        dates.push(dateString);
+        infoData[dateString] = Template.render("visitInfo",visit);
+
+        var hasYear;
+
         if (visit.armies){
           var hasArmy = false;
           var armyDetails = [];
@@ -588,33 +605,61 @@ var Data = function(){
             armyData[year] = Template.get("armydetailheader") + armyDetails.join("");
           }
         }
+
+        if (visit.services.length){
+          hasYear = servicesYears.indexOf(year) >= 0;
+          if (!hasYear){
+            servicesYears.push(year);
+            servicesData[year] = "";
+          }
+          servicesData[year] += Template.render("servicesdetail",visit.services);
+        }
+
       });
 
-      p.datesString = dates.join("<br>");
-      p.workersString = workers.join("<br>");
-      p.pitsString = pits.join("<br>");
-      p.depthString = depth.join("<br>");
-      p.soilString = soil.join("<br>");
-      p.qualificationString = qualification.join("<br>") || "Aucune";
+      p.infoTab = "Pas de données";
+      if(dates.length){
+        p.infoYears = [];
+        dates.forEach(function(date,index){
+          p.infoYears.unshift({
+            year: date,
+            id: index,
+            data: infoData[date]
+          })
+        });
+        p.infoTab = Template.render("yearlist",p.infoYears)
+      }
 
-      p.armyTab = "";
+      p.armyTab = "Pas de données";
       if (armyYears.length){
         p.armyYears = [];
-        armyYears.forEach(function(armyYear){
+        armyYears.forEach(function(armyYear,index){
           p.armyYears.unshift({
             year: armyYear,
+            id: index,
             data: armyData[armyYear]
           })
         });
 
         p.armyTab = Template.render("yearlist",p.armyYears)
-      }else{
-        p.armyTab = "Pas de données";
       }
 
-      p.serviceTab = "Pas de données";
-      p.childrenTab = "Pas de données";
-      p.phoneTab = "Pas de données";
+      p.servicesTab = "Pas de présence des services constatée";
+      if (servicesYears.length){
+        p.servicesYears = [];
+        servicesYears.forEach(function(servicesYear,index){
+          p.servicesYears.unshift({
+            year: servicesYear,
+            id: index,
+            data: servicesData[servicesYear]
+          })
+        });
+
+        p.servicesTab = Template.render("yearlist",p.servicesYears)
+      }
+
+
+      p.womanchildrenTab = "Pas de données";
 
 
 
