@@ -389,6 +389,10 @@ body.disclaimer #disclaimer{
     height: 24px;
 }
 
+.visittable{
+    margin-bottom: 10px;
+}
+
 .infotable td,
 .infotable th{
     text-align: left;

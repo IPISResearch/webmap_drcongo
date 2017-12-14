@@ -277,8 +277,8 @@ var Data = function(){
             }
           }
 
-          // TODO: filter on source/project outside lastvistit check?
-          if (d.q){
+          // TODO: filter on source/project outside lastvistit check? -> not needed
+          if (d.q && visit.project.toLowerCase().indexOf("qualification")>=0){
             var q = qualifications[d.q.toLowerCase()];
             if (q) {
               mine.properties.qualification = q;
