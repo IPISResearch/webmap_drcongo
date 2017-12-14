@@ -137,9 +137,9 @@
     </div>
     <div class="dashboardtabs">
         {{#picture}}
-        <a href="http://www.ipisresearch.be/mapping/webmapping/drcongo/v4/images/sites/{{picture}}" target="_blank" data-simplbox class="image" style="background-image: url('http://www.ipisresearch.be/mapping/webmapping/drcongo/v4/images/sites/{{picture}}')">
+        <span data-url="http://www.ipisresearch.be/mapping/webmapping/drcongo/v4/images/sites/{{picture}}" class="image" style="background-image: url('http://www.ipisresearch.be/mapping/webmapping/drcongo/v4/images/sites/{{picture}}')">
 
-        </a>
+        </span>
         {{/picture}}
         <div class="active first" onclick="UI.activateDashboardTab(1,this)">Présence armée</div>
         <div onclick="UI.activateDashboardTab(2,this)">Services</div>
@@ -353,3 +353,9 @@
     <div class="col{{pillaging}}">&nbsp;{{pillaging}}</div>
 </div>
 <!--/armydetail-->
+
+<!--lightbox-->
+<div id="lightbox">
+    <div class="image" style="background-image: url('{{url}}')"></div>
+</div>
+<!--/lightbox-->

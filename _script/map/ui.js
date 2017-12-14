@@ -297,6 +297,23 @@ var UI = function(){
 
             dashBoard.className = "active";
             document.body.classList.add("dashboard");
+
+
+            var image = container.querySelector(".image");
+            if (image){
+                image.onclick = function(){
+
+                    var lightBox = div();
+                    document.body.appendChild(lightBox);
+                    lightBox.outerHTML =  Template.render("lightbox",{url: image.dataset.url});
+                    lightBox = document.getElementById("lightbox");
+
+                    lightBox.onclick = function(){
+                        document.body.removeChild(lightBox);
+                    }
+                }
+            }
+
         },delay);
 
     };
