@@ -263,6 +263,11 @@ body.dashboard #menu{
     text-align: right;
 }
 
+.popup .serviceline small{
+    display: inline;
+    text-align: left;
+}
+
 #chart{
     margin-bottom: 10px;
 }

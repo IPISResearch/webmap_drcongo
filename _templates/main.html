@@ -170,11 +170,15 @@
 <!--/mineDashBoard-->
 
 
-<!--visitInfo-->
+<!--visitDetail-->
 <table class="infotable" border="0" cellspacing="0" cellpadding="0">
     <tr>
         <th>Project</th>
         <td>{{{project}}}</td>
+    </tr>
+    <tr>
+        <th>Date de visite</th>
+        <td>{{{formattedDate}}}</td>
     </tr>
     {{#workers}}
     <tr>
@@ -213,7 +217,7 @@
     </tr>
     {{/arrete}}
 </table>
-<!--/visitInfo-->
+<!--/visitDetail-->
 
 
 <!--pdvPopup-->

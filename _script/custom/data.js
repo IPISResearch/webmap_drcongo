@@ -568,11 +568,11 @@ var Data = function(){
       p.fLatitude = decimalToDegrees(mine.geometry.coordinates[1],"lat");
 
       var dates = [];
+
+      var infoYears = [];
+      var infoData = {};
       var armyYears = [];
       var armyData = {};
-
-      var infoData = {};
-
       var servicesYears = [];
       var servicesData = {};
       var childrenYears = [];
@@ -582,14 +582,16 @@ var Data = function(){
       p.visits.forEach(function(visit){
         var parts = visit.date.split("-");
         var year = parts[0];
-        var yearString = year + ": ";
-        if (p.visits.length<2) yearString = "";
-
-        var dateString = parts[2] + "/" + parts[1] + "/" + parts[0];
-        dates.push(dateString);
-        infoData[dateString] = Template.render("visitInfo",visit);
+        visit.formattedDate = parts[2] + "/" + parts[1] + "/" + parts[0];
 
         var hasYear;
+
+        hasYear = infoYears.indexOf(year) >= 0;
+        if (!hasYear){
+          infoYears.push(year);
+          infoData[year] = "";
+        }
+        infoData[year] += Template.render("visitDetail",visit);
 
         if (visit.armies){
           var hasArmy = false;
@@ -618,13 +620,13 @@ var Data = function(){
       });
 
       p.infoTab = "Pas de données";
-      if(dates.length){
+      if(infoYears.length){
         p.infoYears = [];
-        dates.forEach(function(date,index){
+        infoYears.forEach(function(year,index){
           p.infoYears.unshift({
-            year: date,
+            year: year,
             id: index,
-            data: infoData[date]
+            data: infoData[year]
           })
         });
         p.infoTab = Template.render("yearlist",p.infoYears)
@@ -681,7 +683,7 @@ var Data = function(){
     });
     result.sort(function(a, b) {
       return ['Or', 'Cassitérite', "Coltan", "Wolframite", "Diamant"].indexOf(a.label) < 0;
-    })
+    });
 
     return result;
 
