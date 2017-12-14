@@ -146,7 +146,7 @@ var Data = function(){
               project: d.pj,
               armies: [],
               services : [],
-              children : []
+              womanchildren : {}
             };
 
             for (var i = 1; i<3; i++){
@@ -178,6 +178,17 @@ var Data = function(){
             if (d.it) visit.services.push("ITSCI: " + d.it);
 
             // women and children
+            visit.womanchildren = {
+              women: d.wo == 1 ? "oui" : "---",
+              womennight: d.wn == 1 ? "oui" : "---",
+              womensani: d.ws == 1 ? "oui" : "---",
+              womenpregnant: d.wp == 1 ? "oui" : "---",
+              womenwork: d.ww,
+              child15:d.cu == 1 ? "oui" : "---",
+              child15work:d.cw,
+              child1518:d.pu == 1 ? "oui" : "---",
+              child1518work:d.pw
+            };
 
             mine.properties.visits.push(visit);
 
@@ -575,8 +586,8 @@ var Data = function(){
       var armyData = {};
       var servicesYears = [];
       var servicesData = {};
-      var childrenYears = [];
-      var childrenData = {};
+      var womanChildrenYears = [];
+      var womanChildrenData = {};
 
 
       p.visits.forEach(function(visit){
@@ -615,6 +626,19 @@ var Data = function(){
             servicesData[year] = "";
           }
           servicesData[year] += Template.render("servicesdetail",visit.services);
+        }
+
+        var hasWomanChildren = false;
+        for (var key in visit.womanchildren){
+          if (visit.womanchildren.hasOwnProperty(key) && visit.womanchildren[key] && visit.womanchildren[key]!="---") hasWomanChildren = true;
+        }
+        if (hasWomanChildren){
+          hasYear = womanChildrenYears.indexOf(year) >= 0;
+          if (!hasYear){
+            womanChildrenYears.push(year);
+            womanChildrenData[year] = "";
+          }
+          womanChildrenData[year] += Template.render("womanChildrenDetail",visit.womanchildren);
         }
 
       });
@@ -661,7 +685,19 @@ var Data = function(){
       }
 
 
-      p.womanchildrenTab = "Pas de données";
+      p.womanChildrenTab = "Pas de données";
+      if (womanChildrenYears.length){
+        p.womanChildrenYears = [];
+        womanChildrenYears.forEach(function(year,index){
+          p.womanChildrenYears.unshift({
+            year: year,
+            id: index,
+            data: womanChildrenData[year]
+          })
+        });
+
+        p.womanChildrenTab = Template.render("yearlist",p.womanChildrenYears)
+      }
 
 
 

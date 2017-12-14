@@ -159,7 +159,7 @@
                 {{{servicesTab}}}
             </div>
             <div class="tab tab4 hidden">
-                {{womanchildrenTab}}
+                {{{womanChildrenTab}}}
             </div>
         </div>
 
@@ -411,6 +411,64 @@
 {{/.}}
 </div>
 <!--/servicesdetail-->
+
+
+<!--womanChildrenDetail-->
+<table class="infotable tabbed" border="0" cellspacing="1" cellpadding="0">
+    <tr>
+        <th nowrap="" width="10%">Femmes</th><td> </td>
+    </tr>
+    <tr>
+        <td nowrap="" class="checklistcaption line">Présence</td>
+        <td class="checklistitem">{{women}}</td>
+    </tr>
+    <tr>
+        <td nowrap="" class="checklistcaption line">Travail de nuit</td>
+        <td class="checklistitem">{{womennight}}</td>
+    </tr>
+    <tr>
+        <td nowrap="" class="checklistcaption line">Sanitaire</td>
+        <td class="checklistitem">{{womensani}}</td>
+    </tr>
+    <tr>
+        <td nowrap="" class="checklistcaption line">Enceinte</td>
+        <td class="checklistitem">{{womenpregnant}}</td>
+    </tr>
+    {{#womenwork}}
+    <tr>
+        <td nowrap="" class="checklistcaption line">Type de travail :</td>
+        <td line>{{womenwork}}</td>
+    </tr>
+    {{/womenwork}}
+
+
+    <tr>
+        <th nowrap="" width="10%"><br>Enfants</th><td> </td>
+    </tr>
+    <tr>
+        <td nowrap="" class="checklistcaption line">Moins de 15</td>
+        <td class="checklistitem">{{child15}}</td>
+    </tr>
+    {{#child15work}}
+    <tr>
+        <td nowrap="" class="checklistcaption line">Type de travail des enfants moins de 15 :</td>
+        <td line>{{child15work}}</td>
+    </tr>
+    {{/child15work}}
+    <tr>
+        <td nowrap="" class="checklistcaption line">Entre 15 et 18</td>
+        <td class="checklistitem">{{child1518}}</td>
+    </tr>
+    {{#child1518work}}
+    <tr>
+        <td nowrap="" class="checklistcaption line">Type de travail des enfants entre 15 et 18 :</td>
+        <td line>{{child1518work}}</td>
+    </tr>
+    {{/child1518work}}
+
+
+</table>
+<!--/womanChildrenDetail-->
 
 
 <!--lightbox-->
