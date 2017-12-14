@@ -192,6 +192,17 @@ var Data = function(){
 
             mine.properties.visits.push(visit);
 
+
+            if (d.q && visit.project.toLowerCase().indexOf("qualification")>=0){
+              var q = qualifications[d.q.toLowerCase()];
+              if (q) {
+                mine.properties.qualification = q;
+              }else{
+                console.error("Unknown Qualification: " + d.q);
+              }
+            }
+
+
             var year = parseInt(date.split("-")[0]);
             if (!mine.lastVisit || date>mine.lastVisit){
               mine.properties.year = year;
@@ -274,16 +285,6 @@ var Data = function(){
                   projectsLookup[d.pj] = true;
                 }
               }
-            }
-          }
-
-          // TODO: filter on source/project outside lastvistit check? -> not needed
-          if (d.q && visit.project.toLowerCase().indexOf("qualification")>=0){
-            var q = qualifications[d.q.toLowerCase()];
-            if (q) {
-              mine.properties.qualification = q;
-            }else{
-              console.error("Unknown Qualification: " + d.q);
             }
           }
 
