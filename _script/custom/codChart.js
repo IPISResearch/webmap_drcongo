@@ -72,7 +72,6 @@ var CodChart = function(){
     EventBus.on(EVENT.filterChanged,me.render);
 
 
-
     return me;
 
 }();

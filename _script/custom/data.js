@@ -65,6 +65,8 @@ var Data = function(){
 
         EventBus.trigger(EVENT.preloadDone);
         //EventBus.trigger(EVENT.filterChanged);
+        CodChart.render();
+
 
       }
     };

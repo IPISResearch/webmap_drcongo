@@ -424,6 +424,8 @@ body.disclaimer #disclaimer{
     width: 270px;
     float: left;
     padding-left: 4px;
+    z-index: 101;
+    position: relative;
 }
 
 .dashboardtabs{
