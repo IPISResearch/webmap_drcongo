@@ -88,8 +88,8 @@
                 <td>{{{fLatitude}}}</td>
             </tr>
             <tr>
-                <th>Source</th>
-                <td class="source">{{{source}}}</td>
+                <th>Origine</th>
+                <td class="source">{{{location_origin}}}</td>
             </tr>
             <!--
             <tr>
@@ -330,7 +330,6 @@
         </table>
     </div>
 </div>
-
 <!--/roadblockPopup-->
 
 <!--protectedAreaPopup-->
@@ -348,6 +347,32 @@
     </table>
 </div>
 <!--/protectedAreaPopup-->
+
+<!--concessionPopup-->
+<div class="popup">
+    <h2>Titre minier</h2>
+    <table border="0" cellspacing="0" cellpadding="0" class="infotable">
+        <tr>
+            <th>Type</th>
+            <td>{{{type}}}</td>
+        </tr>
+        <tr>
+            <th>Code</th>
+            <td>{{{name}}}</td>
+        </tr>
+        <tr>
+            <th>Parties</th>
+            <td>{{{parties}}}</td>
+        </tr><tr>
+            <th>Statut</th>
+            <td>{{{statut}}}</td>
+        </tr><tr>
+            <th>Date d'expiration</th>
+            <td>{{{date_de1}}}</td>
+        </tr>
+    </table>
+</div>
+<!--/concessionPopup-->
 
 <!--yearlist-->
 {{#.}}

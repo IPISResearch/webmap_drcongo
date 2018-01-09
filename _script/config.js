@@ -157,6 +157,10 @@ var Config = {
           label: "Titres miniers<br>&ensp;<small>(source: CAMI, 2017)</small>",
           source: function(){return Data.getConcessions()},
           sourceId: "concessions",
+          onClick: function(item,lngLat){
+              UI.hideDashboard();
+              UI.popup(Data.getConcessionsDetail(item),"concessionPopup",lngLat,true);
+          },
           display:{
             type: 'fill',
             fillColor: {

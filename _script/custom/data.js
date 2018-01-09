@@ -80,6 +80,7 @@ var Data = function(){
       item.properties.collectivite = data.co;
       item.properties.groupement = data.gr;
       item.properties.source = data.s;
+      item.properties.location_origin = data.lo;
       item.properties.qualification = 0;
       item.properties.workergroup = 0;
       item.properties.visits=[];
@@ -146,6 +147,7 @@ var Data = function(){
               qualification: d.q,
               source: d.s,
               project: d.pj,
+              location_origin: d.lo,
               armies: [],
               services : [],
               womanchildren : {}
@@ -423,10 +425,21 @@ var Data = function(){
 
           var concession = featureMultiPolygon(d.geometry.coordinates);
           var group = d.properties.group;
+          var type = d.properties.type;
+          var name = d.properties.name;
+          var parties = d.properties.parties;
+          var date_de1 = d.properties.date_de1;
+          var statut = d.properties.statut;
+          var group = d.properties.group;
 
           counter ++;
           concession.properties.id = counter;
           concession.properties.group = d.properties.group;
+          concession.properties.type = d.properties.type;
+          concession.properties.name = d.properties.name;
+          concession.properties.parties = d.properties.parties;
+          concession.properties.statut = d.properties.statut;
+          concession.properties.date_de1 = d.properties.date_de1;
 
           concessions.features.push(concession);
           concessionsLookup[counter] = concession;
@@ -842,8 +855,15 @@ var Data = function(){
 
   // ---- end roadblocks ----
 
+  // ----  concessions ----
+
   me.getConcessions = function(){
     return concessions;
+  };
+
+  me.getConcessionsDetail = function(concession){
+    var p  = concessionsProperties[concession.properties.id];
+    return p;
   };
 
   me.updateConcessionFilter = function(filter,item){
