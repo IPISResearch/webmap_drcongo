@@ -219,7 +219,7 @@ var UI = function(){
 									toggleMore.classList.remove("less");
 								}else{
 									itemContainer.classList.add("expanded");
-									toggleMore.innerHTML = "Moin ...";
+									toggleMore.innerHTML = "Moins ...";
 									toggleMore.classList.add("less");
 								}
 							};
