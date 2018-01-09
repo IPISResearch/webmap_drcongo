@@ -568,10 +568,6 @@ var Data = function(){
     EventBus.trigger(EVENT.filterChanged);
   };
 
-  me.getPdvs = function(){
-    return pdvs;
-  };
-
   me.getMines = function(){
     return mines;
   };
@@ -759,6 +755,17 @@ var Data = function(){
     return projects.reverse().sort(function(a, b) {
       return a.indexOf('status') >= 0;
     });
+  };
+
+  // ---- PdV ----
+
+  me.getPdvs = function(){
+    return pdvs;
+  };
+
+  me.getPdvDetail = function(pdv){
+    var p  = pdvsProperties[pdv.properties.id];
+    return p;
   };
 
   // ---- roadblocks ----

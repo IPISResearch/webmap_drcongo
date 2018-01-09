@@ -93,7 +93,7 @@ var Config = {
             sourceId: "pdv",
             onClick: function(item){
                 UI.hideDashboard();
-                UI.popup(Data.getMineDetail(item),"pdvPopup",item.geometry.coordinates,true);
+                UI.popup(Data.getPdvDetail(item),"pdvPopup",item.geometry.coordinates,true);
             },
             display:{
               visible: false,
