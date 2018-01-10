@@ -109,10 +109,10 @@ var Config = {
           },
           filterId: 6,
           filters:[
-              {id: "interference", index: 33, label: "Ingérence",items: [
+              {id: "interference", index: 61, label: "Ingérence", items: [
                 {label: "Pas d'ingérence", value: "0", color : "#086c25"},
                 {label: "Ingérence", value: "1", color: "#8e1706"}
-              ],onFilter: Data.updateTradelinesFilter,filterProperty:"interference",array:true}
+              ],onFilter: Data.updateTradelinesFilter,filterProperty:"interference"}
           ]
         },
         sellingpoints: {

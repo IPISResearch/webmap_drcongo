@@ -18,6 +18,7 @@ var Data = function(){
   var operateurs = [];  var operateursLookup = {};
   var roadblockTypes = [];  var roadblockTypesLookup = {};
   var groups = [];  var groupsLookup = {};
+  var interferences = [];  var interferencesLookup = {};
 
   var filteredMineIds = [];
   var filteredMines = [];
@@ -472,6 +473,9 @@ var Data = function(){
           //define items
           var tradeline = d; // defines type, properties and geometry
 
+          //create shortcuts for useful variables, e.g. gor lookup function definition below
+          var interference = d.properties.interference;
+
           //add extra properties and rename variable
           counter ++;
           tradeline.properties.id = counter;
@@ -481,6 +485,15 @@ var Data = function(){
           tradelinesLookup[counter] = tradeline;
           tradelinesProperties[counter] = tradeline.properties;
 
+          //define lookup function
+          tradeline.properties.interferences = [];
+          if (interference){
+            if (!interferencesLookup[interference]){
+              interferences.push(interference);
+              interferencesLookup[interference] = interferences.length;
+            }
+            tradeline.properties.interferences.push(interferencesLookup[interference]);
+          }
         });
 
         tradelinesLoaded = true;
