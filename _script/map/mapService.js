@@ -108,6 +108,7 @@ var MapService = (function() {
 
     var circleColor = "blue";
     var fillColor;
+    var lineColor;
 
     var colorStops = [];
     var iconImageStops = [];
@@ -147,12 +148,12 @@ var MapService = (function() {
       }
 
       paint = {
-        'circle-color': circleColor,
-        'circle-radius': circleRadius,
-        'circle-opacity': 0.5,
-        'circle-blur': 0,
-        'circle-stroke-width': 0.5,
-        'circle-stroke-color': 'white'
+        'circle-color': circleColor || 'black',
+        'circle-radius': circleRadius || 1,
+        'circle-opacity': layer.display.circleOpacity|| 1,
+        'circle-blur': layer.display.circleBlur || 0,
+        'circle-stroke-width': layer.display.circleStrokeWidth || 0.5,
+        'circle-stroke-color': layer.display.circleStrokeColor || 'white'
       };
     }
 
@@ -178,6 +179,37 @@ var MapService = (function() {
       paint = {
         'fill-color': fillColor || '#088',
         'fill-opacity': layer.display.fillOpacity || 0.7
+      }
+    }
+
+    if (displayType === "line"){
+      if (layer.display.lineColor.data){
+        var items =  layer.display.lineColor.data;
+        if (typeof layer.display.lineColor.data === "function") items = layer.display.lineColor.data();
+        items.forEach(function(item){
+          colorStops.push([item.value,item.color]);
+        });
+
+        lineColor = {
+          property: layer.display.lineColor.property,
+          type: 'categorical',
+          stops: colorStops
+        }
+      } else {
+        if (layer.display.lineColor){
+          lineColor = layer.display.lineColor
+        }
+      }
+
+      paint = {
+        'line-color': lineColor || '#088',
+        'line-opacity': layer.display.lineOpacity || 0.7,
+        'line-width': layer.display.lineWidth || 1
+      }
+
+      layout = {
+        'line-join': 'round',
+        'line-cap': 'round'
       }
     }
 

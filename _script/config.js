@@ -85,6 +85,36 @@ var Config = {
                 belowLayer: 'ref_layer_mines'
             }
         },
+        tradelines:{
+          id: "tradelines",
+          label: "Destination de minerais",
+          source: function(){return Data.getTradelines()},
+          sourceId: "tradelines",
+          display:{ // todo
+            type: 'line',
+            lineColor: {
+              property: "interference",
+              data: [
+                {label: "Pas d'ingérence", value: "0", color : "#086c25"},
+                {label: "Ingérence", value: "1", color: "#8e1706"}
+              ]
+            },
+            lineOpacity: 0.05,
+            lineWidth: {
+              stops: [[1, 1], [6, 1], [12, 6]]
+            },
+            visible: false,
+            canToggle: true,
+            belowLayer: 'ref_layer_tradelines'
+          },
+          filterId: 6,
+          filters:[
+              {id: "interference", index: 33, label: "Ingérence",items: [
+                {label: "Pas d'ingérence", value: "0", color : "#086c25"},
+                {label: "Ingérence", value: "1", color: "#8e1706"}
+              ],onFilter: Data.updateTradelinesFilter,filterProperty:"interference",array:true}
+          ]
+        },
         sellingpoints: {
             id: "pdv",
             filterId: 2,

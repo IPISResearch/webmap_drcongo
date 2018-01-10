@@ -9,6 +9,7 @@ var Data = function(){
   var pdvs;           var pdvsLookup = {};        var pdvsProperties = {};
   var roadblocks;    var roadblocksLookup = {};  var roadblocksProperties = {};
   var concessions;  var concessionsLookup = {};  var concessionsProperties = {};
+  var tradelines;  var tradelinesLookup = {};  var tradelinesProperties = {};
   var minerals = [];  var mineralLookup = {};
   var years = [];     var yearsLookup = {};
   var projects = [];     var projectsLookup = {};
@@ -23,6 +24,7 @@ var Data = function(){
   var filterFunctionsLookup = {};
   var roadBlockFilterFunctionsLookup = {};
   var concessionFilterFunctionsLookup = {};
+  var tradelineFilterFunctionsLookup = {};
 
   var mineralColors = {
     "Or" : "#DAA520",
@@ -53,13 +55,13 @@ var Data = function(){
 
   me.init = function(){
 
-    var minesLoaded, pdvLoaded, roadblocksLoaded,concessionsLoaded;
+    var minesLoaded, pdvLoaded, roadblocksLoaded, concessionsLoaded, tradelinesLoaded;
 
     var checkpoint = new Date().getTime();
     var now;
 
     var dataDone = function(){
-      if (minesLoaded && pdvLoaded && roadblocksLoaded && concessionsLoaded){
+      if (minesLoaded && pdvLoaded && roadblocksLoaded && concessionsLoaded && tradelinesLoaded){
         now = new Date().getTime();
         console.log("datasets generated in " +  (now-checkpoint) + "ms");
 
@@ -343,15 +345,19 @@ var Data = function(){
         now = new Date().getTime();
         console.log("roadblock data loaded in " +  (now-checkpoint) + "ms");
 
-        //build roadBlocks
+        //build grouping variable
         var counter = 0;
         roadblocks = featureCollection();
         data.result.forEach(function(d){
 
+          //define items
           var roadblock = featurePoint(d.lt,d.ln);
+
+          //create shortcuts for useful variables, e.g. gor lookup function definition below
           var type = d.t;
           var barriere = d.b;
 
+          //add extra properties and rename variable
           counter ++;
           roadblock.properties.id = counter;
           roadblock.properties.name = d.n;
@@ -364,14 +370,14 @@ var Data = function(){
           roadblock.properties.resourcesNaturelles = d.r;
           roadblock.properties.source = d.s;
 
+          // push to grouping variables
           roadblocks.features.push(roadblock);
           roadblocksLookup[counter] = roadblock;
           roadblocksProperties[counter] = roadblock.properties;
 
+          //define lookup function
           roadblock.properties.operateurs = [];
           roadblock.properties.types = [];
-
-
           if (type){
             var list = type.split(",");
             list.forEach(function(s){
@@ -382,9 +388,7 @@ var Data = function(){
               }
               roadblock.properties.operateurs.push(operateursLookup[s]);
             });
-
           }
-
           var hasResourcesNaturelles = false;
           if (barriere){
             list = barriere.split(",");
@@ -397,7 +401,6 @@ var Data = function(){
               roadblock.properties.types.push(roadblockTypesLookup[s]);
               if (s.indexOf("naturelles")>0) hasResourcesNaturelles = true;
             });
-
           }
           if (!hasResourcesNaturelles) roadblock.properties.resourcesNaturelles="";
 
@@ -418,48 +421,69 @@ var Data = function(){
         now = new Date().getTime();
         console.log("concession data loaded in " +  (now-checkpoint) + "ms");
 
-        //build concessions
+        //build grouping variable
         var counter = 0;
         concessions = featureCollection();
         data.features.forEach(function(d){
 
-          var concession = featureMultiPolygon(d.geometry.coordinates);
-          var group = d.properties.group;
-          var type = d.properties.type;
-          var name = d.properties.name;
-          var parties = d.properties.parties;
-          var date_de1 = d.properties.date_de1;
-          var statut = d.properties.statut;
+          //define items
+          var concession = d; // defines type, properties and geometry
+
+          //create shortcuts for useful variables, e.g. gor lookup function definition below
           var group = d.properties.group;
 
+          //add extra properties and rename variable
           counter ++;
           concession.properties.id = counter;
-          concession.properties.group = d.properties.group;
-          concession.properties.type = d.properties.type;
-          concession.properties.name = d.properties.name;
-          concession.properties.parties = d.properties.parties;
-          concession.properties.statut = d.properties.statut;
-          concession.properties.date_de1 = d.properties.date_de1;
 
+          // push to grouping variables
           concessions.features.push(concession);
           concessionsLookup[counter] = concession;
           concessionsProperties[counter] = concession.properties;
 
+          //define lookup function
           concession.properties.groups = [];
-
-
           if (group){
             if (!groupsLookup[group]){
               groups.push(group);
               groupsLookup[group] = groups.length;
             }
             concession.properties.groups.push(groupsLookup[group]);
-
           }
-
         });
 
         concessionsLoaded = true;
+        dataDone();
+
+      });
+    }
+
+    function loadTradelines(){
+      var url = "http://ipis.annexmap.net/api/geojson/cod_tradelines.php";
+      FetchService.json(url,function(data){
+        now = new Date().getTime();
+        console.log("tradeline data loaded in " +  (now-checkpoint) + "ms");
+
+        //build grouping variable
+        var counter = 0;
+        tradelines = featureCollection();
+        data.features.forEach(function(d){
+
+          //define items
+          var tradeline = d; // defines type, properties and geometry
+
+          //add extra properties and rename variable
+          counter ++;
+          tradeline.properties.id = counter;
+
+          // push to grouping variables
+          tradelines.features.push(tradeline);
+          tradelinesLookup[counter] = tradeline;
+          tradelinesProperties[counter] = tradeline.properties;
+
+        });
+
+        tradelinesLoaded = true;
         dataDone();
 
       });
@@ -469,6 +493,7 @@ var Data = function(){
     loadPdv();
     loadRoadBlocks();
     loadConcessions();
+    loadTradelines();
 
   };
 
@@ -490,18 +515,6 @@ var Data = function(){
       }
     }
   }
-
-  function featureMultiPolygon(coords){
-    return {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "MultiPolygon",
-        "coordinates": coords
-      }
-    }
-  }
-
 
   me.updateFilter = function(filter,item){
     //console.log(filter);
@@ -935,6 +948,80 @@ var Data = function(){
 
 
   // ---- end concessions ----
+
+  // ----  tradelines ----
+
+  me.getTradelines = function(){
+    return tradelines;
+  };
+
+  me.getTradelineDetail = function(tradeline){
+    var p  = tradelinesProperties[tradeline.properties.id];
+    return p;
+  };
+
+  me.updateTradelinesFilter = function(filter,item){
+
+    var values = [];
+    filter.filterItems.forEach(function(item){
+      if (item.checked) values.push(item.value);
+    });
+
+    if (values.length ===  filter.filterItems.length){
+      // all items checked - ignore filter
+      tradelineFilterFunctionsLookup[filter.id] = undefined;
+    }else{
+      if (filter.array){
+        tradelineFilterFunctionsLookup[filter.id] = function(item){
+          var value = item.properties[filter.filterProperty];
+          if (value && value.length){
+            return value.some(function (v){return values.includes(v);});
+          }
+          return false;
+        };
+      }else{
+        tradelineFilterFunctionsLookup[filter.id] = function(item){
+          return values.includes(item.properties[filter.filterProperty]);
+        };
+      }
+    }
+
+    me.filterTradelines();
+  };
+
+  me.filterTradelines = function(){
+    var filteredIds = [];
+    var filtered = [];
+    var filterFunctions = [];
+
+    for (var key in  tradelineFilterFunctionsLookup){
+      if (tradelineFilterFunctionsLookup.hasOwnProperty(key) && tradelineFilterFunctionsLookup[key]){
+        filterFunctions.push(tradelineFilterFunctionsLookup[key]);
+      }
+    }
+
+    tradelines.features.forEach(function(tradeline){
+      var passed = true;
+      var filterCount = 0;
+      var filterMax = filterFunctions.length;
+      while (passed && filterCount<filterMax){
+        passed =  filterFunctions[filterCount](tradeline);
+        filterCount++;
+      }
+      if (passed) {
+        filtered.push(tradeline);
+        filteredIds.push(tradeline.properties.id);
+      }
+    });
+
+
+    map.setFilter("tradelines", ['in', 'id'].concat(filteredIds));
+
+    EventBus.trigger(EVENT.filterChanged);
+  };
+
+
+  // ---- end tradelines ----
 
 
   me.getColorForMineral = function(mineral){
