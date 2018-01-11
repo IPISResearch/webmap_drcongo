@@ -216,7 +216,7 @@ var Config = {
             sourceId: "protectedAreas",
             display:{
               type: 'fill',
-              fillColor: "#909E00",
+              fillColor: "#7d9a5c",
               fillOpacity: 0.4,
               visible: false,
               canToggle: true,
