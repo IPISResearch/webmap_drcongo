@@ -330,7 +330,11 @@ var Data = function(){
             pdvsProperties[counter] = pdv.properties;
           }
 
-          pdv.properties.mineral = d.m1;
+          pdv.properties.mineralString = d.m1 + (d.m2 ? (", " + d.m2) : "") + (d.m3 ? (", " + d.m3) : "");
+          pdv.properties.date = d.d;
+          pdv.properties.fLongitude = decimalToDegrees(d.ln);
+          pdv.properties.fLatitude = decimalToDegrees(d.lt);
+          pdv.properties.armedGroupString = d.a1 + (d.a2 ? (", " + d.a2) : "");
 
         });
 
@@ -361,7 +365,8 @@ var Data = function(){
           //add extra properties and rename variable
           counter ++;
           roadblock.properties.id = counter;
-          roadblock.properties.name = d.n;
+          roadblock.properties.name = d.lp;
+          roadblock.properties.date = d.d;
           roadblock.properties.operateur = d.o;
           roadblock.properties.type = type;
           roadblock.properties.typeFirst = type ? type.split(",")[0].trim() : null;

@@ -148,7 +148,7 @@ var MapService = (function() {
       }
 
       paint = {
-        'circle-color': circleColor || 'black',
+        'circle-color': circleColor || '808080',
         'circle-radius': circleRadius || 1,
         'circle-opacity': layer.display.circleOpacity|| 1,
         'circle-blur': layer.display.circleBlur || 0,
@@ -177,7 +177,7 @@ var MapService = (function() {
       }
 
       paint = {
-        'fill-color': fillColor || '#088',
+        'fill-color': fillColor || '#808080',
         'fill-opacity': layer.display.fillOpacity || 0.7
       }
     }
@@ -202,7 +202,7 @@ var MapService = (function() {
       }
 
       paint = {
-        'line-color': lineColor || '#088',
+        'line-color': lineColor || '#808080',
         'line-opacity': layer.display.lineOpacity || 0.7,
         'line-width': layer.display.lineWidth || 1
       }

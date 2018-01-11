@@ -230,6 +230,20 @@
                 <td>{{mineralString}}</td>
             </tr>
             <tr>
+                <th>Date de visite</th>
+                <td>{{{date}}}</td>
+            </tr>
+            <tr>
+                <th>Présence armée</th>
+                <td>{{armedGroupString}}</td>
+            </tr>
+            {{#itsci}}
+            <tr>
+                <th>Présence iTSCi</th>
+                <td>{{{itsci}}}</td>
+            </tr>
+            {{/itsci}}
+            <tr>
                 <th>Province</th>
                 <td>{{{province}}}</td>
             </tr>
@@ -249,20 +263,6 @@
                 <th>Village</th>
                 <td>{{{village}}}</td>
             </tr>
-            <!--
-            <tr>
-                <th>Origine</th>
-                <td>{{{origin}}}</td>
-            </tr>
-            -->
-            <tr>
-                <th>Source</th>
-                <td class="source">{{{source}}}</td>
-            </tr>
-            <tr>
-                <th>Code</th>
-                <td>{{{pcode}}}</td>
-            </tr>
             <tr>
                 <th>Longitude</th>
                 <td>{{{fLongitude}}}</td>
@@ -271,12 +271,10 @@
                 <th>Latitude</th>
                 <td>{{{fLatitude}}}</td>
             </tr>
-            {{#itsci}}
             <tr>
-                <th>iTSCi</th>
-                <td>{{{itsci}}}</td>
+                <th>Pcode</th>
+                <td>{{{pcode}}}</td>
             </tr>
-            {{/itsci}}
         </table>
     </div>
 </div>
@@ -290,17 +288,25 @@
     <h2>Barrage routier: {{{name}}}</h2>
     <div class="popupColLeft">
         <table class="infotable" border="0" cellspacing="0" cellpadding="0">
-            <tr>
+          <tr>
+              <th>Date de passage</th>
+              <td>{{date}}</td>
+          </tr>
+          <tr>
                 <th>Operateur(s)</th>
                 <td>{{operateur}}</td>
             </tr>
             <tr>
-                <th>Type operateur(s)</th>
+                <th>Type d'operateur(s)</th>
                 <td>{{{type}}}</td>
+            </tr>
+            <tr>
+                <th>Type de barrière</th>
+                <td>{{{barriere}}}</td>
             </tr>
             {{#taxCible}}
             <tr>
-                <th>Taxe cible</th>
+                <th>Cible de taxe</th>
                 <td>{{{taxCible}}}</td>
             </tr>
             {{/taxCible}}
@@ -310,13 +316,9 @@
                 <td>{{{taxMontant}}}</td>
             </tr>
             {{/taxMontant}}
-            <tr>
-                <th>Type de barrière</th>
-                <td>{{{barriere}}}</td>
-            </tr>
             {{#resourcesNaturelles}}
             <tr>
-                <th>Ressources naturelles</th>
+                <th>Ressources naturelles ciblées</th>
                 <td>{{{resourcesNaturelles}}}</td>
             </tr>
             {{/resourcesNaturelles}}

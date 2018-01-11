@@ -95,11 +95,11 @@ var Config = {
             lineColor: {
               property: "interference",
               data: [
-                {label: "Pas d'ingérence", value: "0", color : "#086c25"},
-                {label: "Ingérence", value: "1", color: "#8e1706"}
+                {label: "Pas d'ingérence", value: "0", color : "#012f66"},
+                {label: "Ingérence", value: "1", color: "#660401"}
               ]
             },
-            lineOpacity: 0.05,
+            lineOpacity: 0.1,
             lineWidth: {
               stops: [[1, 1], [6, 1], [12, 6]]
             },
@@ -109,9 +109,9 @@ var Config = {
           },
           filterId: 6,
           filters:[
-              {id: "interference", index: 61, label: "Ingérence", items: [
-                {label: "Pas d'ingérence", value: "0", color : "#086c25"},
-                {label: "Ingérence", value: "1", color: "#8e1706"}
+              {id: "interference", index: 61, label: "Ingérence au site minier", items: [
+                {label: "Pas d'ingérence", value: "0", color : "#00499f"},
+                {label: "Ingérence", value: "1", color: "#960400"}
               ],onFilter: Data.updateTradelinesFilter,filterProperty:"interference"}
           ]
         },
