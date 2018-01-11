@@ -5,6 +5,7 @@ var Config = {
     templateURL: "_templates/main.html",
     showDisclaimerOnFirstUse: true,
     disclaimerUrl: "_templates/disclaimer.html",
+    infoUrl: "_templates/info.html",
     // starting point for map
     mapCoordinates: {
       x: 28.00,

@@ -54,6 +54,29 @@ var UI = function(){
 		document.body.classList.remove("disclaimer");
     };
 
+    me.showInfo = function(){
+
+        var container =  document.getElementById("info");
+        var content =  document.getElementById("infobody");
+        document.body.classList.add("info");
+        FetchService.get(Config.infoUrl,function(html){
+            content.innerHTML = html;
+            var button = div("button","OK");
+            content.appendChild(button);
+            button.onclick = me.hideInfo;
+            content.onclick = function(e){
+                if (!e) {e = window.event;}
+                e.cancelBubble = true;
+                if (e.stopPropagation) e.stopPropagation();
+            };
+            container.onclick = me.hideInfo;
+        });
+    };
+
+    me.hideInfo = function(){
+		document.body.classList.remove("info");
+    };
+
     me.buildMap = function(){
 
     };
