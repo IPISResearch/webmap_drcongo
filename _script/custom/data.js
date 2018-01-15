@@ -340,6 +340,8 @@ var Data = function(){
               if (d.m == 0) mine.properties.mercury = 1;
               if (d.m == 1) mine.properties.mercury = 2;
 
+              mine.properties.itsci = d.it;
+
               // projects
               if (d.pj) {
                 mine.properties.project = d.pj;
