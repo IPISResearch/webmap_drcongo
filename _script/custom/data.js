@@ -618,7 +618,7 @@ var Data = function(){
   };
 
   me.getFilteredMines = function(){
-    return filteredMines;
+    return filteredMines
   };
 
   me.getMineDetail = function(mine){
@@ -793,14 +793,15 @@ var Data = function(){
   me.getMinerals = function(){
     var result = [];
 
+    var order = ["Or", "Cassitérite", "Coltan", "Wolframite", "Diamant","Tourmaline","Cuivre"].reverse();
+
     minerals.forEach(function(mineral){
-      result.push({label: mineral, value: mineral, color: mineralColors[mineral] || "grey"})
-    });
-    result.sort(function(a, b) {
-      return ['Or', 'Cassitérite', "Coltan", "Wolframite", "Diamant"].indexOf(a.label) < 0;
+      result.push({label: mineral, value: mineral, color: mineralColors[mineral] || "grey", index: order.indexOf(mineral)})
     });
 
-    return result;
+    return result.sort(function(a, b) {
+		return a.index < b.index ? 1 : -1;
+	});
 
   };
 
