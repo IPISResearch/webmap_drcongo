@@ -43,12 +43,6 @@
                 <th>Substance(s)</th>
                 <td>{{mineralString}}</td>
             </tr>
-            {{#mercuryString}}
-            <tr>
-                <th>Traitement de l'or</th>
-                <td>{{{mercuryString}}}</td>
-            </tr>
-            {{/mercuryString}}
             <tr>
                 <th>PCode</th>
                 <td>{{{pcode}}}</td>
@@ -180,6 +174,18 @@
         <th>Date de visite</th>
         <td>{{{formattedDate}}}</td>
     </tr>
+    <tr>
+        <th>Substance(s)</th>
+        <td>{{mineralString}}</td>
+    </tr>
+    {{#mercuryString}}
+    <tr>
+        <th>Traitement de l'or</th>
+        <td>{{{mercuryString}}}</td>
+    </tr>
+    {{/mercuryString}}
+
+
     {{#workers}}
     <tr>
         <th class="multiline">Nombre de creuseurs</th>

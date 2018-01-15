@@ -148,7 +148,8 @@ var Data = function(){
               minerals: [],
               armies: [],
               services : [],
-              womanchildren : {}
+              womanchildren : {},
+              mercury: d.m == 0 ? 1 : d.m == 1 ? 2 : 0
             };
 
             for (var i = 1; i<4; i++){
@@ -620,9 +621,6 @@ var Data = function(){
     if(!p.hasDetail){
       p.mineralString = p.minerals.join(", ");
 
-      if (p.mercury === 1) p.mercuryString = "Non traité";
-      if (p.mercury === 2) p.mercuryString = "Mercure";
-
       p.fLongitude = decimalToDegrees(mine.geometry.coordinates[0],"lon");
       p.fLatitude = decimalToDegrees(mine.geometry.coordinates[1],"lat");
 
@@ -642,6 +640,10 @@ var Data = function(){
         var parts = visit.date.split("-");
         var year = parts[0];
         visit.formattedDate = parts[2] + "/" + parts[1] + "/" + parts[0];
+        visit.mineralString = visit.minerals.join(", ");
+
+        if (visit.mercury === 1) visit.mercuryString = "Non traité";
+        if (visit.mercury === 2) visit.mercuryString = "Mercure";
 
         var hasYear;
 
