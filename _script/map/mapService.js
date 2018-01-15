@@ -30,6 +30,8 @@ var MapService = (function() {
       updateHash("move ended");
     });
 
+    map.on("click",UI.hideDashboard);
+
     // Create a hover popup, but don't add it to the map yet.
     popupHover = new mapboxgl.Popup({
       closeButton: false,
