@@ -122,13 +122,7 @@ var Data = function(){
             minesProperties[counter] = mine.properties;
           }
 
-          // minerals
           mine.properties.mineral = d.m1;
-          if (mine.properties.mineral && !mineralLookup[mine.properties.mineral]){
-            minerals.push(mine.properties.mineral);
-            mineralLookup[mine.properties.mineral] = true;
-          }
-
           mine.properties.picture = d.pi;
 
           // years, visits and properties latest visit
@@ -151,12 +145,25 @@ var Data = function(){
               source: d.s,
               project: d.pj,
               location_origin: d.lo,
+              minerals: [],
               armies: [],
               services : [],
               womanchildren : {}
             };
 
-            for (var i = 1; i<3; i++){
+            for (var i = 1; i<4; i++){
+              var mineral = d["m" + i];
+              if (mineral) {
+                visit.minerals.push(mineral);
+
+                if (!mineralLookup[mineral]){
+                  minerals.push(mineral);
+                  mineralLookup[mineral] = true;
+                }
+              }
+            }
+
+            for (i = 1; i<3; i++){
               var army = d["a" + i];
               if (army){
                 visit.armies.push({
@@ -220,9 +227,7 @@ var Data = function(){
                 yearsLookup[year] = true;
               }
 
-              mine.properties.minerals = [];
-              if (d.m1) mine.properties.minerals.push(d.m1);
-              if (d.m2) mine.properties.minerals.push(d.m2);
+              mine.properties.minerals = visit.minerals;
 
               // armed presence
               mine.properties.armygroups = [];
