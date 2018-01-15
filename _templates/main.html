@@ -416,12 +416,14 @@
     <div>&nbsp;</div>
     <div><b>Fréquence de présence</b></div>
     <div><b>Contrôle(s) exercé(s)</b></div>
-    <div>taxation</div>
-    <div>achètent des minerais</div>
-    <div>travaux forcés</div>
-    <div>creusent eux-mêmes	</div>
-    <div>monopole de commerce</div>
-    <div>pillage</div>
+    <div>Taxation des minerais</div>
+    <div>Taxation de petit commerce</div>
+    <div>Taxation d'entrée</div>
+    <div>Achètent des minerais</div>
+    <div>Travaux forcés</div>
+    <div>Creusent eux-mêmes	</div>
+    <div>Monopole de commerce</div>
+    <div>Pillage</div>
 
 </div>
 <!--/armydetailheader-->
@@ -431,12 +433,9 @@
     <div><b>{{name}}</b></div>
     <div style="white-space: nowrap;">&nbsp;{{frequency}}&nbsp;</div>
     <div>&nbsp;</div>
-    <div class="col{{taxation}}">
-        {{taxation}}
-        {{#taxationCommerce}}<small>: commerce</small>{{/taxationCommerce}}
-        {{#taxationEntrence}}<small>, entrée</small>{{/taxationEntrence}}
-
-    </div>
+    <div class="col{{taxation}}">{{taxation}}</div>
+    <div class="col{{taxationCommerce}}">{{taxationCommerce}}</div>
+    <div class="col{{taxationEntrence}}">{{taxationEntrence}}</div>
     <div class="col{{buying}}">&nbsp;{{buying}}</div>
     <div class="col{{forcedLabour}}">&nbsp;{{forcedLabour}}</div>
     <div class="col{{digging}}">&nbsp;{{digging}}</div>
