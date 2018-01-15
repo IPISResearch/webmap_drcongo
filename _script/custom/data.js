@@ -140,6 +140,7 @@ var Data = function(){
               workers: workers,
               hasWorkers: workers>0,
               pits: d.p,
+              pitsType: d.pt,
               depth: d.dp,
               soil: d.sl,
               qualification: d.q,
@@ -172,6 +173,8 @@ var Data = function(){
                   name: army,
                   frequency:  d["a" + i + "f"],
                   taxation:  d["a" + i + "t"]  == 1 ? "oui" : "---",
+                  taxationCommerce:  d["a" + i + "c"]  == 1 ? true : false,
+                  taxationEntrence:  d["a" + i + "e"]  == 1 ? true : false,
                   buying:  d["a" + i + "b"]  == 1 ? "oui" : "---",
                   digging:  d["a" + i + "d"]  == 1 ? "oui" : "---",
                   forcedLabour:  d["a" + i + "l"]  == 1 ? "oui" : "---",
@@ -179,6 +182,8 @@ var Data = function(){
                   pillaging:  d["a" + i + "p"]  == 1  ? "oui" : "---"
                 });
               }
+
+              //if (d["a" + i + "c"] == 1) console.error(mine.properties.name);
             }
 
             // services

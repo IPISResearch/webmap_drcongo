@@ -195,6 +195,12 @@
         <td class="multiline">{{{pits}}}</td>
     </tr>
     {{/pits}}
+    {{#pitsType}}
+    <tr>
+        <th class="multiline">Type de puits</th>
+        <td class="multiline">{{{pitsType}}}</td>
+    </tr>
+    {{/pitsType}}
     {{#depth}}
     <tr>
         <th class="multiline">Profondeur</th>
@@ -425,7 +431,12 @@
     <div><b>{{name}}</b></div>
     <div>&nbsp;{{frequency}}&nbsp;</div>
     <div>&nbsp;</div>
-    <div class="col{{taxation}}">&nbsp;{{taxation}}</div>
+    <div class="col{{taxation}}">
+        {{taxation}}
+        {{#taxationCommerce}}<small>: commerce</small>{{/taxationCommerce}}
+        {{#taxationEntrence}}<small>, entrée</small>{{/taxationEntrence}}
+
+    </div>
     <div class="col{{buying}}">&nbsp;{{buying}}</div>
     <div class="col{{forcedLabour}}">&nbsp;{{forcedLabour}}</div>
     <div class="col{{digging}}">&nbsp;{{digging}}</div>

@@ -263,7 +263,8 @@ body.dashboard #menu{
     text-align: right;
 }
 
-.popup .serviceline small{
+.popup .serviceline small,
+.popup .coloui small{
     display: inline;
     text-align: left;
 }
@@ -446,7 +447,7 @@ body.disclaimer #disclaimer, body.info #info{
     background-color: #e0a500;
 }
 #dashboardcontent i.qualification.q3,
-#dashboardcontent i.qualification.q3Rouge{
+#dashboardcontent i.qualification.qRouge{
     background-color: #b00012;
 }
 
