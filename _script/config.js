@@ -189,7 +189,7 @@ var Config = {
                   ], onFilter: Data.updateConcessionFilter,filterProperty: "group"}
             ],
             label: "Titres miniers<br>&ensp;<small>(source: CAMI, 2017)</small>",
-            source: function(){return Data.getConcessions()},
+            source: function(layer,show){return Data.getConcessions(layer,show)},
             sourceId: "concessions",
             popupOnhover: "name",
             onClick: function(item,lngLat){

@@ -8,7 +8,7 @@ var Data = function(){
   var mines;          var minesLookup = {};       var minesProperties = {};
   var pdvs;           var pdvsLookup = {};        var pdvsProperties = {};
   var roadblocks;    var roadblocksLookup = {};  var roadblocksProperties = {};
-  var concessions;  var concessionsLookup = {};  var concessionsProperties = {};
+  var concessions;  var concessionsLookup = {}; var concessionsLoaded;
   var tradelines;  var tradelinesLookup = {};  var tradelinesProperties = {};
   var minerals = [];  var mineralLookup = {};
   var years = [];     var yearsLookup = {};
@@ -54,15 +54,58 @@ var Data = function(){
     "rouge" : 3
   };
 
+  function loadConcessions(next){
+    var url = "http://ipis.annexmap.net/api/geojson/cod_titres.php";
+    var checkpoint = new Date().getTime();
+    FetchService.json(url,function(data){
+      var now = new Date().getTime();
+      console.log("concession data loaded in " +  (now-checkpoint) + "ms");
+
+      //build grouping variable
+      var counter = 0;
+      concessions = featureCollection();
+      data.features.forEach(function(d){
+
+        //define items
+        var concession = d; // defines type, properties and geometry
+
+        //create shortcuts for useful variables, e.g. gor lookup function definition below
+        var group = d.properties.group;
+
+        //add extra properties and rename variable
+        counter ++;
+        concession.properties.id = counter;
+
+        // push to grouping variables
+        concessions.features.push(concession);
+        concessionsLookup[counter] = concession;
+
+        //define lookup function
+        concession.properties.groups = [];
+        if (group){
+          if (!groupsLookup[group]){
+            groups.push(group);
+            groupsLookup[group] = groups.length;
+          }
+          concession.properties.groups.push(groupsLookup[group]);
+        }
+      });
+
+      concessionsLoaded = true;
+
+      if (next) next();
+    });
+  }
+
   me.init = function(){
 
-    var minesLoaded, pdvLoaded, roadblocksLoaded, concessionsLoaded, tradelinesLoaded;
+    var minesLoaded, pdvLoaded, roadblocksLoaded, tradelinesLoaded;
 
     var checkpoint = new Date().getTime();
     var now;
 
     var dataDone = function(){
-      if (minesLoaded && pdvLoaded && roadblocksLoaded && concessionsLoaded && tradelinesLoaded){
+      if (minesLoaded && pdvLoaded && roadblocksLoaded && tradelinesLoaded){
         now = new Date().getTime();
         console.log("datasets generated in " +  (now-checkpoint) + "ms");
 
@@ -224,7 +267,6 @@ var Data = function(){
                 console.error("Unknown Qualification: " + d.q);
               }
             }
-
 
             var year = parseInt(date.split("-")[0]);
             if (!mine.lastVisit || date>mine.lastVisit){
@@ -435,49 +477,6 @@ var Data = function(){
       });
     }
 
-    function loadConcessions(){
-      var url = "http://ipis.annexmap.net/api/geojson/cod_titres.php";
-      FetchService.json(url,function(data){
-        now = new Date().getTime();
-        console.log("concession data loaded in " +  (now-checkpoint) + "ms");
-
-        //build grouping variable
-        var counter = 0;
-        concessions = featureCollection();
-        data.features.forEach(function(d){
-
-          //define items
-          var concession = d; // defines type, properties and geometry
-
-          //create shortcuts for useful variables, e.g. gor lookup function definition below
-          var group = d.properties.group;
-
-          //add extra properties and rename variable
-          counter ++;
-          concession.properties.id = counter;
-
-          // push to grouping variables
-          concessions.features.push(concession);
-          concessionsLookup[counter] = concession;
-          concessionsProperties[counter] = concession.properties;
-
-          //define lookup function
-          concession.properties.groups = [];
-          if (group){
-            if (!groupsLookup[group]){
-              groups.push(group);
-              groupsLookup[group] = groups.length;
-            }
-            concession.properties.groups.push(groupsLookup[group]);
-          }
-        });
-
-        concessionsLoaded = true;
-        dataDone();
-
-      });
-    }
-
     function loadTradelines(){
       var url = "http://ipis.annexmap.net/api/geojson/cod_tradelines.php";
       FetchService.json(url,function(data){
@@ -524,7 +523,6 @@ var Data = function(){
     loadMines();
     loadPdv();
     loadRoadBlocks();
-    loadConcessions();
     loadTradelines();
 
   };
@@ -930,16 +928,24 @@ var Data = function(){
 
   // ----  concessions ----
 
-  me.getConcessions = function(){
-    return concessions;
+  me.getConcessions = function(layer,show){
+    if (concessionsLoaded){
+      return concessions;
+    }else{
+      loadConcessions(function(){
+        if (show && layer.labelElm && !(layer.labelElm.classList.contains("inactive"))) MapService.addLayer(layer);
+      });
+    }
   };
 
   me.getConcessionsDetail = function(concession){
-    var p  = concessionsProperties[concession.properties.id];
-    return p;
+    var p  = concessionsLookup[concession.properties.id];
+    if (p) return p.properties;
   };
 
   me.updateConcessionFilter = function(filter,item){
+
+    if (!concessionsLoaded) return;
 
     var values = [];
     filter.filterItems.forEach(function(item){

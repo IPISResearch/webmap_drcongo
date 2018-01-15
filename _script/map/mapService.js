@@ -92,8 +92,14 @@ var MapService = (function() {
     var sourceOrigin = layer.source;
 
     if (typeof sourceOrigin === "function") {
-      sourceOrigin = layer.source();
+      sourceOrigin = layer.source(layer,true);
     }
+
+    if (!sourceOrigin) {
+      console.log(layer.id + ": layer data not ready, deferring.");
+      return;
+    }
+
     var sourceId = layer.sourceId || sourceOrigin.replace(/\W/g, '');
 
     var source = mapSources[sourceId];
@@ -205,7 +211,7 @@ var MapService = (function() {
         'line-color': lineColor || '#808080',
         'line-opacity': layer.display.lineOpacity || 0.7,
         'line-width': layer.display.lineWidth || 1
-      }
+      };
 
       layout = {
         'line-join': 'round',
