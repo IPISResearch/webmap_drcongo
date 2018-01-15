@@ -138,6 +138,7 @@ var Data = function(){
             var visit = {
               date: date,
               workers: workers,
+              hasWorkers: workers>0,
               pits: d.p,
               depth: d.dp,
               soil: d.sl,
