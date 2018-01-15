@@ -209,6 +209,7 @@ var Data = function(){
 
 
             if (d.q && visit.project.toLowerCase().indexOf("qualification")>=0){
+              mine.properties.qualificationString = d.q;
               var q = qualifications[d.q.toLowerCase()];
               if (q) {
                 mine.properties.qualification = q;

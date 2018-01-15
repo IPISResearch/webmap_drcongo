@@ -116,17 +116,14 @@
                 <td class="multiline">{{{consolidated.itsci_decoded}}}</td>
             </tr>
             {{/consolidated.itsci_decoded}}
-            <tr>
-                <th class="multiline">Qualification</th>
-                <td class="multiline">{{{qualificationString}}}</td>
-            </tr>
-            {{#arreteString}}
-            <tr>
-                <th class="multiline">Arrêté</th>
-                <td class="multiline">{{{arreteString}}}</td>
-            </tr>
-            {{/arreteString}}
             -->
+            {{#qualification}}
+            <tr>
+                <th>Qualification</th>
+                <td><i class="qualification q{{{qualification}}}"></i>{{{qualificationString}}}</td>
+            </tr>
+            {{/qualification}}
+
         </table>
     </div>
     <div class="dashboardtabs">
@@ -213,7 +210,7 @@
     {{#qualification}}
     <tr>
         <th class="multiline">Qualification</th>
-        <td class="multiline">{{{qualification}}}</td>
+        <td class="multiline"><i class="qualification q{{{qualification}}}"></i>{{{qualification}}}</td>
     </tr>
     {{/qualification}}
     {{#arrete}}

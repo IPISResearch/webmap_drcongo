@@ -429,6 +429,27 @@ body.disclaimer #disclaimer, body.info #info{
     position: relative;
 }
 
+#dashboardcontent i.qualification{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 1px solid silver;
+    margin: 4px 4px -1px 0;
+}
+
+#dashboardcontent i.qualification.q1,
+#dashboardcontent i.qualification.qVert{
+    background-color: #29b012;
+}
+#dashboardcontent i.qualification.q2,
+#dashboardcontent i.qualification.qJaune{
+    background-color: #e0a500;
+}
+#dashboardcontent i.qualification.q3,
+#dashboardcontent i.qualification.q3Rouge{
+    background-color: #b00012;
+}
+
 .dashboardtabs{
     width: 120px;
     float: left;
