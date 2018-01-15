@@ -151,7 +151,8 @@ var Data = function(){
               armies: [],
               services : [],
               womanchildren : {},
-              mercury: d.m == 0 ? 1 : d.m == 1 ? 2 : 0
+              mercury: d.m == 0 ? 1 : d.m == 1 ? 2 : 0,
+              armyPresence: d.ap
             };
 
             for (var i = 1; i<4; i++){
@@ -661,8 +662,8 @@ var Data = function(){
         }
         infoData[year] += Template.render("visitDetail",visit);
 
+        var hasArmy = false;
         if (visit.armies){
-          var hasArmy = false;
           var armyDetails = [];
           visit.armies.forEach(function(army){
             if (army.name){
@@ -676,13 +677,33 @@ var Data = function(){
           }
         }
 
+        if (!hasArmy && visit.armyPresence == 0){
+          if (armyYears.indexOf(year)<0){
+            armyYears.push(year);
+            armyData[year] = "";
+          }
+
+          armyData[year] += Template.render("noArmyPresent",visit);
+        }
+
         if (visit.services.length){
           hasYear = servicesYears.indexOf(year) >= 0;
           if (!hasYear){
             servicesYears.push(year);
             servicesData[year] = "";
           }
-          servicesData[year] += Template.render("servicesdetail",visit.services);
+
+          var servicesFormatted = [];
+          visit.services.forEach(function(service){
+              var _service = service.toLowerCase();
+              servicesFormatted.push({
+                className: (_service.indexOf("saesscam")>=0 || _service.indexOf("itsci")>=0) ? "bold" : "",
+                name: service
+              });
+          });
+
+
+          servicesData[year] += Template.render("servicesdetail",servicesFormatted);
         }
 
         var hasWomanChildren = false;

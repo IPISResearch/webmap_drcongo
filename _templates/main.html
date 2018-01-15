@@ -448,7 +448,7 @@
 <!--servicesdetail-->
 <div class="yearpanel">
 {{#.}}
-<div class="serviceline">{{{.}}}</div>
+<div class="serviceline {{{className}}}">{{{name}}}</div>
 {{/.}}
 </div>
 <!--/servicesdetail-->
@@ -517,3 +517,7 @@
     <div class="image" style="background-image: url('{{url}}')"></div>
 </div>
 <!--/lightbox-->
+
+<!--noArmyPresent-->
+    <div class="subtabcontent">{{{formattedDate}}}: Pas de présence observé.<br><br></div>
+<!--/noArmyPresent-->

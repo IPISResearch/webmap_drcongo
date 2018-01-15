@@ -657,6 +657,10 @@ body.disclaimer #disclaimer, body.info #info{
     border-bottom: 1px solid #ebebeb;
 }
 
+.serviceline.bold{
+    font-weight: bold;
+}
+
 #lightbox{
     position: absolute;
     background-color: rgba(0, 0, 0, 0.9);
