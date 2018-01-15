@@ -236,11 +236,11 @@ var Data = function(){
             }
             var phone = d.ph;
             if (phone){
-              phone = "Couverture téléphone: " + phone;
+              phone = "<b>Couverture téléphone</b>: " + phone;
               if (d.pc) phone += " (<small>" + d.pc + "</small>)";
               visit.services.push(phone);
             }
-            if (d.it) visit.services.push("ITSCI: " + d.it);
+            if (d.it) visit.services.push("<b>iTSCi</b>: " + d.it);
 
             // women and children
             visit.womanchildren = {
@@ -697,7 +697,8 @@ var Data = function(){
           visit.services.forEach(function(service){
               var _service = service.toLowerCase();
               servicesFormatted.push({
-                className: (_service.indexOf("saesscam")>=0 || _service.indexOf("itsci")>=0) ? "bold" : "",
+                //className: (_service.indexOf("saesscam")>=0 || _service.indexOf("itsci")>=0) ? "bold" : "",
+                className: "",
                 name: service
               });
           });
