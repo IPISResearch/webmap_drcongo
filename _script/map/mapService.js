@@ -265,10 +265,15 @@ var MapService = (function() {
             map.getCanvas().style.cursor = 'pointer';
 
             if (layer.popupOnhover){
-              var co = e.features[0] && e.features[0].geometry && e.features[0].geometry.coordinates ? e.features[0].geometry.coordinates : e.lngLat;
 
-              // polygons
-              if (co.length == 1 && e.lngLat) co = e.lngLat;
+              var geo = e.features[0] ? e.features[0].geometry : undefined;
+              var co = e.lngLat;
+
+              if (geo){
+                if (geo.coordinates) co = geo.coordinates;
+                if (geo.type == "Polygon") co = MapBoxExtra.polylabel(co);
+                if (geo.type == "MultiPolygon") co = MapBoxExtra.polylabel(co[0]);
+              }
 
               popupHover.setLngLat(co)
                   .setHTML(e.features[0].properties[layer.popupOnhover])
