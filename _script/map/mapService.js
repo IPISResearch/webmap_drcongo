@@ -257,11 +257,17 @@ var MapService = (function() {
     if (layer.onClick){
         map.on('mouseenter', layer.id, function (e) {
             map.getCanvas().style.cursor = 'pointer';
-            // e.features[0].geometry.coordinates
-            var co = e.features[0] && e.features[0].geometry && e.features[0].geometry.coordinates ? e.features[0].geometry.coordinates : e.lngLat;
-            popupHover.setLngLat(co)
-            .setHTML(e.features[0].properties.name)
-            .addTo(map);
+
+            if (layer.popupOnhover){
+              var co = e.features[0] && e.features[0].geometry && e.features[0].geometry.coordinates ? e.features[0].geometry.coordinates : e.lngLat;
+
+              // polygons
+              if (co.length == 1 && e.lngLat) co = e.lngLat;
+
+              popupHover.setLngLat(co)
+                  .setHTML(e.features[0].properties[layer.popupOnhover])
+                  .addTo(map);
+            }
         });
         map.on('mouseleave', layer.id, function (e) {
             map.getCanvas().style.cursor = '';

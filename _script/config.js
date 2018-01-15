@@ -29,6 +29,7 @@ var Config = {
             label: "Sites miniers artisanales",
             source: function(){return Data.getMines()},
             sourceId: "mines",
+            popupOnhover: "name",
             onClick: function(item){
                 UI.popup(Data.getMineDetail(item),"minePopup",item.geometry.coordinates,true);
                 UI.showDashboard(Data.getMineDetail(item),"mineDashBoard");
@@ -122,6 +123,7 @@ var Config = {
             label: "Points de vente de minerais",
             source: function(){return Data.getPdvs()},
             sourceId: "pdv",
+            popupOnhover: "name",
             onClick: function(item){
                 UI.hideDashboard();
                 UI.popup(Data.getPdvDetail(item),"pdvPopup",item.geometry.coordinates,true);
@@ -138,15 +140,16 @@ var Config = {
             }
         },
         roadblocks: {
-          id: "roadblocks",
-          label: "Barrage routier",
-          source: function(){return Data.getRoadBlocks()},
-          sourceId: "roadblocks",
-          onClick: function(item){
+            id: "roadblocks",
+            label: "Barrage routier",
+            source: function(){return Data.getRoadBlocks()},
+            sourceId: "roadblocks",
+            popupOnhover: "name",
+            onClick: function(item){
               UI.hideDashboard();
               UI.popup(Data.getRoadBlockDetail(item),"roadblockPopup",item.geometry.coordinates,true);
-          },
-          display:{
+            },
+            display:{
               visible: false,
               canToggle: true,
               type: 'symbol',
@@ -175,39 +178,40 @@ var Config = {
           ]
         },
         concessions:{
-          id: "concessions",
-          filterId: 4,
-          filters: [
-              {id: "group", index: 41, label: "License", items:[
-                  {label: "PR", value: "PR" , color: "#43b7ff"},
-                  {label: "PE", value: "PE", color : "#36ae71"},
-                  {label: "ZEA", value: "ZEA", color: "#9f2bae"},
-                  {label: "ZIN", value: "ZIN", color: "#ae000e"}
-              ], onFilter: Data.updateConcessionFilter,filterProperty: "group"}
-          ],
-          label: "Titres miniers<br>&ensp;<small>(source: CAMI, 2017)</small>",
-          source: function(){return Data.getConcessions()},
-          sourceId: "concessions",
-          onClick: function(item,lngLat){
-              UI.hideDashboard();
-              UI.popup(Data.getConcessionsDetail(item),"concessionPopup",lngLat,true);
-          },
-          display:{
-            type: 'fill',
-            fillColor: {
-              property: "group",
-              data: [
-                {label: "Permit de Recherche", value: "PR" , color: "#43b7ff"},
-                {label: "Permit d'Exploitation", value: "PE" , color : "#36ae71"},
-                {label: "Zone d'Exploitation Artisanale", value: "ZEA", color: "#9f2bae"},
-                {label: "Zone Interdite", value: "ZIN", color: "#ae000e"}
-              ]
+            id: "concessions",
+            filterId: 4,
+            filters: [
+                  {id: "group", index: 41, label: "License", items:[
+                      {label: "PR", value: "PR" , color: "#43b7ff"},
+                      {label: "PE", value: "PE", color : "#36ae71"},
+                      {label: "ZEA", value: "ZEA", color: "#9f2bae"},
+                      {label: "ZIN", value: "ZIN", color: "#ae000e"}
+                  ], onFilter: Data.updateConcessionFilter,filterProperty: "group"}
+            ],
+            label: "Titres miniers<br>&ensp;<small>(source: CAMI, 2017)</small>",
+            source: function(){return Data.getConcessions()},
+            sourceId: "concessions",
+            popupOnhover: "name",
+            onClick: function(item,lngLat){
+                  UI.hideDashboard();
+                  UI.popup(Data.getConcessionsDetail(item),"concessionPopup",lngLat,true);
             },
-            fillOpacity: 0.3,
-            visible: false,
-            canToggle: true,
-            belowLayer: 'ref_layer_concessions'
-          }
+            display:{
+                type: 'fill',
+                fillColor: {
+                  property: "group",
+                  data: [
+                    {label: "Permit de Recherche", value: "PR" , color: "#43b7ff"},
+                    {label: "Permit d'Exploitation", value: "PE" , color : "#36ae71"},
+                    {label: "Zone d'Exploitation Artisanale", value: "ZEA", color: "#9f2bae"},
+                    {label: "Zone Interdite", value: "ZIN", color: "#ae000e"}
+                  ]
+                },
+                fillOpacity: 0.3,
+                visible: false,
+                canToggle: true,
+                belowLayer: 'ref_layer_concessions'
+            }
         },
         protectedAreas:{
             id: "protectedAreas",
@@ -223,6 +227,7 @@ var Config = {
               canToggle: true,
               belowLayer: 'ref_layer_protectedAreas'
             },
+            popupOnhover: "name",
             onClick: function(item,lngLat){
                 UI.hideDashboard();
                 UI.popup(item.properties,"protectedAreaPopup",lngLat,true);
