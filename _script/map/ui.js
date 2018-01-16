@@ -4,7 +4,7 @@ var UI = function(){
     var menuContainer;
     var currentPopup;
     var dashBoard;
-    var currentDashBoard;
+    var currentDashBoardTab;
 
     me.init = function(){
 		menuContainer = menuContainer || document.getElementById("menu");
@@ -276,6 +276,8 @@ var UI = function(){
 
     me.activateDashboardTab = function(index,elm){
 
+		currentDashBoardTab = index;
+
         var panel = document.querySelector(".dashboardtabs");
         var tabs = document.querySelector(".tabcontent");
 		panel.querySelectorAll("div").forEach(function(tab){
@@ -289,6 +291,8 @@ var UI = function(){
         var tab = tabs.querySelector(".tab" + index);
         if (tab) tab.classList.remove("hidden");
     };
+
+
 
 
     me.initSearch = function(){
@@ -312,7 +316,15 @@ var UI = function(){
         setTimeout(function(){
 
             var html = data;
-            if (template) html = Template.render(template,data);
+            if (template) {
+				currentDashBoardTab = currentDashBoardTab || 1;
+                for (var i = 1; i < 6; i++){
+                    data["tabButton" + i] =  currentDashBoardTab==i?"active":"";
+                    data["tabPanel" + i] =  currentDashBoardTab==i?"":"hidden";
+                }
+
+                html = Template.render(template,data);
+			}
 
             var container = document.getElementById("dashboardcontent");
             container.innerHTML = html;

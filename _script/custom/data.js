@@ -235,7 +235,7 @@ var Data = function(){
               }
 
               //if (d["a" + i + "c"] == 1) console.error(mine.properties.name);
-              if (d["m" + i + "fd"]) console.error(mine.properties.name);
+              //if (d["m" + i + "fd"]) console.error(mine.properties.name);
             }
 
             // services
