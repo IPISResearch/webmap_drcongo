@@ -430,7 +430,8 @@ body.disclaimer #disclaimer, body.info #info{
     position: relative;
 }
 
-#dashboardcontent i.qualification{
+#dashboardcontent i.qualification,
+.mineralroutes td i{
     display: inline-block;
     width: 12px;
     height: 12px;
@@ -660,6 +661,25 @@ body.disclaimer #disclaimer, body.info #info{
 .serviceline.bold{
     font-weight: bold;
 }
+
+
+.mineralroutes th{
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #ebebeb;
+    border-bottom: 1px solid silver;
+    text-align: left;
+    color: grey;
+    padding-right: 16px;
+}
+
+.mineralroutes td{
+    font-size: 12px;
+    border-bottom: 1px solid silver;
+    text-align: left;
+    padding-right: 16px;
+}
+
 
 #lightbox{
     position: absolute;

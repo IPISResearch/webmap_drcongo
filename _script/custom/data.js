@@ -191,6 +191,7 @@ var Data = function(){
               project: d.pj,
               location_origin: d.lo,
               minerals: [],
+              mineralRoutes: [],
               armies: [],
               services : [],
               womanchildren : {},
@@ -207,6 +208,12 @@ var Data = function(){
                   minerals.push(mineral);
                   mineralLookup[mineral] = true;
                 }
+				  visit.mineralRoutes.push({
+                      mineral: mineral,
+                      color: mineralColors[mineral],
+                      sellingPoint: d["m" + i + "sp"],
+                      finalDestination: d["m" + i + "fd"]
+                  });
               }
             }
 
@@ -228,6 +235,7 @@ var Data = function(){
               }
 
               //if (d["a" + i + "c"] == 1) console.error(mine.properties.name);
+              if (d["m" + i + "fd"]) console.error(mine.properties.name);
             }
 
             // services
@@ -642,6 +650,8 @@ var Data = function(){
       var servicesData = {};
       var womanChildrenYears = [];
       var womanChildrenData = {};
+      var substanceYears = [];
+      var substanceData = {};
 
 
       p.visits.forEach(function(visit){
@@ -720,6 +730,19 @@ var Data = function(){
           womanChildrenData[year] += Template.render("womanChildrenDetail",visit.womanchildren);
         }
 
+
+
+
+		  if (visit.mineralRoutes.length){
+			  hasYear = substanceYears.indexOf(year) >= 0;
+			  if (!hasYear){
+				  substanceYears.push(year);
+				  substanceData[year] = "";
+			  }
+
+			  substanceData[year] += Template.render("substancesdetail",visit.mineralRoutes);
+		  }
+
       });
 
       p.infoTab = "Pas de données";
@@ -777,6 +800,20 @@ var Data = function(){
 
         p.womanChildrenTab = Template.render("yearlist",p.womanChildrenYears)
       }
+
+		p.substancesTab = "Pas de données";
+		if (substanceYears.length){
+			p.substanceYears = [];
+			substanceYears.forEach(function(substanceYear,index){
+				p.substanceYears.unshift({
+					year: substanceYear,
+					id: index,
+					data: substanceData[substanceYear]
+				})
+			});
+
+			p.substancesTab = Template.render("yearlist",p.substanceYears)
+		}
 
 
 
