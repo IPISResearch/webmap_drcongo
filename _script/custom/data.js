@@ -740,7 +740,7 @@ var Data = function(){
 				  substanceData[year] = "";
 			  }
 
-			  substanceData[year] += Template.render("substancesdetail",visit.mineralRoutes);
+			  substanceData[year] += Template.render("substancesdetail",visit);
 		  }
 
       });

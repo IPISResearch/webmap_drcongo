@@ -185,12 +185,14 @@
         <th>Substance(s)</th>
         <td>{{mineralString}}</td>
     </tr>
+    <!--
     {{#mercuryString}}
     <tr>
         <th>Traitement de l'or</th>
         <td>{{{mercuryString}}}</td>
     </tr>
     {{/mercuryString}}
+    -->
 
 
     {{#hasWorkers}}
@@ -530,14 +532,22 @@
             <th>Point de vendre</th>
             <th>Destination</th>
         </tr>
-    {{#.}}
+    {{#mineralRoutes}}
         <tr>
             <td><i style="background-color: {{{color}}}"></i> {{{mineral}}}</td>
             <td>{{{sellingPoint}}}</td>
             <td>{{{finalDestination}}}</td>
         </tr>
-    {{/.}}
+    {{/mineralRoutes}}
     </table>
+
+    {{#mercuryString}}
+    <br>
+    Traitement de l'or: {{mercuryString}}
+    <br>
+    {{/mercuryString}}
+
+
 </div>
 <!--/substancesdetail-->
 
