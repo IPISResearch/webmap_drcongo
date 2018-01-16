@@ -855,11 +855,16 @@ var Data = function(){
   me.getServices = function(){
     var result = [];
 
+    var order = ["SAESSCAM", "Division des mines", "iTSCi", "iTSCi (via SAESSCAM)", "Police des Mines","Chefferie","PNC","Energie","DGRPI","DGRMA","DGRPO"].reverse();
+
     services.forEach(function(item){
-      result.push({label: item, value:servicesLookup[item]})
+      result.push({label: item, value:servicesLookup[item], index: order.indexOf(item)})
     });
 
-    return result;
+    return result.sort(function(a, b) {
+		return a.index < b.index ? 1 : -1;
+	});
+
   };
 
   me.getProjects = function(){

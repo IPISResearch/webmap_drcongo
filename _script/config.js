@@ -51,7 +51,7 @@ var Config = {
                 {id: "armedpresence", index: 4,label: "Présence armée",
                 items: Data.getArmyGroups,onFilter: Data.updateFilter,filterProperty: "armygroups",array:true},
                 {id: "services", index: 5, label: "Présence services<br>&ensp;<small>(enrégistré à partir de 2015)</small>",
-                items:Data.getServices,onFilter: Data.updateFilter,filterProperty: "services",array:true,maxVisibleItems:4},
+                items:Data.getServices,onFilter: Data.updateFilter,filterProperty: "services",array:true,maxVisibleItems:7},
                 {id: "qualification", index: 6, label: "Qualification ministérielle<br>&ensp;<small>(source: BGR, avril 2017)</small>",items:[
                   {label: "Vert", value:1 , color: "#29b012"},
                   {label: "Jaune", value:2 , color : "#e0a500"},
