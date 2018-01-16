@@ -36,7 +36,13 @@ var Data = function(){
     "Diamant" : "#FFDEAD",
     "Monazite" : "#9cc6de",
     "Tourmaline" : "#006600",
-    "Améthyste" : "#9966CB"
+    "Améthyste" : "#9966CB",
+    "Argent" : "#cfcfcf",
+    "Bauxite" : "#961f21",
+    "Digénite" : "#4655b6",
+	  "Arsénopyrite": "#7491a4",
+	  "Plomp": "#878787",
+	  "Manganèse": "#d095c9"
   };
 
   var operateurColors = {
