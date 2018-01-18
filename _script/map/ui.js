@@ -56,6 +56,7 @@ var UI = function(){
 
     me.showInfo = function(){
 
+        UI.hideDashboard();
         var container =  document.getElementById("info");
         var content =  document.getElementById("infobody");
         document.body.classList.add("info");

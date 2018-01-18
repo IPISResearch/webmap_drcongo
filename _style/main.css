@@ -48,7 +48,11 @@ body.disclaimer{
     transition: bottom 0.3s ease-in-out;
 }
 
-body.disclaimer #menu{
+body.disclaimer #menu,
+body.info #menu,
+body.disclaimer #legend,
+body.info #legend
+{
     display: none;
 }
 
