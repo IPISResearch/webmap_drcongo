@@ -5,20 +5,20 @@ var Data = function(){
 
   var visits;
 
-  var mines;          var minesLookup = {};       var minesProperties = {};
-  var pdvs;           var pdvsLookup = {};        var pdvsProperties = {};
-  var roadblocks;    var roadblocksLookup = {};  var roadblocksProperties = {};
-  var concessions;  var concessionsLookup = {}; var concessionsLoaded;
-  var tradelines;  var tradelinesLookup = {};  var tradelinesProperties = {};
-  var minerals = [];  var mineralLookup = {};
-  var years = [];     var yearsLookup = {};
-  var projects = [];     var projectsLookup = {};
-  var armyGroups = [];    var armyGroupLookup = {};
-  var services = [];  var servicesLookup = {};
-  var operateurs = [];  var operateursLookup = {};
-  var roadblockTypes = [];  var roadblockTypesLookup = {};
-  var groups = [];  var groupsLookup = {};
-  var interferences = [];  var interferencesLookup = {};
+  var mines,minesLoaded;              var minesLookup = {};       var minesProperties = {};
+  var pdvs,pdvLoaded;                 var pdvsLookup = {};        var pdvsProperties = {};
+  var roadblocks,roadblocksLoaded;    var roadblocksLookup = {};  var roadblocksProperties = {};
+  var concessions,concessionsLoaded;  var concessionsLookup = {};
+  var tradelines,tradelinesLoaded;    var tradelinesLookup = {};  var tradelinesProperties = {};
+  var minerals = [];                  var mineralLookup = {};
+  var years = [];                     var yearsLookup = {};
+  var projects = [];                  var projectsLookup = {};
+  var armyGroups = [];                var armyGroupLookup = {};
+  var services = [];                  var servicesLookup = {};
+  var operateurs = [];                var operateursLookup = {};
+  var roadblockTypes = [];            var roadblockTypesLookup = {};
+  var groups = [];                    var groupsLookup = {};
+  var interferences = [];             var interferencesLookup = {};
 
   var filteredMineIds = [];
   var filteredMines = [];
@@ -60,86 +60,41 @@ var Data = function(){
       "rouge" : 3
   };
 
-  function loadConcessions(next){
-    var url = "http://ipis.annexmap.net/api/geojson/cod_titres.php";
-    var checkpoint = new Date().getTime();
-    FetchService.json(url,function(data){
-      var now = new Date().getTime();
-      console.log("concession data loaded in " +  (now-checkpoint) + "ms");
+	var buildProperties = function(item,data){
+		item.properties.pcode = data.i;
+		item.properties.name = data.n;
+		item.properties.village = data.v;
+		item.properties.province = data.pv;
+		item.properties.territoire = data.te;
+		item.properties.collectivite = data.co;
+		item.properties.groupement = data.gr;
+		item.properties.source = data.s;
+		item.properties.location_origin = data.lo;
+		item.properties.qualification = 0;
+		item.properties.workergroup = 0;
+		item.properties.visits=[];
+	};
 
-      //build grouping variable
-      var counter = 0;
-      concessions = featureCollection();
-      data.features.forEach(function(d){
-
-        //define items
-        var concession = d; // defines type, properties and geometry
-
-        //create shortcuts for useful variables, e.g. gor lookup function definition below
-        var group = d.properties.group;
-
-        //add extra properties and rename variable
-        counter ++;
-        concession.properties.id = counter;
-
-        // push to grouping variables
-        concessions.features.push(concession);
-        concessionsLookup[counter] = concession;
-
-        //define lookup function
-        concession.properties.groups = [];
-        if (group){
-          if (!groupsLookup[group]){
-            groups.push(group);
-            groupsLookup[group] = groups.length;
-          }
-          concession.properties.groups.push(groupsLookup[group]);
-        }
-      });
-
-      concessionsLoaded = true;
-
-      if (next) next();
-    });
-  }
 
   me.init = function(){
-
-    var minesLoaded, pdvLoaded, roadblocksLoaded, tradelinesLoaded;
 
     var checkpoint = new Date().getTime();
     var now;
 
     var dataDone = function(){
-      if (minesLoaded && pdvLoaded && roadblocksLoaded && tradelinesLoaded){
+      if (minesLoaded && roadblocksLoaded){
         now = new Date().getTime();
         console.log("datasets generated in " +  (now-checkpoint) + "ms");
 
         EventBus.trigger(EVENT.preloadDone);
         //EventBus.trigger(EVENT.filterChanged);
         CodChart.render();
-
-
       }
-    };
-
-    var buildProperties = function(item,data){
-      item.properties.pcode = data.i;
-      item.properties.name = data.n;
-      item.properties.village = data.v;
-      item.properties.province = data.pv;
-      item.properties.territoire = data.te;
-      item.properties.collectivite = data.co;
-      item.properties.groupement = data.gr;
-      item.properties.source = data.s;
-      item.properties.location_origin = data.lo;
-      item.properties.qualification = 0;
-      item.properties.workergroup = 0;
-      item.properties.visits=[];
     };
 
     function loadMines(){
       var url = "http://ipis.annexmap.net/api/data/cod/all?key=ipis";
+
       FetchService.json(url,function(data){
         now = new Date().getTime();
         console.log("minedata loaded in " +  (now-checkpoint) + "ms");
@@ -377,169 +332,14 @@ var Data = function(){
       });
     }
 
-    function loadPdv(){
-      var url = "http://ipis.annexmap.net/api/data/cod/pdvall?key=ipis";
-      FetchService.json(url,function(data){
-        now = new Date().getTime();
-        console.log("pdv data loaded in " +  (now-checkpoint) + "ms");
 
-        //build pdv
-        var counter = 0;
-        pdvs = featureCollection();
-        data.result.forEach(function(d){
 
-          var pdv = pdvsLookup[d.i];
-          if (pdv){
 
-          }else{
-            pdv = featurePoint(d.lt,d.ln);
-            counter ++;
-            pdv.properties.id = counter;
-            buildProperties(pdv,d);
-
-            pdvs.features.push(pdv);
-            pdvsLookup[d.i] = pdv;
-            pdvsProperties[counter] = pdv.properties;
-          }
-
-          pdv.properties.mineralString = d.m1 + (d.m2 ? (", " + d.m2) : "") + (d.m3 ? (", " + d.m3) : "");
-          pdv.properties.date = d.d;
-          pdv.properties.fLongitude = decimalToDegrees(d.ln);
-          pdv.properties.fLatitude = decimalToDegrees(d.lt);
-          pdv.properties.armedGroupString = d.a1 + (d.a2 ? (", " + d.a2) : "");
-
-        });
-
-        pdvLoaded = true;
-        dataDone();
-
-      });
-    }
-
-    function loadRoadBlocks(){
-      var url = "http://ipis.annexmap.net/api/data/cod/roadblocksall?key=ipis";
-      FetchService.json(url,function(data){
-        now = new Date().getTime();
-        console.log("roadblock data loaded in " +  (now-checkpoint) + "ms");
-
-        //build grouping variable
-        var counter = 0;
-        roadblocks = featureCollection();
-        data.result.forEach(function(d){
-
-          //define items
-          var roadblock = featurePoint(d.lt,d.ln);
-
-          //create shortcuts for useful variables, e.g. gor lookup function definition below
-          var type = d.t;
-          var barriere = d.b;
-
-          //add extra properties and rename variable
-          counter ++;
-          roadblock.properties.id = counter;
-          roadblock.properties.name = d.lp;
-          roadblock.properties.date = d.d;
-          roadblock.properties.operateur = d.o;
-          roadblock.properties.type = type;
-          roadblock.properties.typeFirst = type ? type.split(",")[0].trim() : null;
-          roadblock.properties.taxCible = d.tc;
-          roadblock.properties.taxMontant = d.tm;
-          roadblock.properties.barriere = d.b;
-          roadblock.properties.resourcesNaturelles = d.r;
-          roadblock.properties.source = d.s;
-
-          // push to grouping variables
-          roadblocks.features.push(roadblock);
-          roadblocksLookup[counter] = roadblock;
-          roadblocksProperties[counter] = roadblock.properties;
-
-          //define lookup function
-          roadblock.properties.operateurs = [];
-          roadblock.properties.types = [];
-          if (type){
-            var list = type.split(",");
-            list.forEach(function(s){
-              s = s.trim();
-              if (!operateursLookup[s]){
-                operateurs.push(s);
-                operateursLookup[s] = operateurs.length;
-              }
-              roadblock.properties.operateurs.push(operateursLookup[s]);
-            });
-          }
-          var hasResourcesNaturelles = false;
-          if (barriere){
-            list = barriere.split(",");
-            list.forEach(function(s){
-              s = s.trim();
-              if (!roadblockTypesLookup[s]){
-                roadblockTypes.push(s);
-                roadblockTypesLookup[s] = roadblockTypes.length;
-              }
-              roadblock.properties.types.push(roadblockTypesLookup[s]);
-              if (s.indexOf("naturelles")>0) hasResourcesNaturelles = true;
-            });
-          }
-          if (!hasResourcesNaturelles) roadblock.properties.resourcesNaturelles="";
-
-        });
-
-        operateurs.sort();
-        roadblockTypes.sort();
-
-        roadblocksLoaded = true;
-        dataDone();
-
-      });
-    }
-
-    function loadTradelines(){
-      var url = "http://ipis.annexmap.net/api/geojson/cod_tradelines.php";
-      FetchService.json(url,function(data){
-        now = new Date().getTime();
-        console.log("tradeline data loaded in " +  (now-checkpoint) + "ms");
-
-        //build grouping variable
-        var counter = 0;
-        tradelines = featureCollection();
-        data.features.forEach(function(d){
-
-          //define items
-          var tradeline = d; // defines type, properties and geometry
-
-          //create shortcuts for useful variables, e.g. gor lookup function definition below
-          var interference = d.properties.interference;
-
-          //add extra properties and rename variable
-          counter ++;
-          tradeline.properties.id = counter;
-
-          // push to grouping variables
-          tradelines.features.push(tradeline);
-          tradelinesLookup[counter] = tradeline;
-          tradelinesProperties[counter] = tradeline.properties;
-
-          //define lookup function
-          tradeline.properties.interferences = [];
-          if (interference){
-            if (!interferencesLookup[interference]){
-              interferences.push(interference);
-              interferencesLookup[interference] = interferences.length;
-            }
-            tradeline.properties.interferences.push(interferencesLookup[interference]);
-          }
-        });
-
-        tradelinesLoaded = true;
-        dataDone();
-
-      });
-    }
 
     loadMines();
-    loadPdv();
+    //loadPdv();
     loadRoadBlocks();
-    loadTradelines();
+    //loadTradelines();
 
   };
 
@@ -563,8 +363,6 @@ var Data = function(){
   }
 
   me.updateFilter = function(filter,item){
-    //console.log(filter);
-    //console.log(item);
 
     var values = [];
     filter.filterItems.forEach(function(item){
@@ -880,8 +678,56 @@ var Data = function(){
 
   // ---- PdV ----
 
-  me.getPdvs = function(){
-    return pdvs;
+
+
+	function loadPdv(next){
+		var url = "http://ipis.annexmap.net/api/data/cod/pdvall?key=ipis";
+
+		var checkpoint = new Date().getTime();
+		FetchService.json(url,function(data){
+			var now = new Date().getTime();
+			console.log("pdv data loaded in " +  (now-checkpoint) + "ms");
+
+			//build pdv
+			var counter = 0;
+			pdvs = featureCollection();
+			data.result.forEach(function(d){
+
+				var pdv = pdvsLookup[d.i];
+				if (pdv){
+
+				}else{
+					pdv = featurePoint(d.lt,d.ln);
+					counter ++;
+					pdv.properties.id = counter;
+					buildProperties(pdv,d);
+
+					pdvs.features.push(pdv);
+					pdvsLookup[d.i] = pdv;
+					pdvsProperties[counter] = pdv.properties;
+				}
+
+				pdv.properties.mineralString = d.m1 + (d.m2 ? (", " + d.m2) : "") + (d.m3 ? (", " + d.m3) : "");
+				pdv.properties.date = d.d;
+				pdv.properties.fLongitude = decimalToDegrees(d.ln);
+				pdv.properties.fLatitude = decimalToDegrees(d.lt);
+				pdv.properties.armedGroupString = d.a1 + (d.a2 ? (", " + d.a2) : "");
+
+			});
+
+			pdvLoaded = true;
+			if (next) next();
+		});
+	}
+
+  me.getPdvs = function(layer,show){
+	  if (pdvLoaded){
+		  return pdvs;
+	  }else{
+		  loadPdv(function(){
+			  if (show && layer.labelElm && !(layer.labelElm.classList.contains("inactive"))) MapService.addLayer(layer);
+		  });
+	  }
   };
 
   me.getPdvDetail = function(pdv){
@@ -891,8 +737,99 @@ var Data = function(){
 
   // ---- roadblocks ----
 
-  me.getRoadBlocks = function(){
-    return roadblocks;
+
+	function loadRoadBlocks(next){
+		var url = "http://ipis.annexmap.net/api/data/cod/roadblocksall?key=ipis";
+
+		var checkpoint = new Date().getTime();
+		FetchService.json(url,function(data){
+			var now = new Date().getTime();
+			console.log("roadblock data loaded in " +  (now-checkpoint) + "ms");
+
+			//build grouping variable
+			var counter = 0;
+			roadblocks = featureCollection();
+			data.result.forEach(function(d){
+
+				//define items
+				var roadblock = featurePoint(d.lt,d.ln);
+
+				//create shortcuts for useful variables, e.g. gor lookup function definition below
+				var type = d.t;
+				var barriere = d.b;
+
+				//add extra properties and rename variable
+				counter ++;
+				roadblock.properties.id = counter;
+				roadblock.properties.name = d.lp;
+				roadblock.properties.date = d.d;
+				roadblock.properties.operateur = d.o;
+				roadblock.properties.type = type;
+				roadblock.properties.typeFirst = type ? type.split(",")[0].trim() : null;
+				roadblock.properties.taxCible = d.tc;
+				roadblock.properties.taxMontant = d.tm;
+				roadblock.properties.barriere = d.b;
+				roadblock.properties.resourcesNaturelles = d.r;
+				roadblock.properties.source = d.s;
+
+				// push to grouping variables
+				roadblocks.features.push(roadblock);
+				roadblocksLookup[counter] = roadblock;
+				roadblocksProperties[counter] = roadblock.properties;
+
+				//define lookup function
+				roadblock.properties.operateurs = [];
+				roadblock.properties.types = [];
+				if (type){
+					var list = type.split(",");
+					list.forEach(function(s){
+						s = s.trim();
+						if (!operateursLookup[s]){
+							operateurs.push(s);
+							operateursLookup[s] = operateurs.length;
+						}
+						roadblock.properties.operateurs.push(operateursLookup[s]);
+					});
+				}
+				var hasResourcesNaturelles = false;
+				if (barriere){
+					list = barriere.split(",");
+					list.forEach(function(s){
+						s = s.trim();
+						if (!roadblockTypesLookup[s]){
+							roadblockTypes.push(s);
+							roadblockTypesLookup[s] = roadblockTypes.length;
+						}
+						roadblock.properties.types.push(roadblockTypesLookup[s]);
+						if (s.indexOf("naturelles")>0) hasResourcesNaturelles = true;
+					});
+				}
+				if (!hasResourcesNaturelles) roadblock.properties.resourcesNaturelles="";
+
+			});
+
+			operateurs.sort();
+			roadblockTypes.sort();
+
+			roadblocksLoaded = true;
+			if (next) next();
+
+		});
+	}
+
+
+
+  me.getRoadBlocks = function(layer,show){
+
+	  console.error(roadblocksLoaded);
+	  if (roadblocksLoaded){
+		  return roadblocks;
+	  }else{
+		  loadRoadBlocks(function(){
+			  console.error(roadblocksLoaded);
+			  if (show && layer.labelElm && !(layer.labelElm.classList.contains("inactive"))) MapService.addLayer(layer);
+		  });
+	  }
   };
 
   me.getRoadBlockDetail = function(roadBlock){
@@ -985,6 +922,52 @@ var Data = function(){
 
   // ----  concessions ----
 
+
+	function loadConcessions(next){
+		var url = "http://ipis.annexmap.net/api/geojson/cod_titres.php";
+		var checkpoint = new Date().getTime();
+		FetchService.json(url,function(data){
+			var now = new Date().getTime();
+			console.log("concession data loaded in " +  (now-checkpoint) + "ms");
+
+			//build grouping variable
+			var counter = 0;
+			concessions = featureCollection();
+			data.features.forEach(function(d){
+
+				//define items
+				var concession = d; // defines type, properties and geometry
+
+				//create shortcuts for useful variables, e.g. gor lookup function definition below
+				var group = d.properties.group;
+
+				//add extra properties and rename variable
+				counter ++;
+				concession.properties.id = counter;
+
+				// push to grouping variables
+				concessions.features.push(concession);
+				concessionsLookup[counter] = concession;
+
+				//define lookup function
+				concession.properties.groups = [];
+				if (group){
+					if (!groupsLookup[group]){
+						groups.push(group);
+						groupsLookup[group] = groups.length;
+					}
+					concession.properties.groups.push(groupsLookup[group]);
+				}
+			});
+
+			concessionsLoaded = true;
+
+			if (next) next();
+		});
+	}
+
+
+
   me.getConcessions = function(layer,show){
     if (concessionsLoaded){
       return concessions;
@@ -1067,8 +1050,60 @@ var Data = function(){
 
   // ----  tradelines ----
 
-  me.getTradelines = function(){
-    return tradelines;
+
+	function loadTradelines(next){
+		var url = "http://ipis.annexmap.net/api/geojson/cod_tradelines.php";
+
+		var checkpoint = new Date().getTime();
+		FetchService.json(url,function(data){
+			var now = new Date().getTime();
+			console.log("tradeline data loaded in " +  (now-checkpoint) + "ms");
+
+			//build grouping variable
+			var counter = 0;
+			tradelines = featureCollection();
+			data.features.forEach(function(d){
+
+				//define items
+				var tradeline = d; // defines type, properties and geometry
+
+				//create shortcuts for useful variables, e.g. gor lookup function definition below
+				var interference = d.properties.interference;
+
+				//add extra properties and rename variable
+				counter ++;
+				tradeline.properties.id = counter;
+
+				// push to grouping variables
+				tradelines.features.push(tradeline);
+				tradelinesLookup[counter] = tradeline;
+				tradelinesProperties[counter] = tradeline.properties;
+
+				//define lookup function
+				tradeline.properties.interferences = [];
+				if (interference){
+					if (!interferencesLookup[interference]){
+						interferences.push(interference);
+						interferencesLookup[interference] = interferences.length;
+					}
+					tradeline.properties.interferences.push(interferencesLookup[interference]);
+				}
+			});
+
+			tradelinesLoaded = true;
+			if (next) next();
+
+		});
+	}
+
+  me.getTradelines = function(layer,show){
+	  if (tradelinesLoaded){
+		  return tradelines;
+	  }else{
+		  loadTradelines(function(){
+			  if (show && layer.labelElm && !(layer.labelElm.classList.contains("inactive"))) MapService.addLayer(layer);
+		  });
+	  }
   };
 
   me.getTradelineDetail = function(tradeline){

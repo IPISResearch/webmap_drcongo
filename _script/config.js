@@ -90,7 +90,7 @@ var Config = {
         tradelines:{
           id: "tradelines",
           label: "Destination de minerais",
-          source: function(){return Data.getTradelines()},
+          source: function(layer,show){return Data.getTradelines(layer,show)},
           sourceId: "tradelines",
           display:{ // todo
             type: 'line',
@@ -121,7 +121,7 @@ var Config = {
             id: "pdv",
             filterId: 2,
             label: "Points de vente de minerais",
-            source: function(){return Data.getPdvs()},
+            source: function(layer,show){return Data.getPdvs(layer,show)},
             sourceId: "pdv",
             popupOnhover: "name",
             onClick: function(item){
@@ -142,7 +142,7 @@ var Config = {
         roadblocks: {
             id: "roadblocks",
             label: "Barrage routier",
-            source: function(){return Data.getRoadBlocks()},
+            source: function(layer,show){return Data.getRoadBlocks(layer,show)},
             sourceId: "roadblocks",
             popupOnhover: "name",
             onClick: function(item){
