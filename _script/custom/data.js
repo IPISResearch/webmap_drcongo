@@ -28,36 +28,36 @@ var Data = function(){
   var tradelineFilterFunctionsLookup = {};
 
   var mineralColors = {
-    "Or" : "#DAA520",
-    "Cassitérite" : "#FFA07A",
-    "Coltan" : "#1E90FF",
-    "Wolframite" : "#8b5928",
-    "Cuivre" : "#C87533",
-    "Diamant" : "#FFDEAD",
-    "Monazite" : "#9cc6de",
-    "Tourmaline" : "#006600",
-    "Améthyste" : "#9966CB",
-    "Argent" : "#cfcfcf",
-    "Bauxite" : "#961f21",
-    "Digénite" : "#4655b6",
+      "Or" : "#DAA520",
+      "Cassitérite" : "#FFA07A",
+      "Coltan" : "#1E90FF",
+      "Wolframite" : "#8b5928",
+      "Cuivre" : "#C87533",
+      "Diamant" : "#FFDEAD",
+      "Monazite" : "#9cc6de",
+      "Tourmaline" : "#006600",
+      "Améthyste" : "#9966CB",
+      "Argent" : "#cfcfcf",
+      "Bauxite" : "#961f21",
+      "Digénite" : "#4655b6",
 	  "Arsénopyrite": "#7491a4",
 	  "Plomp": "#878787",
 	  "Manganèse": "#d095c9"
   };
 
   var operateurColors = {
-    "Acteurs civils": "#eb4b8b",
-    "Acteurs étatiques": "#cc490c",
-    "Eléments indépendants": "#a87e7f",
-    "Forces de sécurité": "#520c07",
-    "Groupes armés": "#e80c0f"
+      "Acteurs civils": "#eb4b8b",
+      "Acteurs étatiques": "#cc490c",
+      "Eléments indépendants": "#a87e7f",
+      "Forces de sécurité": "#520c07",
+      "Groupes armés": "#e80c0f"
   };
 
   var qualifications = {
-    "not class" : 0,
-    "vert": 1,
-    "jaune": 2,
-    "rouge" : 3
+      "not class" : 0,
+      "vert": 1,
+      "jaune": 2,
+      "rouge" : 3
   };
 
   function loadConcessions(next){
@@ -666,6 +666,8 @@ var Data = function(){
         visit.formattedDate = parts[2] + "/" + parts[1] + "/" + parts[0];
         visit.mineralString = visit.minerals.join(", ");
 
+        var visitDateProject = Template.render("visitDateProject",visit);
+
         if (visit.mercury === 1) visit.mercuryString = "Non traité";
         if (visit.mercury === 2) visit.mercuryString = "Mercure";
 
@@ -688,8 +690,11 @@ var Data = function(){
             }
           });
           if (hasArmy) {
-            armyYears.push(year);
-            armyData[year] = Template.get("armydetailheader") + armyDetails.join("");
+			  if (armyYears.indexOf(year)<0){
+				  armyYears.push(year);
+				  armyData[year] = "";
+			  }
+            armyData[year] += visitDateProject + Template.get("armydetailheader") + armyDetails.join("");
           }
         }
 
@@ -699,7 +704,7 @@ var Data = function(){
             armyData[year] = "";
           }
 
-          armyData[year] += Template.render("noArmyPresent",visit);
+          armyData[year] += visitDateProject + Template.get("noArmyPresent");
         }
 
         if (visit.services.length){
@@ -720,7 +725,7 @@ var Data = function(){
           });
 
 
-          servicesData[year] += Template.render("servicesdetail",servicesFormatted);
+          servicesData[year] += visitDateProject + Template.render("servicesdetail",servicesFormatted);
         }
 
         var hasWomanChildren = false;
@@ -733,7 +738,7 @@ var Data = function(){
             womanChildrenYears.push(year);
             womanChildrenData[year] = "";
           }
-          womanChildrenData[year] += Template.render("womanChildrenDetail",visit.womanchildren);
+          womanChildrenData[year] += visitDateProject + Template.render("womanChildrenDetail",visit.womanchildren);
         }
 
 
@@ -746,7 +751,7 @@ var Data = function(){
 				  substanceData[year] = "";
 			  }
 
-			  substanceData[year] += Template.render("substancesdetail",visit);
+			  substanceData[year] += visitDateProject + Template.render("substancesdetail",visit);
 		  }
 
       });

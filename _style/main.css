@@ -653,6 +653,16 @@ body.disclaimer #disclaimer, body.info #info{
     padding: 10px;
 }
 
+.yearpanel.captioned{
+    padding-top: 0;
+}
+
+.subtabheader{
+    font-size: 12px;
+    color: gray;
+    padding: 10px 10px 4px 10px;
+}
+
 .serviceline{
     padding: 2px;
     border-bottom: 1px solid #ebebeb;

@@ -139,8 +139,8 @@
         </span>
         {{/picture}}
         <div class="{{tabButton1}} first" onclick="UI.activateDashboardTab(1,this)">Information</div>
-        <div class="{{tabButton2}}" onclick="UI.activateDashboardTab(3,this)">Substances</div>
-        <div class="{{tabButton3}}" onclick="UI.activateDashboardTab(2,this)">Présence armée</div>
+        <div class="{{tabButton2}}" onclick="UI.activateDashboardTab(2,this)">Substances</div>
+        <div class="{{tabButton3}}" onclick="UI.activateDashboardTab(3,this)">Présence armée</div>
         <div class="{{tabButton4}}" onclick="UI.activateDashboardTab(4,this)">Services</div>
         <div class="{{tabButton5}}" onclick="UI.activateDashboardTab(5,this)">Femmes et enfants</div>
     </div>
@@ -150,7 +150,7 @@
             <div class="tab tab1 {{tabPanel1}}">
                 {{{infoTab}}}
             </div>
-            <div class="tab tab3 {{tabPanel2}}">
+            <div class="tab tab2 {{tabPanel2}}">
                 {{{substancesTab}}}
             </div>
             <div class="tab tab3 {{tabPanel3}}">
@@ -457,7 +457,7 @@
 <!--/armydetail-->
 
 <!--servicesdetail-->
-<div class="yearpanel">
+<div class="yearpanel captioned">
 {{#.}}
 <div class="serviceline {{{className}}}">{{{name}}}</div>
 {{/.}}
@@ -525,7 +525,7 @@
 
 
 <!--substancesdetail-->
-<div class="yearpanel">
+<div class="yearpanel captioned">
     <table border="0" cellspacing="0" cellpadding="2" class="mineralroutes">
         <tr>
             <th>Substance</th>
@@ -559,5 +559,10 @@
 <!--/lightbox-->
 
 <!--noArmyPresent-->
-    <div class="subtabcontent">{{{formattedDate}}}: Pas de présence observé.<br><br></div>
+    <div class="subtabcontent">Pas de présence observé.<br><br></div>
 <!--/noArmyPresent-->
+
+
+<!--visitDateProject-->
+    <div class="subtabheader">{{{formattedDate}}}: {{{project}}}</div>
+<!--/visitDateProject-->
