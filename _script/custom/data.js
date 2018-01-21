@@ -146,7 +146,7 @@ var Data = function(){
               pits: d.p,
               pitsType: d.pt,
               depth: d.dp,
-              soil: d.sl,
+              // soil: d.sl,
               qualification: d.q,
               source: d.s,
               project: d.pj,

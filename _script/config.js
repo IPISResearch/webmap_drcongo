@@ -78,7 +78,7 @@ var Config = {
                 canToggle: true,
                 size:{
                   property: 'workergroup',
-                  interval: [[0, 2.5], [1, 3], [2, 4], [3, 6]]
+                  interval: [[0, 3], [1, 3.5], [2, 4.5], [3, 6.5]]
                 },
                 color: {
                   property: "mineral",
