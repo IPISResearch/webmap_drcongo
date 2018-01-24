@@ -141,7 +141,7 @@ var Config = {
         },
         roadblocks: {
             id: "roadblocks",
-            label: "Barrage routier",
+            label: "Barrières routières",
             source: function(layer,show){return Data.getRoadBlocks(layer,show)},
             sourceId: "roadblocks",
             popupOnhover: "name",
@@ -173,8 +173,8 @@ var Config = {
           },
           filterId: 3,
           filters:[
-              {id: "op", index: 31, label: "Operateurs",items: Data.getOperateurs,onFilter: Data.updateRoadblockFilter,filterProperty:"operateurs",array:true},
-              {id: "bar", index: 32, label: "Barriere",items: Data.getRoadblockTypes,onFilter: Data.updateRoadblockFilter,filterProperty: "types",array:true}
+              {id: "op", index: 31, label: "Type d'operateurs",items: Data.getOperateurs,onFilter: Data.updateRoadblockFilter,filterProperty:"operateurs",array:true},
+              {id: "bar", index: 32, label: "Type de barriere",items: Data.getRoadblockTypes,onFilter: Data.updateRoadblockFilter,filterProperty: "types",array:true}
           ]
         },
         concessions:{
