@@ -26,7 +26,7 @@ var Config = {
     layers:{
         visits: {
             id: "mines",
-            label: "Sites miniers artisanales",
+            label: "Sites miniers artisanaux",
             source: function(){return Data.getMines()},
             sourceId: "mines",
             popupOnhover: "name",
@@ -50,7 +50,7 @@ var Config = {
                 {id: "minerals", index: 2, label: "Substances minérales",items: Data.getMinerals,onFilter: Data.updateFilter,filterProperty: "minerals",array:true,maxVisibleItems: 5},
                 {id: "armedpresence", index: 4,label: "Présence armée",
                 items: Data.getArmyGroups,onFilter: Data.updateFilter,filterProperty: "armygroups",array:true},
-                {id: "services", index: 5, label: "Présence services<br>&ensp;<small>(enrégistré à partir de 2015)</small>",
+                {id: "services", index: 5, label: "Présence services<br>&ensp;<small>(enregistrée à partir de 2015)</small>",
                 items:Data.getServices,onFilter: Data.updateFilter,filterProperty: "services",array:true,maxVisibleItems:7},
                 {id: "qualification", index: 6, label: "Qualification ministérielle<br>&ensp;<small>(source: BGR, avril 2017)</small>",items:[
                   {label: "Vert", value:1 , color: "#29b012"},
@@ -64,7 +64,7 @@ var Config = {
                   {label: "50 à 500", value:2},
                   {label: "Plus que 500", value:3}
                 ],onFilter: Data.updateFilter,filterProperty: "workergroup"},
-                {id: "mercury", index: 3, label: "Traitement de l’or au mercure<br>&ensp;<small>(enrégistré à partir de 2015)</small>",
+                {id: "mercury", index: 3, label: "Traitement de l’or au mercure<br>&ensp;<small>(enregistré à partir de 2015)</small>",
                 items: [
                   {label: "Traitement au mercure", value:2},
                   {label: "Pas de traitement au mercure", value:1},
@@ -89,7 +89,7 @@ var Config = {
         },
         tradelines:{
           id: "tradelines",
-          label: "Destination de minerais",
+          label: "Destination des minerais",
           source: function(layer,show){return Data.getTradelines(layer,show)},
           sourceId: "tradelines",
           display:{ // todo
@@ -97,8 +97,8 @@ var Config = {
             lineColor: {
               property: "interference",
               data: [
-                {label: "Pas d'ingérence", value: "0", color : "#012f66"},
-                {label: "Ingérence", value: "1", color: "#660401"}
+                {label: "Pas d'ingérence armée", value: "0", color : "#012f66"},
+                {label: "Ingérence armée", value: "1", color: "#660401"}
               ]
             },
             lineOpacity: 0.1,
@@ -120,7 +120,7 @@ var Config = {
         sellingpoints: {
             id: "pdv",
             filterId: 2,
-            label: "Points de vente de minerais",
+            label: "Points de vente des minerais",
             source: function(layer,show){return Data.getPdvs(layer,show)},
             sourceId: "pdv",
             popupOnhover: "name",
@@ -174,7 +174,7 @@ var Config = {
           filterId: 3,
           filters:[
               {id: "op", index: 31, label: "Type d'operateurs",items: Data.getOperateurs,onFilter: Data.updateRoadblockFilter,filterProperty:"operateurs",array:true},
-              {id: "bar", index: 32, label: "Type de barriere",items: Data.getRoadblockTypes,onFilter: Data.updateRoadblockFilter,filterProperty: "types",array:true}
+              {id: "bar", index: 32, label: "Type de barrière",items: Data.getRoadblockTypes,onFilter: Data.updateRoadblockFilter,filterProperty: "types",array:true}
           ]
         },
         concessions:{

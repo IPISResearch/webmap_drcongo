@@ -652,7 +652,18 @@ var Data = function(){
   };
 
   me.getArmyGroups = function(){
-    return armyGroups;
+    var result = armyGroups;
+
+    var order = ["Pas de présence armée constatée", "FARDC - Pas de données sur les ingérences", "FARDC - Pas d’ingérence constatée", "FARDC - Éléments indiciplinés", "Groupe armé local", "Groupe armé étranger"].reverse();
+
+    result.forEach(function(arm){
+      arm.index = order.indexOf(arm.label)
+    });
+
+    return result.sort(function(a, b) {
+      return a.index < b.index ? 1 : -1;
+    });
+
   };
 
   me.getServices = function(){
@@ -665,8 +676,8 @@ var Data = function(){
     });
 
     return result.sort(function(a, b) {
-		return a.index < b.index ? 1 : -1;
-	});
+		    return a.index < b.index ? 1 : -1;
+      });
 
   };
 
