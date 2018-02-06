@@ -14,6 +14,8 @@ var UI = function(){
         me.buildMenu();
 
 		document.body.classList.remove("loading");
+
+        setupYearSlider();
         //Chart.init();
     };
 
@@ -371,6 +373,80 @@ var UI = function(){
             }
             //console.error(elm.parentElement);
         }
+    };
+
+    var setupYearSlider = function(){
+        var start = document.getElementById("sliderstart");
+        var end = document.getElementById("sliderend");
+        var bar = document.getElementById("sliderprogress");
+
+        start.left = 2;
+        start.min = 2;
+
+        end.left = 194;
+        end.max = 194;
+
+        var yearContainer = document.getElementById("slideryears");
+        var years =  Data.getYears();
+        var w = ((end.max + 20) / years.length);
+        years.forEach(function(year,index){
+            var d = div("year",year);
+            d.id = "sy" + year;
+            d.style.left = Math.floor(index*w) + "px";
+            yearContainer.appendChild(d);
+        });
+
+
+        var isDragging;
+        var dragElement;
+
+        setupDrag(start);
+        setupDrag(end);
+
+
+        document.body.addEventListener("mousemove",function(e){
+            if (isDragging){
+                e.preventDefault();
+                var delta = e.pageX - dragElement.startX;
+                var target = dragElement.startLeft + delta;
+                if (target < dragElement.min) target=dragElement.min;
+                if (target > dragElement.max) target=dragElement.max;
+                dragElement.left = target;
+                dragElement.style.left = target + "px";
+                updateBar();
+            }
+        });
+
+        document.body.addEventListener("mouseup",function(){
+            if (isDragging){
+                isDragging = false;
+                dragElement.classList.remove("active");
+                updateMinMax();
+            }
+        });
+
+        function updateBar(){
+            bar.style.width = Math.max((end.left - start.left),2) + "px";
+            bar.style.left = (start.left-2) + "px";
+        }
+
+        function updateMinMax(){
+            start.max = end.left-2;
+            end.min = start.left+2;
+        }
+
+        function setupDrag(elm){
+            updateMinMax();
+            elm.onmousedown = function(e){
+                dragElement = elm;
+                elm.startX = e.pageX;
+                elm.startLeft = elm.left;
+                elm.classList.add("active");
+                isDragging = true;
+            };
+
+        }
+
     };
 
     function div(className,innerHTML){

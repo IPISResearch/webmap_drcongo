@@ -46,7 +46,7 @@ var Config = {
             },
             filterId: 1,
             filters:[
-                {id: "years", index: 1, label: "Année de dernière visite",items: Data.getYears,onFilter: Data.updateFilter,filterProperty:"year",maxVisibleItems:5},
+                //{id: "years", index: 1, label: "Année de dernière visite",items: Data.getYears,onFilter: Data.updateFilter,filterProperty:"year",maxVisibleItems:5},
                 {id: "minerals", index: 2, label: "Substances minérales",items: Data.getMinerals,onFilter: Data.updateFilter,filterProperty: "minerals",array:true,maxVisibleItems: 5},
                 {id: "armedpresence", index: 4,label: "Présence armée",
                 items: Data.getArmyGroups,onFilter: Data.updateFilter,filterProperty: "armygroups",array:true},

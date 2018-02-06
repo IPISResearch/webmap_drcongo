@@ -715,3 +715,115 @@ body.disclaimer #disclaimer, body.info #info{
     background-repeat: no-repeat;
     background-position: center center;
 }
+
+#yearslider{
+    height: 64px;
+    background-color: white;
+    width: 210px;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+#yearslider .years{
+    position: relative;
+    height: 20px;
+    user-select: none;
+}
+
+#yearslider .year{
+    position: absolute;
+    transform: rotate(-60deg);
+    font-size: 11px;
+    margin-top: 8px;
+    user-select: none;
+}
+
+#yearslider .year:before{
+    position: absolute;
+    content: " ";
+    height: 8px;
+    border-left: 1px solid #8e8e8e;
+    transform: rotate(60deg);
+    top: 9px;
+    left: -5px;
+}
+
+#yearslider .bar{
+    background-color: white;
+    border: 1px solid silver;
+    height: 8px;
+    width: 194px;
+    position: absolute;
+    left: 8px;
+    bottom: 18px;
+}
+
+#yearslider #sliderprogress{
+    position: absolute;
+    background-color: #58a854;
+    left: 0;
+    width: 100%;
+    top:0;
+    bottom: 0;
+}
+
+#yearslider .handle{
+    position: absolute;
+    z-index: 10;
+    background: #eee;
+    display: block;
+    height: 10px;
+    width: 14px;
+    bottom: 0;
+    border: 1px solid #777;
+}
+
+#yearslider .handle:before,
+#yearslider .handle:after{
+    content: "";
+    height: 0;
+    left: 0;
+    position: absolute;
+    width: 0;
+    border: solid transparent;
+}
+
+#yearslider .handle:after{
+    border-bottom: 10px solid #eee;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    margin-left: -1px;
+    top: -12px;
+}
+
+#yearslider .handle:before {
+    border-bottom: 10px solid #5e5e5e;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    margin-left: -1px;
+    top: -13px;
+}
+
+#yearslider .handle.start{
+    left: 2px;
+}
+
+#yearslider .handle.end{
+    left: 194px;
+}
+
+#yearslider .handle:hover,
+#yearslider .handle.active{
+    background: #58a854;
+    cursor: pointer;
+}
+
+#yearslider .handle:hover:after,
+#yearslider .handle.active:after{
+    border-bottom-color: #58a854;
+}
+
+#yearslider .handle.active{
+    z-index: 20;
+}
+
