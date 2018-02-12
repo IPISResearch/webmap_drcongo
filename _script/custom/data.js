@@ -205,7 +205,7 @@ var Data = function(){
             }
             var phone = d.ph;
             if (phone){
-              phone = "<b>Couverture téléphone</b>: " + phone;
+              phone = "<b>Couverture téléphonique</b>: " + phone;
               if (d.pc) phone += " (<small>" + d.pc + "</small>)";
               visit.services.push(phone);
             }

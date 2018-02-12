@@ -188,7 +188,7 @@ var Config = {
                       {label: "ZIN", value: "ZIN", color: "#ae000e"}
                   ], onFilter: Data.updateConcessionFilter,filterProperty: "group"}
             ],
-            label: "Titres miniers<br>&ensp;<small>(source: CAMI, 2017)</small>",
+            label: "Titres miniers<br>&ensp;<small>(source: CAMI, 2018)</small>",
             source: function(layer,show){return Data.getConcessions(layer,show)},
             sourceId: "concessions",
             popupOnhover: "name",
