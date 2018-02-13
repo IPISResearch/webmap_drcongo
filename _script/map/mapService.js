@@ -86,6 +86,8 @@ var MapService = (function() {
         updateHash("style loaded");
       }
 
+      EventBus.trigger(EVENT.mapStyleLoaded);
+
     });
 
   };
@@ -337,6 +339,12 @@ var MapService = (function() {
       Config.baselayers.forEach(function(layer){
         if (layer.active) baseLayer = layer.index;
       });
+
+      var yearClamp = Data.getYearClamp();
+      if (yearClamp.start){
+        filterIds.push("1." + (yearClamp.start-2000) + "." + (yearClamp.end-2000));
+      }
+
 
       for (var key in Config.layers){
         if (Config.layers.hasOwnProperty(key)){

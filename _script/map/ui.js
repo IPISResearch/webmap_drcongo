@@ -371,7 +371,6 @@ var UI = function(){
             if (target){
                 target.classList.toggle("contracted",elm.classList.contains("contracted"));
             }
-            //console.error(elm.parentElement);
         }
     };
 
@@ -380,28 +379,59 @@ var UI = function(){
         var end = document.getElementById("sliderend");
         var bar = document.getElementById("sliderprogress");
 
-        start.left = 2;
-        start.min = 2;
+        start.left = 1;
+        start.min = 1;
 
-        end.left = 194;
-        end.max = 194;
+        end.left = 196;
+        end.max = 196;
 
         var yearContainer = document.getElementById("slideryears");
-        var years =  Data.getYears();
-        var w = ((end.max + 20) / years.length);
+        var years =  Data.getYears().reverse();
+        var yearsElements = [];
+        var w = ((end.max + 18) / years.length);
+
+        var currentStartYear = years[0];
+        var currentEndYear = years[years.length-1];
+
+
         years.forEach(function(year,index){
             var d = div("year",year);
             d.id = "sy" + year;
             d.style.left = Math.floor(index*w) + "px";
+            d.year = parseInt(year);
             yearContainer.appendChild(d);
+            yearsElements.push(d);
         });
 
 
         var isDragging;
         var dragElement;
+        var updateTimeout;
 
         setupDrag(start);
         setupDrag(end);
+
+        // check if the yearslider is in the URL filter
+        if (Config.initfilterIds && Config.initfilterIds[0] && Config.initfilterIds[0].substr(0,2) == "1."){
+            var initYears = Config.initfilterIds[0].substr(2).split(".");
+            if (initYears.length == 2){
+                currentStartYear = parseInt(initYears[0]) + 2000;
+                currentEndYear = parseInt(initYears[1]) + 2000;
+                var startYear = years.indexOf(currentStartYear);
+                var endYear = years.indexOf(currentEndYear);
+                if (startYear>=0 && endYear>=0){
+                    start.left = Math.round(startYear*w) + 1;
+                    start.style.left = start.left + "px";
+                    end.left = Math.round(endYear*w) + 3;
+                    end.style.left = end.left + "px";
+
+                    updateBar();
+                    EventBus.on(EVENT.mapStyleLoaded,function(){
+                        Data.updateYearFilter(currentStartYear,currentEndYear);
+                    });
+                }
+            }
+        }
 
 
         document.body.addEventListener("mousemove",function(e){
@@ -421,6 +451,7 @@ var UI = function(){
             if (isDragging){
                 isDragging = false;
                 dragElement.classList.remove("active");
+                updateYears();
                 updateMinMax();
             }
         });
@@ -428,6 +459,18 @@ var UI = function(){
         function updateBar(){
             bar.style.width = Math.max((end.left - start.left),2) + "px";
             bar.style.left = (start.left-2) + "px";
+
+            // use a timeout to avoid flooding
+            clearTimeout(updateTimeout);
+            setTimeout(function(){
+                var startYear = years[Math.round((start.left-2)/w)];
+                var endYear = years[Math.round((end.left-2)/w)];
+                yearsElements.forEach(function(elm){
+                    var passed = (elm.year>=startYear && elm.year<=endYear);
+                    elm.classList.toggle("inactive",!passed);
+                })
+            },100);
+
         }
 
         function updateMinMax(){
@@ -435,10 +478,40 @@ var UI = function(){
             end.min = start.left+2;
         }
 
+        function updateYears(){
+            var startYear = Math.round((start.left-2)/w);
+            start.left = Math.round(startYear*w) + 1;
+            start.style.left = start.left + "px";
+
+            var endYear = Math.round((end.left-2)/w);
+            end.left = Math.round(endYear*w) + 3;
+            end.style.left = end.left + "px";
+
+            updateBar();
+
+            if (years[startYear] !== currentStartYear){
+                currentStartYear = years[startYear];
+                UI.hideDashboard();
+                Data.updateYearFilter(currentStartYear,currentEndYear);
+            }
+            if (years[endYear] !== currentEndYear){
+                currentEndYear = years[endYear];
+                UI.hideDashboard();
+                Data.updateYearFilter(currentStartYear,currentEndYear);
+            }
+
+        }
+
         function setupDrag(elm){
             updateMinMax();
             elm.onmousedown = function(e){
                 dragElement = elm;
+                dragElement.classList.add("ontop");
+                if (dragElement.classList.contains("start")){
+                    end.classList.remove("ontop");
+                }else{
+                    start.classList.remove("ontop");
+                }
                 elm.startX = e.pageX;
                 elm.startLeft = elm.left;
                 elm.classList.add("active");

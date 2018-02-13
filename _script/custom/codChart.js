@@ -10,7 +10,7 @@ var CodChart = function(){
 
         var mines = Data.getFilteredMines();
 
-        var max = Data.getMines().features.length;
+        var max = Data.getMinesTotal();
         var current = mines.length;
 
         document.getElementById("chart_current").innerHTML = current;

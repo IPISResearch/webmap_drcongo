@@ -738,6 +738,10 @@ body.disclaimer #disclaimer, body.info #info{
     user-select: none;
 }
 
+#yearslider .year.inactive{
+    opacity: 0.5;
+}
+
 #yearslider .year:before{
     position: absolute;
     content: " ";
@@ -752,7 +756,7 @@ body.disclaimer #disclaimer, body.info #info{
     background-color: white;
     border: 1px solid silver;
     height: 8px;
-    width: 194px;
+    width: 196px;
     position: absolute;
     left: 8px;
     bottom: 18px;
@@ -760,7 +764,7 @@ body.disclaimer #disclaimer, body.info #info{
 
 #yearslider #sliderprogress{
     position: absolute;
-    background-color: #58a854;
+    background-color: #4b8005;
     left: 0;
     width: 100%;
     top:0;
@@ -776,6 +780,10 @@ body.disclaimer #disclaimer, body.info #info{
     width: 14px;
     bottom: 0;
     border: 1px solid #777;
+}
+
+#yearslider .handle.ontop{
+    z-index: 12;
 }
 
 #yearslider .handle:before,
@@ -805,22 +813,22 @@ body.disclaimer #disclaimer, body.info #info{
 }
 
 #yearslider .handle.start{
-    left: 2px;
+    left: 1px;
 }
 
 #yearslider .handle.end{
-    left: 194px;
+    left: 196px;
 }
 
 #yearslider .handle:hover,
 #yearslider .handle.active{
-    background: #58a854;
+    background: #4b8005;
     cursor: pointer;
 }
 
 #yearslider .handle:hover:after,
 #yearslider .handle.active:after{
-    border-bottom-color: #58a854;
+    border-bottom-color: #4b8005;
 }
 
 #yearslider .handle.active{
