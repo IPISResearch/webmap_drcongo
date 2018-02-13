@@ -777,6 +777,13 @@ body.disclaimer #disclaimer, body.info #info{
     bottom: 0;
 }
 
+#yearslider #sliderprogress:hover,
+#yearslider #sliderprogress.baractive,
+#yearslider #sliderprogress.active{
+    background-color: #70b305;
+    cursor: pointer;
+}
+
 #yearslider .handle{
     position: absolute;
     z-index: 10;
@@ -835,6 +842,14 @@ body.disclaimer #disclaimer, body.info #info{
 #yearslider .handle:hover:after,
 #yearslider .handle.active:after{
     border-bottom-color: #4b8005;
+}
+
+#yearslider .handle.baractive{
+    background: #70b305;
+}
+
+#yearslider .handle.baractive:after{
+    border-bottom-color: #70b305;
 }
 
 #yearslider .handle.active{

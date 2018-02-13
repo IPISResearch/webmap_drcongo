@@ -396,6 +396,11 @@ var UI = function(){
         end.left = 196;
         end.max = 196;
 
+        bar.left = 0;
+        bar.width = 196;
+        bar.min=0;
+        bar.max = 196;
+
         var yearContainer = document.getElementById("slideryears");
         var years =  Data.getYears().reverse();
         var yearsElements = [];
@@ -437,6 +442,7 @@ var UI = function(){
                     end.style.left = end.left + "px";
 
                     updateBar();
+                    updateMinMax();
                     EventBus.on(EVENT.mapStyleLoaded,function(){
                         Data.updateYearFilter(currentStartYear,currentEndYear);
                     });
@@ -454,7 +460,11 @@ var UI = function(){
                 if (target > dragElement.max) target=dragElement.max;
                 dragElement.left = target;
                 dragElement.style.left = target + "px";
-                updateBar();
+                if (dragElement.id == "sliderprogress"){
+                    updateHandles();
+                }else{
+                    updateBar();
+                }
             }
         });
 
@@ -462,14 +472,19 @@ var UI = function(){
             if (isDragging){
                 isDragging = false;
                 dragElement.classList.remove("active");
+                start.classList.remove("baractive");
+                end.classList.remove("baractive");
                 updateYears();
                 updateMinMax();
             }
         });
 
         function updateBar(){
-            bar.style.width = Math.max((end.left - start.left),2) + "px";
-            bar.style.left = (start.left-2) + "px";
+            bar.width = Math.max((end.left - start.left),2);
+            bar.left = start.left-2;
+
+            bar.style.width = bar.width + "px";
+            bar.style.left = bar.left + "px";
 
             // use a timeout to avoid flooding
             clearTimeout(updateTimeout);
@@ -481,12 +496,30 @@ var UI = function(){
                     elm.classList.toggle("inactive",!passed);
                 })
             },100);
+        }
 
+        function updateHandles(){
+            start.left = bar.left+2;
+            end.left = bar.left+bar.width+1;
+            start.style.left = start.left + "px";
+            end.style.left = end.left + "px";
+
+            // use a timeout to avoid flooding
+            clearTimeout(updateTimeout);
+            setTimeout(function(){
+                var startYear = years[Math.round((start.left-2)/w)];
+                var endYear = years[Math.round((end.left-2)/w)];
+                yearsElements.forEach(function(elm){
+                    var passed = (elm.year>=startYear && elm.year<=endYear);
+                    elm.classList.toggle("inactive",!passed);
+                })
+            },100);
         }
 
         function updateMinMax(){
             start.max = end.left-2;
             end.min = start.left+2;
+            bar.max = 196 - bar.width;
         }
 
         function updateYears(){
@@ -528,6 +561,30 @@ var UI = function(){
                 elm.classList.add("active");
                 isDragging = true;
             };
+
+        }
+
+        bar.onmouseover = function(){
+            if (!isDragging){
+                start.classList.add("baractive");
+                end.classList.add("baractive");
+            }
+
+        };
+
+        bar.onmousedown = function(e){
+            dragElement = bar;
+            bar.startX = e.pageX;
+            bar.startLeft = bar.left;
+            bar.classList.add("active");
+            isDragging = true;
+        };
+
+        bar.onmouseout = function(){
+            if (!isDragging){
+                start.classList.remove("baractive");
+                end.classList.remove("baractive");
+            }
 
         }
 
