@@ -137,6 +137,12 @@ var Data = function () {
                     console.log("minedata loaded in " + (now - checkpoint) + "ms");
                     checkpoint = now;
 
+                    armyGroups = [];
+                    armyGroups.push({
+                        label: "Pas de présence armée constatée",
+                        value: 0
+                    });
+
                     mines.baseData = data.result;
                     buildMineData(mines.collection);
                     buildMineData(mines.clamped);
@@ -165,12 +171,6 @@ var Data = function () {
         target.list = featureCollection();
         target.lookup = {};
         target.properties = {};
-
-        armyGroups = [];
-        armyGroups.push({
-            label: "Pas de présence armée constatée",
-            value: 0
-        });
 
         mines.baseData.forEach(function (d,index) {
 
@@ -716,6 +716,7 @@ var Data = function () {
 
     me.getArmyGroups = function () {
         var result = armyGroups;
+        console.error(armyGroups);
 
         var order = ["Pas de présence armée constatée", "FARDC - Pas de données sur les ingérences", "FARDC - Pas d’ingérence constatée", "FARDC - Éléments indiciplinés", "Groupe armé local", "Groupe armé étranger"].reverse();
 
