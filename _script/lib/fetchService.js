@@ -4,7 +4,7 @@ var FetchService = (function() {
 
 	var me = {};
 
-	var defaultAjaxTimeout = 30000;
+	var defaultAjaxTimeout = 60000;
 
 	me.get = function(url,next){
 		me.ajax({
@@ -97,7 +97,9 @@ var FetchService = (function() {
 		};
 
 		xhr.ontimeout = function (e) {
-			console.error(log.error() + "timeout while getting " + url);
+			console.error("timeout while getting " + url);
+			xhr.hasTimeOut = true;
+			config.error(xhr)
 		};
 
 		xhr.open(method, url, true);

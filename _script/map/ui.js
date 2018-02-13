@@ -26,6 +26,17 @@ var UI = function(){
 		document.body.classList.add("loading");
     };
 
+    me.showLoaderTimeOut = function(){
+        menuContainer = menuContainer || document.getElementById("menu");
+        menuContainer.innerHTML = Template.get("timeout");
+    };
+
+    me.showLoaderError = function(){
+        menuContainer = menuContainer || document.getElementById("menu");
+        menuContainer.className = "preloader big";
+        menuContainer.innerHTML = Template.get("loadererror");
+    };
+
     me.showDisclaimer = function(firstUse){
 
         if (firstUse){

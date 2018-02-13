@@ -10,6 +10,7 @@ body,html{
     padding: 0;
     font-family: arial,helvetica, sans-serif;
     font-size: 13px;
+    background-color: #f4f4f4;
 }
 
 body{
@@ -68,6 +69,11 @@ body.dashboard #menu{
     bottom: auto;
     right: 50%;
     margin-right: -125px;
+}
+
+#menu.preloader.big{
+    height: auto;
+    padding: 20px;
 }
 
 #menu.active{

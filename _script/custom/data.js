@@ -5,6 +5,8 @@ var Data = function () {
 
     var startYear;
     var endYear;
+    var timeOutCount = 0;
+    var maxTimeOutRetry = 3;
 
     var mines = {
         collection: {}, // holds the complete list of mines, not filtered
@@ -115,29 +117,45 @@ var Data = function () {
         function loadMines() {
             var url = "http://ipis.annexmap.net/api/data/cod/all?key=ipis";
 
-            FetchService.json(url, function (data) {
-                now = new Date().getTime();
-                console.log("minedata loaded in " + (now - checkpoint) + "ms");
-                checkpoint = now;
+            FetchService.json(url, function (data,xhr) {
 
-                mines.baseData = data.result;
-                buildMineData(mines.collection);
-                buildMineData(mines.clamped);
+                if (!data){
+                    console.error("Failed loading mines");
+                    if (xhr.hasTimeOut){
+                        timeOutCount++;
+                        if (timeOutCount<maxTimeOutRetry){
+                            UI.showLoaderTimeOut();
+                            loadMines();
+                        }else{
+                            UI.showLoaderError();
+                        }
+                    }else{
+                        UI.showLoaderError();
+                    }
+                }else{
+                    now = new Date().getTime();
+                    console.log("minedata loaded in " + (now - checkpoint) + "ms");
+                    checkpoint = now;
 
-                mines.filtered.list = mines.collection.list.features;
-                mines.total=mines.collection.list.features.length;
-                armyGroups.sort(function (a, b) {
-                    return (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0);
-                });
-                mines.loaded = true;
-                dataDone();
+                    mines.baseData = data.result;
+                    buildMineData(mines.collection);
+                    buildMineData(mines.clamped);
+
+                    mines.filtered.list = mines.collection.list.features;
+                    mines.total=mines.collection.list.features.length;
+                    armyGroups.sort(function (a, b) {
+                        return (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0);
+                    });
+                    mines.loaded = true;
+                    dataDone();
+                }
             });
         }
 
 
         loadMines();
         //loadPdv();
-        loadRoadBlocks();
+        loadRoadBlocks(dataDone);
         //loadTradelines();
 
     };
@@ -797,78 +815,93 @@ var Data = function () {
         var url = "http://ipis.annexmap.net/api/data/cod/roadblocksall?key=ipis";
 
         var checkpoint = new Date().getTime();
-        FetchService.json(url, function (data) {
-            var now = new Date().getTime();
-            console.log("roadblock data loaded in " + (now - checkpoint) + "ms");
+        FetchService.json(url, function (data,xhr) {
 
-            //build grouping variable
-            var counter = 0;
-            roadblocks = featureCollection();
-            data.result.forEach(function (d) {
-
-                //define items
-                var roadblock = featurePoint(d.lt, d.ln);
-
-                //create shortcuts for useful variables, e.g. gor lookup function definition below
-                var type = d.t;
-                var barriere = d.b;
-
-                //add extra properties and rename variable
-                counter++;
-                roadblock.properties.id = counter;
-                roadblock.properties.name = d.lp;
-                roadblock.properties.date = d.d;
-                roadblock.properties.operateur = d.o;
-                roadblock.properties.type = type;
-                roadblock.properties.typeFirst = type ? type.split(",")[0].trim() : null;
-                roadblock.properties.taxCible = d.tc;
-                roadblock.properties.taxMontant = d.tm;
-                roadblock.properties.barriere = d.b;
-                roadblock.properties.resourcesNaturelles = d.r;
-                roadblock.properties.source = d.s;
-
-                // push to grouping variables
-                roadblocks.features.push(roadblock);
-                roadblocksLookup[counter] = roadblock;
-                roadblocksProperties[counter] = roadblock.properties;
-
-                //define lookup function
-                roadblock.properties.operateurs = [];
-                roadblock.properties.types = [];
-                if (type) {
-                    var list = type.split(",");
-                    list.forEach(function (s) {
-                        s = s.trim();
-                        if (!operateursLookup[s]) {
-                            operateurs.push(s);
-                            operateursLookup[s] = operateurs.length;
-                        }
-                        roadblock.properties.operateurs.push(operateursLookup[s]);
-                    });
+            if (!data){
+                console.error("Failed loading roadblocks");
+                if (xhr.hasTimeOut){
+                    timeOutCount++;
+                    if (timeOutCount<maxTimeOutRetry){
+                        UI.showLoaderTimeOut();
+                        loadRoadBlocks(next);
+                    }else{
+                        UI.showLoaderError();
+                    }
+                }else{
+                    UI.showLoaderError();
                 }
-                var hasResourcesNaturelles = false;
-                if (barriere) {
-                    list = barriere.split(",");
-                    list.forEach(function (s) {
-                        s = s.trim();
-                        if (!roadblockTypesLookup[s]) {
-                            roadblockTypes.push(s);
-                            roadblockTypesLookup[s] = roadblockTypes.length;
-                        }
-                        roadblock.properties.types.push(roadblockTypesLookup[s]);
-                        if (s.indexOf("naturelles") > 0) hasResourcesNaturelles = true;
-                    });
-                }
-                if (!hasResourcesNaturelles) roadblock.properties.resourcesNaturelles = "";
+            }else{
+                var now = new Date().getTime();
+                console.log("roadblock data loaded in " + (now - checkpoint) + "ms");
 
-            });
+                //build grouping variable
+                var counter = 0;
+                roadblocks = featureCollection();
+                data.result.forEach(function (d) {
 
-            operateurs.sort();
-            roadblockTypes.sort();
+                    //define items
+                    var roadblock = featurePoint(d.lt, d.ln);
 
-            roadblocksLoaded = true;
-            if (next) next();
+                    //create shortcuts for useful variables, e.g. gor lookup function definition below
+                    var type = d.t;
+                    var barriere = d.b;
 
+                    //add extra properties and rename variable
+                    counter++;
+                    roadblock.properties.id = counter;
+                    roadblock.properties.name = d.lp;
+                    roadblock.properties.date = d.d;
+                    roadblock.properties.operateur = d.o;
+                    roadblock.properties.type = type;
+                    roadblock.properties.typeFirst = type ? type.split(",")[0].trim() : null;
+                    roadblock.properties.taxCible = d.tc;
+                    roadblock.properties.taxMontant = d.tm;
+                    roadblock.properties.barriere = d.b;
+                    roadblock.properties.resourcesNaturelles = d.r;
+                    roadblock.properties.source = d.s;
+
+                    // push to grouping variables
+                    roadblocks.features.push(roadblock);
+                    roadblocksLookup[counter] = roadblock;
+                    roadblocksProperties[counter] = roadblock.properties;
+
+                    //define lookup function
+                    roadblock.properties.operateurs = [];
+                    roadblock.properties.types = [];
+                    if (type) {
+                        var list = type.split(",");
+                        list.forEach(function (s) {
+                            s = s.trim();
+                            if (!operateursLookup[s]) {
+                                operateurs.push(s);
+                                operateursLookup[s] = operateurs.length;
+                            }
+                            roadblock.properties.operateurs.push(operateursLookup[s]);
+                        });
+                    }
+                    var hasResourcesNaturelles = false;
+                    if (barriere) {
+                        list = barriere.split(",");
+                        list.forEach(function (s) {
+                            s = s.trim();
+                            if (!roadblockTypesLookup[s]) {
+                                roadblockTypes.push(s);
+                                roadblockTypesLookup[s] = roadblockTypes.length;
+                            }
+                            roadblock.properties.types.push(roadblockTypesLookup[s]);
+                            if (s.indexOf("naturelles") > 0) hasResourcesNaturelles = true;
+                        });
+                    }
+                    if (!hasResourcesNaturelles) roadblock.properties.resourcesNaturelles = "";
+
+                });
+
+                operateurs.sort();
+                roadblockTypes.sort();
+
+                roadblocksLoaded = true;
+                if (next) next();
+            }
         });
     }
 
