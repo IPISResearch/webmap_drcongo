@@ -11,7 +11,8 @@ var Data = function () {
     var mines = {
         collection: {}, // holds the complete list of mines, not filtered
         clamped: {}, // holds the list of mines, filtered on year
-        filtered: {list: [], ids: []} // holds the final filtered of mines, filtered on year and all other filters
+        filtered: {list: [], ids: []}, // holds the final filtered of mines, filtered on year and all other filters
+        pCodeIds: {} // matches pCodes to ids as the ids need to be te same even when the base filter changes
     };
 
     var pdvs, pdvLoaded;
@@ -43,6 +44,7 @@ var Data = function () {
     var groupsLookup = {};
     var interferences = [];
     var interferencesLookup = {};
+    var pCodeCounter =0;
 
     var filterFunctionsLookup = {};
     var roadBlockFilterFunctionsLookup = {};
@@ -172,7 +174,7 @@ var Data = function () {
         target.lookup = {};
         target.properties = {};
 
-        mines.baseData.forEach(function (d,index) {
+        mines.baseData.forEach(function (d) {
 
             var passed = true;
             var date = d.d;
@@ -185,14 +187,21 @@ var Data = function () {
                 if (passed) {
                     var mine = target.lookup[d.i];
                     if (!mine) {
+
+                        var mineId = mines.pCodeIds[d.i];
+                        if (!mineId){
+                            pCodeCounter++;
+                            mines.pCodeIds[d.i] = pCodeCounter;
+                            mineId = pCodeCounter;
+                        }
                         mine = featurePoint(d.lt, d.ln);
-                        mine.properties.id = index;
-                        mines.filtered.ids.push(index);
+                        mine.properties.id = mineId;
+                        mines.filtered.ids.push(mineId);
                         buildProperties(mine, d);
 
                         target.list.features.push(mine);
                         target.lookup[d.i] = mine;
-                        target.properties[index] = mine.properties;
+                        target.properties[mineId] = mine.properties;
                     }
 
                     mine.properties.mineral = d.m1;
