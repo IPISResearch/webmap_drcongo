@@ -248,14 +248,14 @@ var Data = function () {
                     }
 
                     // services
-                    for (i = 1; i < 5; i++) {
-                        if (d["s" + i])visit.services.push(d["s" + i]);
+                    for (i = 1; i<5; i++){
+                      if (d["s" + i])visit.services.push(d["s" + i]);
                     }
                     var phone = d.ph;
-                    if (phone) {
-                        phone = "<b>Couverture téléphone</b>: " + phone;
-                        if (d.pc) phone += " (<small>" + d.pc + "</small>)";
-                        visit.services.push(phone);
+                    if (phone){
+                      phone = "<b>Couverture téléphonique</b>: " + phone;
+                      if (d.pc) phone += " (<small>" + d.pc + "</small>)";
+                      visit.services.push(phone);
                     }
                     if (d.it) visit.services.push("<b>iTSCi</b>: " + d.it);
 
