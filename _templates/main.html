@@ -2,7 +2,7 @@
     <div class="inner">
       <a href="http://ipisresearch.be"><img src="_img/ipislogo.png" alt="IPIS logo" style="float:right;width:44px"></a>
       <h2 class="section">Carte de l'exploitation minière artisanale dans l'Est de la RD Congo</h2>
-      <h3 class="section">Jeux de données</h3>
+      <h3 class="section">Année de visite</h3>
 
         <div id="yearslider">
             <div class="years" id="slideryears"></div>
@@ -12,6 +12,7 @@
             <div class="bar"><div id="sliderprogress"></div></div>
 
         </div>
+        <h3 class="section">Jeux de données</h3>
         <div id="layers"></div>
         <br>
         <div id="baselayers">
@@ -33,7 +34,7 @@
 <!--/timeout-->
 
 <!--loadererror-->
-<div id="loadererror">Le chargement de la carte a échoué en raison d'un problème de connexion.<br>Réessayez plus tard.<br><br>Si vous voyez se message à plusieurs reprises, contactez <a href="mailto:mapping@ipisresearch.be">mapping@ipisresearch.be</a></div>
+<div id="loadererror">Le chargement de la carte a échoué en raison d'un problème de connexion.<br>Réessayez plus tard ou avec une connection plus rappide.<br><br>Si vous voyez se message à plusieurs reprises, contactez <a href="mailto:mapping@ipisresearch.be">mapping@ipisresearch.be</a></div>
 <!--/loadererror-->
 
 
@@ -135,7 +136,6 @@
                 <td class="multiline">{{{consolidated.itsci_decoded}}}</td>
             </tr>
             {{/consolidated.itsci_decoded}}
-            -->
             {{#qualification}}
             <tr>
                 <th>Qualification</th>
@@ -148,6 +148,7 @@
                 <td>{{{itsci}}}</td>
             </tr>
             {{/itsci}}
+            -->
 
         </table>
     </div>
