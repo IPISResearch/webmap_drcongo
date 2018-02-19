@@ -742,11 +742,14 @@ var Data = function () {
     me.getServices = function () {
         var result = [];
 
-        var order = ["SAESSCAM", "Division des mines", "iTSCi", "iTSCi (via SAESSCAM)", "Police des Mines", "Chefferie", "PNC", "Energie", "DGRPI", "DGRMA", "DGRPO"].reverse();
+        var order = ["SAESSCAM", "Division des mines", "iTSCi", "iTSCi (via SAESSCAM)", "Police des Mines", "Anti-fraude", "PNC", "ANR", "Chefferie"].reverse();
 
         services.forEach(function (item) {
             result.push({label: item, value: servicesLookup[item], index: order.indexOf(item)})
         });
+
+        // temporary filter to make the list of state services only contain main services
+        result = result.filter(function(i){return order.indexOf(i.label) > -1});
 
         return result.sort(function (a, b) {
             return a.index < b.index ? 1 : -1;
