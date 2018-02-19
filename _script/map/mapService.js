@@ -81,6 +81,8 @@ var MapService = (function() {
 
       if (!initStyleLoaded){
         map.addControl(new mapboxgl.NavigationControl(),'top-left');
+        map.addControl(new mapboxgl.ScaleControl({}));
+        document.getElementsByClassName("mapboxgl-ctrl-scale")[0].style.cssText = "margin: 0px 0px -22px 105px;border-color: rgba(0,0,0,0.15); border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;"
         initStyleLoaded = true;
       }else{
         updateHash("style loaded");
