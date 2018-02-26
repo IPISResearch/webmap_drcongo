@@ -69,6 +69,7 @@ body.dashboard #menu{
     bottom: auto;
     right: 50%;
     margin-right: -125px;
+    color: #717c96;
 }
 
 #menu.preloader.big{
@@ -133,6 +134,25 @@ body.dashboard #menu{
     background-color: #4b8005;
     margin-left: -16px;
 }
+
+#menu .layer .label.toggle.loading:before{
+    display: none;
+}
+
+#menu .layer .label.toggle i{
+    position: absolute;
+    transform: scale(0.3);
+    left: -29px;
+    top: -15px;
+    display: none;
+}
+
+#menu .layer .label.toggle.loading i{
+    display: block;
+}
+
+
+
 
 #menu .layer .label.toggle.inactive{
     opacity: 0.6;
@@ -855,3 +875,34 @@ body.disclaimer #disclaimer, body.info #info{
 #yearslider .handle.active{
     z-index: 20;
 }
+
+
+/* loader spinner */
+
+.lds-dual-ring {
+    display: inline-block;
+    width: 42px;
+    height: 42px;
+    margin-top: 8px;
+}
+.lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 36px;
+    height: 36px;
+    margin: 1px;
+    border-radius: 50%;
+    border: 3px solid #717c96;
+    border-color: #717c96 #717c96 #717c96 transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+

@@ -5,6 +5,7 @@ var UI = function(){
     var currentPopup;
     var dashBoard;
     var currentDashBoardTab;
+    var currentLoader;
 
     me.init = function(){
 		menuContainer = menuContainer || document.getElementById("menu");
@@ -115,6 +116,16 @@ var UI = function(){
         if (layer.added){
             map.setLayoutProperty(layer.id, 'visibility', visible ? 'visible' : 'none');
         }else{
+            if (elm){
+                console.error(elm);
+                var loader = '<div class="lds-dual-ring"></div>';
+                var loaderContainer = elm.querySelector("i");
+                if (loaderContainer) loaderContainer.innerHTML = loader;
+                elm.classList.add("loading");
+                currentLoader = elm;
+            }
+
+
             MapService.addLayer(layer);
         }
 
@@ -165,7 +176,7 @@ var UI = function(){
         var basecontainer = document.getElementById("baselayers");
 
         Config.baselayers.forEach(function(baselayer){
-            var layerdiv = div(baselayer.id + (baselayer.active ? " active":""),baselayer.label || baselayer.id);
+            var layerdiv = div(baselayer.id + (baselayer.active ? " active":""), baselayer.label || baselayer.id);
             layerdiv.dataset.id = baselayer.url;
             baselayer.elm = layerdiv;
             layerdiv.item = baselayer;
@@ -187,7 +198,7 @@ var UI = function(){
                 var layer = Config.layers[key];
                 if (layer.label){
                     var layerContainer = div("layer");
-                    var label  = div("label",layer.label);
+                    var label  = div("label","<i></i>" + layer.label);
 
                     if (layer.display && layer.display.canToggle){
                         label.className += " toggle";
@@ -383,6 +394,15 @@ var UI = function(){
                 target.classList.toggle("contracted",elm.classList.contains("contracted"));
             }
         }
+    };
+
+    me.onRender = function(){
+       if (currentLoader){
+           var loaderContainer = currentLoader.querySelector("i");
+           if (loaderContainer) loaderContainer.innerHTML = "";
+           currentLoader.classList.remove("loading");
+           currentLoader = false;
+       }
     };
 
     var setupYearSlider = function(){
