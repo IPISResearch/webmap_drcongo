@@ -2,6 +2,7 @@ var version = "0.0.1";
 
 var Config = {
     mapId: "CODV5",
+    apiScope: "cod", // use cod_dev for dev
     templateURL: "_templates/main.html",
     showDisclaimerOnFirstUse: true,
     disclaimerUrl: "_templates/disclaimer.html",

@@ -16,10 +16,10 @@ var SearchService = (function() {
     };
 
     var loadSearchData = function(){
-        FetchService.json("http://ipis.annexmap.net/api/data/cod/searchdata" + "?v" + version,function(result){
+        FetchService.json("http://ipis.annexmap.net/api/data/"+Config.apiScope+"/searchdata" + "?v" + version,function(result){
             dataset = result.result.filter(function (el) {
               return el.s != null;
-            });;
+            });
         });
 
     };
@@ -260,9 +260,8 @@ var SearchService = (function() {
     var sortSearchIndex = function(){
         console.log("sorting", dataset);
         dataset.sort(function(a,b){
-            console.log(a.s, b.s)
             return a.s > b.s
-        })
+        });
 
         var box = document.createElement("textarea");
         box.style.position = "absolute";
