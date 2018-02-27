@@ -872,6 +872,7 @@ var Data = function () {
                     roadblock.properties.barriere = d.b;
                     roadblock.properties.resourcesNaturelles = d.r;
                     roadblock.properties.source = d.s;
+					roadblock.properties.year = d.d ? parseInt(d.d.substr(0,4)) : 0;
 
                     // push to grouping variables
                     roadblocks.features.push(roadblock);
@@ -1004,9 +1005,12 @@ var Data = function () {
                 passed = filterFunctions[filterCount](roadblock);
                 filterCount++;
             }
-            if (passed) {
 
-                console.log(roadblock);
+            if (passed && startYear){
+				passed = (roadblock.properties.year>=startYear && roadblock.properties.year<=endYear);
+            }
+
+            if (passed) {
                 filtered.push(roadblock);
                 filteredIds.push(roadblock.properties.id);
             }
@@ -1286,8 +1290,13 @@ var Data = function () {
     me.updateYearFilter = function (start, end) {
         startYear = start;
         endYear = end;
-        buildMineData(mines.clamped);
-        me.filterMines();
+        if (Config.layers.visits.added){
+			buildMineData(mines.clamped);
+			me.filterMines();
+        }
+        if (Config.layers.roadblocks.added){
+            me.filterRoadBlocks();
+        }
     };
 
 
