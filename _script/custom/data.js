@@ -725,7 +725,6 @@ var Data = function () {
 
     me.getArmyGroups = function () {
         var result = armyGroups;
-        console.error(armyGroups);
 
         var order = ["Pas de présence armée constatée", "FARDC - Pas de données sur les ingérences", "FARDC - Pas d’ingérence constatée", "FARDC - Éléments indiciplinés", "Groupe armé local", "Groupe armé étranger"].reverse();
 
@@ -1173,6 +1172,8 @@ var Data = function () {
                 //define items
                 var tradeline = d; // defines type, properties and geometry
 
+				if (d.properties.visit_date) tradeline.properties.year = parseInt(d.properties.visit_date.substr(0,4));
+
                 //create shortcuts for useful variables, e.g. gor lookup function definition below
                 var interference = d.properties.interference;
 
@@ -1267,6 +1268,9 @@ var Data = function () {
                 passed = filterFunctions[filterCount](tradeline);
                 filterCount++;
             }
+			if (passed && startYear){
+				passed = (tradeline.properties.year>=startYear && tradeline.properties.year<=endYear);
+			}
             if (passed) {
                 filtered.push(tradeline);
                 filteredIds.push(tradeline.properties.id);
@@ -1294,9 +1298,9 @@ var Data = function () {
 			buildMineData(mines.clamped);
 			me.filterMines();
         }
-        if (Config.layers.roadblocks.added){
-            me.filterRoadBlocks();
-        }
+        if (Config.layers.roadblocks.added) me.filterRoadBlocks();
+        if (Config.layers.tradelines.added) me.filterTradelines();
+
     };
 
 
