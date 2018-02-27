@@ -700,7 +700,7 @@ var Data = function () {
     };
 
     me.getYears = function () {
-        return years.reverse();
+        return years;
     };
 
     me.getMinerals = function () {
@@ -1294,6 +1294,7 @@ var Data = function () {
     me.updateYearFilter = function (start, end) {
         startYear = start;
         endYear = end;
+
         if (Config.layers.visits.added){
 			buildMineData(mines.clamped);
 			me.filterMines();

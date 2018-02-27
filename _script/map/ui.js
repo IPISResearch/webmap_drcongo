@@ -351,14 +351,13 @@ var UI = function(){
 
                 var clamp = Data.getYearClamp();
                 if (clamp.start){
-                	var years = Data.getYears();
-                	years.forEach(function(year){
+                	var ys = Data.getYears();
+                	ys.forEach(function(year){
 						if (year<clamp.start || year>clamp.end){
 							html = html.replace(new RegExp("yeardisplay"+year, 'g'),"yeardisplay"+year + " contracted")
 						}
 					})
 				}
-
 			}
 
             var container = document.getElementById("dashboardcontent");
@@ -434,7 +433,7 @@ var UI = function(){
         bar.max = 196;
 
         var yearContainer = document.getElementById("slideryears");
-        var years =  Data.getYears().reverse();
+        var years =  Data.getYears();
         var yearsElements = [];
         var w = ((end.max + 18) / years.length);
 
