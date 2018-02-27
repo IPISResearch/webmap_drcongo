@@ -348,6 +348,17 @@ var UI = function(){
                 }
 
                 html = Template.render(template,data);
+
+                var clamp = Data.getYearClamp();
+                if (clamp.start){
+                	var years = Data.getYears();
+                	years.forEach(function(year){
+						if (year<clamp.start || year>clamp.end){
+							html = html.replace(new RegExp("yeardisplay"+year, 'g'),"yeardisplay"+year + " contracted")
+						}
+					})
+				}
+
 			}
 
             var container = document.getElementById("dashboardcontent");

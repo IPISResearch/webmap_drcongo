@@ -425,8 +425,8 @@
 <!--yearlist-->
 {{#.}}
 <div class="year">
-    <div class="yeartitle" data-target=".panel{{id}}" onclick="UI.togglePanel(this)">{{year}}</div>
-    <div class="yeardata panel{{id}}">
+    <div class="yeartitle yeardisplay{{year}}" data-target=".panel{{id}}" onclick="UI.togglePanel(this)">{{year}}</div>
+    <div class="yeardata yeardisplay{{year}} panel{{id}}">
         {{{data}}}
         <div class="clear"></div>
     </div>
