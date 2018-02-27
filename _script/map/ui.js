@@ -117,14 +117,13 @@ var UI = function(){
             map.setLayoutProperty(layer.id, 'visibility', visible ? 'visible' : 'none');
         }else{
             if (elm){
-                console.error(elm);
+				if (currentLoader) removeLoader();
                 var loader = '<div class="lds-dual-ring"></div>';
                 var loaderContainer = elm.querySelector("i");
                 if (loaderContainer) loaderContainer.innerHTML = loader;
                 elm.classList.add("loading");
                 currentLoader = elm;
             }
-
 
             MapService.addLayer(layer);
         }
@@ -397,12 +396,14 @@ var UI = function(){
     };
 
     me.onRender = function(){
-       if (currentLoader){
-           var loaderContainer = currentLoader.querySelector("i");
-           if (loaderContainer) loaderContainer.innerHTML = "";
-           currentLoader.classList.remove("loading");
-           currentLoader = false;
-       }
+       if (currentLoader) removeLoader();
+    };
+
+    var removeLoader = function(){
+		var loaderContainer = currentLoader.querySelector("i");
+		if (loaderContainer) loaderContainer.innerHTML = "";
+		currentLoader.classList.remove("loading");
+		currentLoader = false;
     };
 
     var setupYearSlider = function(){

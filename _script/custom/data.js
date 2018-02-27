@@ -931,8 +931,7 @@ var Data = function () {
     };
 
     me.getRoadBlockDetail = function (roadBlock) {
-        var p = roadblocksProperties[roadBlock.properties.id];
-        return p;
+        return roadblocksProperties[roadBlock.properties.id];
     };
 
     me.getOperateurs = function () {
@@ -1006,6 +1005,8 @@ var Data = function () {
                 filterCount++;
             }
             if (passed) {
+
+                console.log(roadblock);
                 filtered.push(roadblock);
                 filteredIds.push(roadblock.properties.id);
             }
