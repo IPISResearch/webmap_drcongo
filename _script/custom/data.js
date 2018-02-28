@@ -208,7 +208,7 @@ var Data = function () {
                     mine.properties.picture = d.pi;
 
 
-                    var workers = parseInt(d.w) || -1;
+                    var workers = isNaN(parseInt(d.w)) ? -1 : parseInt(d.w);
                     if (isNaN(workers)) {
                         console.error("Workers NAN: " + d.w);
                         workers = -1;
@@ -217,7 +217,7 @@ var Data = function () {
                     var visit = {
                         date: date,
                         workers: workers,
-                        hasWorkers: workers > 0,
+                        hasWorkers: workers >= 0,
                         pits: d.p,
                         pitsType: d.pt,
                         depth: d.dp,
@@ -305,7 +305,7 @@ var Data = function () {
                     if (d.q && visit.project.toLowerCase().indexOf("qualification") >= 0) {
                         mine.properties.qualificationString = d.q;
                         var q = qualifications[d.q.toLowerCase()];
-                        if (q) {
+                        if (q >= 0) {
                             mine.properties.qualification = q;
                         } else {
                             console.error("Unknown Qualification: " + d.q);
@@ -741,7 +741,7 @@ var Data = function () {
     me.getServices = function () {
         var result = [];
 
-        var order = ["SAESSCAM", "Division des mines", "iTSCi", "iTSCi (via SAESSCAM)", "Police des Mines", "Anti-fraude", "PNC", "ANR", "Chefferie"].reverse();
+        var order = ["SAESSCAM", "Division des mines", "iTSCi (via SAESSCAM)", "Police des Mines", "Anti-fraude", "PNC", "ANR", "Chefferie"].reverse();
 
         services.forEach(function (item) {
             result.push({label: item, value: servicesLookup[item], index: order.indexOf(item)})
