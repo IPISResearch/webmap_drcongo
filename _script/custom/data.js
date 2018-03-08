@@ -766,7 +766,7 @@ var Data = function () {
 
 
     function loadPdv(next) {
-        var url = "http://ipis.annexmap.net/api/data//pdvall?key=ipis";
+        var url = "http://ipis.annexmap.net/api/data/"+Config.apiScope+"/pdvall?key=ipis";
 
         var checkpoint = new Date().getTime();
         FetchService.json(url, function (data) {
