@@ -204,6 +204,12 @@
         <th>Date de visite</th>
         <td>{{{formattedDate}}}</td>
     </tr>
+    {{#visit_onsite_novisit}}
+    <tr>
+        <th>Visité sur place</th>
+        <td>Non: {{{visit_onsite_novisitreason}}}</td>
+    </tr>
+    {{/visit_onsite_novisit}}
     <tr>
         <th>Substance(s)</th>
         <td>{{mineralString}}</td>
@@ -589,5 +595,6 @@
 
 
 <!--visitDateProject-->
-    <div class="subtabheader">{{{formattedDate}}}: {{{project}}}</div>
+    <div class="subtabheader">{{{formattedDate}}}: {{{project}}} {{#visit_onsite_novisit}} <br> <u>Non-visité sur place</u>: {{{visit_onsite_novisitreason}}} {{/visit_onsite_novisit}}
+    </div>
 <!--/visitDateProject-->

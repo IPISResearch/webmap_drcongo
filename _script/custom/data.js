@@ -216,6 +216,9 @@ var Data = function () {
 
                     var visit = {
                         date: date,
+                        visit_onsite: d.vo,
+                        visit_onsite_novisit: d.vo == "0" ? 1 : null,
+                        visit_onsite_novisitreason: d.vonvr,
                         workers: workers,
                         hasWorkers: workers >= 0,
                         pits: d.p,
