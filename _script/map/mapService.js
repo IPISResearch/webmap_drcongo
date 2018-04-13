@@ -17,7 +17,7 @@ var MapService = (function() {
 
     map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/' + Config.initStyle || 'ipisresearch/ciw6jpn5s002r2jtb615o6shz',
+      style: Config.initStyle || 'mapbox://styles/ipisresearch/ciw6jpn5s002r2jtb615o6shz',
       center: [Config.mapCoordinates.x,Config.mapCoordinates.y],
       zoom: Config.mapCoordinates.zoom
     });
@@ -315,8 +315,82 @@ var MapService = (function() {
   };
 
 
-  me.setStyle = function(styleId){
-	  map.setStyle('mapbox://styles/' + styleId);
+  me.urlToStyle = function(styleUrl, attribution) {
+    if (styleUrl.indexOf('mapbox://') > -1) {
+      return styleUrl;
+    } else {
+      var style = {
+        "version": 8,
+        "sources": {
+            "raster-source": {
+                "type": "raster",
+                "tiles": [styleUrl],
+                "tileSize": 256
+            },
+            "dummy": {
+                "type": "geojson",
+                "data": {"type": "Feature", "geometry": null}
+            }
+        },
+        "layers": [
+          {
+            "id": "raster-layer",
+            "type": "raster",
+            "source": "raster-source"
+          },
+          {
+            "id": "ref_layer_pdv",
+            "type": "circle",
+            "layout": {"visibility": "none"},
+            "source": "dummy"
+          },
+          {
+            "id": "ref_layer_roadblocks",
+            "type": "circle",
+            "layout": {"visibility": "none"},
+            "source": "dummy"
+          },
+          {
+            "id": "ref_layer_mines",
+            "type": "circle",
+            "layout": {"visibility": "none"},
+            "source": "dummy"
+          },
+          {
+            "id": "ref_layer_tradelines",
+            "type": "circle",
+            "layout": {"visibility": "none"},
+            "source": "dummy"
+          },
+          {
+            "id": "ref_layer_armedgroupareas",
+            "type": "circle",
+            "layout": {"visibility": "none"},
+            "source": "dummy"
+          },
+          {
+            "id": "ref_layer_concessions",
+            "type": "circle",
+            "layout": {"visibility": "none"},
+            "source": "dummy"
+          },
+          {
+            "id": "ref_layer_protectedAreas",
+            "type": "circle",
+            "layout": {"visibility": "none"},
+            "source": "dummy"
+          }
+        ]
+      }
+      // if (attribution) {
+      //   style.layers[0].attribution = attribution
+      // }
+      return style
+    }
+  };
+
+  me.setStyle = function(styleUrl, attribution){
+    map.setStyle(me.urlToStyle(styleUrl, attribution));
   };
 
 
@@ -414,7 +488,7 @@ var MapService = (function() {
 
     Config.baselayers.forEach(function(baseLayer){
       if (Config.initBaselayer == baseLayer.index){
-        Config.initStyle = baseLayer.url;
+        Config.initStyle = me.urlToStyle(baseLayer.url, baseLayer.attribution);
         baseLayer.active = true;
       }
     });

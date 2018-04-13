@@ -176,7 +176,8 @@ var UI = function(){
 
         Config.baselayers.forEach(function(baselayer){
             var layerdiv = div(baselayer.id + (baselayer.active ? " active":""), baselayer.label || baselayer.id);
-            layerdiv.dataset.id = baselayer.url;
+            layerdiv.dataset.url = baselayer.url;
+            layerdiv.dataset.attribution = baselayer.attribution;
             baselayer.elm = layerdiv;
             layerdiv.item = baselayer;
             layerdiv.onclick=function(){
@@ -187,7 +188,7 @@ var UI = function(){
                 layerdiv.classList.add("active");
                 layerdiv.item.active = true;
                 if (currentPopup) currentPopup.remove();
-                MapService.setStyle(layerdiv.dataset["id"]);
+                MapService.setStyle(layerdiv.dataset.url, layerdiv.dataset.attribution);
             };
             basecontainer.appendChild(layerdiv);
         });
