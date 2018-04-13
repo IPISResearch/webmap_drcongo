@@ -118,7 +118,8 @@ var MapService = (function() {
       });
     }
 
-    var circleColor = "blue";
+    var circleColor;
+    var circleRadius;
     var fillColor;
     var lineColor;
 
@@ -145,11 +146,11 @@ var MapService = (function() {
         circleColor = {
           property: layer.display.color.property,
           type: 'categorical',
-          stops: colorStops
+          stops: colorStops,
+          default: layer.display.color.defaultColor || 'grey'
         }
       }
 
-      var circleRadius = 3;
       if (layer.display.size){
         circleRadius = {
           'default': 3,
@@ -160,8 +161,8 @@ var MapService = (function() {
       }
 
       paint = {
-        'circle-color': circleColor || '808080',
-        'circle-radius': circleRadius || 1,
+        'circle-color': circleColor || layer.display.circleColor || "blue",
+        'circle-radius': circleRadius || layer.display.circleRadius || 3,
         'circle-opacity': layer.display.circleOpacity|| 1,
         'circle-blur': layer.display.circleBlur || 0,
         'circle-stroke-width': layer.display.circleStrokeWidth || 0.5,

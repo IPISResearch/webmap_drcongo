@@ -88,6 +88,31 @@ var Config = {
                 belowLayer: 'ref_layer_mines'
             }
         },
+        armedgroupareas: {
+            id: "armedgroupareas",
+            filterId: 7,
+            label: "Zones d'ingérence",
+            source: function(layer,show){return Data.getArmedGroupAreas(layer,show)},
+            sourceId: "armedgroupareas",
+            filters:[
+                {id: "armedgroups", index: 71, label: "Acteurs armées", items: Data.getArmedGroups, onFilter: Data.updateArmedGroupAreasFilter, filterProperty: "armedgroup_"}
+            ],
+            display:{
+              visible: false,
+              canToggle: true,
+              type: 'circle',
+              circleRadius: 30,
+              circleBlur: 0.9,
+              color: {
+                property: "armedgroup_",
+                data: function(){return Data.getArmedGroups();},
+                defaultColor: 'transparent'
+              },
+              circleStrokeColor: 'transparent',
+              circleOpacity: 0.3,
+              belowLayer: 'ref_layer_armedgroupareas'
+            }
+        },
         tradelines:{
           id: "tradelines",
           label: "Destination des minerais",
