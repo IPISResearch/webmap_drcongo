@@ -60,7 +60,7 @@ var Config = {
                   {label: "Aucune", value:0, color: "grey"}
                 ],onFilter: Data.updateFilter,filterProperty: "qualification"},
                 {id: "workers", index: 7, label: "Nombre de creuseurs",items:[
-                  {label: "Aucun", value:0},
+                  {label: "Aucun / pas de données", value:0},
                   {label: "1 à 50", value:1},
                   {label: "50 à 500", value:2},
                   {label: "Plus que 500", value:3}
@@ -78,8 +78,9 @@ var Config = {
                 visible: true,
                 canToggle: true,
                 size:{
-                  property: 'workergroup',
-                  interval: [[0, 3], [1, 3.5], [2, 4.5], [3, 6.5]]
+                  property: 'workers',
+                  interval: [[1, 3.5], [50, 4.5], [500, 6.5], [5000, 8.5]],
+                  default: 3
                 },
                 color: {
                   property: "mineral",
