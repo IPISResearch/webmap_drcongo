@@ -1457,7 +1457,35 @@ var Data = function () {
             }
         }
 
-        armedgroupareas.features.forEach(function (armedgrouparea) {
+        // first filter on year
+        if (startYear){
+            armedgroupareas.features.forEach(function (armedgrouparea) {
+                if (armedgrouparea.properties.year>=startYear && armedgrouparea.properties.year<=endYear){
+                    filtered.push(armedgrouparea);
+                }
+            });
+        }else{
+            filtered = armedgroupareas.features;
+        }
+
+
+        // Only keep points from latest visit
+        var grouped = filtered.groupBy('pcode');
+        var filteredByLastVisit = [];
+        for (var pcode in grouped) {
+            var featureList = grouped[pcode];
+            var latestDate = featureList[featureList.length-1].date; // Assuming ordered by date
+            featureList.forEach(function(feature) {
+                if (feature.date === latestDate) {
+                    filteredByLastVisit.push(feature)
+                } else {
+                }
+            })
+        }
+
+        // then apply filters
+        filtered = [];
+        filteredByLastVisit.forEach(function (armedgrouparea) {
             var passed = true;
             var filterCount = 0;
             var filterMax = filterFunctions.length;
@@ -1466,29 +1494,11 @@ var Data = function () {
                 filterCount++;
             }
 
-            if (passed && startYear){
-				passed = (armedgrouparea.properties.year>=startYear && armedgrouparea.properties.year<=endYear);
-            }
-
             if (passed) {
                 filtered.push(armedgrouparea);
                 // filteredIds.push(armedgrouparea.properties.id);
             }
         });
-
-        // Only keep points from latest visit
-        var grouped = filtered.groupBy('pcode')
-        var filtered = []
-        for (pcode in grouped) {
-          var featureList = grouped[pcode]
-          var latestDate = featureList[featureList.length-1].date // Assuming ordered by date
-          featureList.forEach(function(feature) {
-            if (feature.date == latestDate) {
-              filtered.push(feature)
-            } else {
-            }
-          })
-        }
 
         
         for (var i = 0; i < filtered.length; i++) {
