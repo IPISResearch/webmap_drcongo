@@ -380,13 +380,20 @@ var MapService = (function() {
             "layout": {"visibility": "none"},
             "source": "dummy"
           }
-        ]
+        ],
+          "sprite" : "http://ipis.annexmap.net/sprites/mapbox-v1" // note: relative urls are not supported - see https://github.com/mapbox/mapbox-gl-js/pull/7153
       };
        if (attribution) {
          style.sources["raster-source"].attribution = attribution
        }
       return style
     }
+
+        // documentation for the sprites:
+        // https://www.mapbox.com/mapbox-gl-js/style-spec/#sources-raster
+        // TODO: we should generate a minimal spritemap with only the icons we use.
+        // see https://github.com/mapbox/spritezero-cli
+        // Note: why are .svg images being converted to .png?
   };
 
   me.setStyle = function(styleUrl, attribution){
