@@ -381,10 +381,10 @@ var MapService = (function() {
             "source": "dummy"
           }
         ]
-      }
-      // if (attribution) {
-      //   style.layers[0].attribution = attribution
-      // }
+      };
+       if (attribution) {
+         style.sources["raster-source"].attribution = attribution
+       }
       return style
     }
   };
