@@ -690,7 +690,8 @@ body.disclaimer #disclaimer, body.info #info{
 .subtabheader{
     font-size: 12px;
     color: gray;
-    padding: 10px 10px 8px 0px;
+    padding: 10px 10px 8px 0;
+    clear: both;
 }
 
 .serviceline{
