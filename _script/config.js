@@ -101,7 +101,9 @@ var Config = {
               visible: false,
               canToggle: true,
               type: 'circle',
-              circleRadius: 30,
+              circleRadius: {
+                stops: [[1, 2], [5, 15], [8, 30], [10, 50], [15, 100], [20, 300]]
+              },
               circleBlur: 0.9,
               color: {
                 property: "armedgroup_",
