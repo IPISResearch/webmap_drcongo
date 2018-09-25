@@ -443,6 +443,9 @@ body.disclaimer #disclaimer, body.info #info{
     min-width: 580px;
 }
 
+.popup td{
+    max-width: 500px;   
+}
 
 .popupColLeft{
     /*width: 200px;*/

@@ -179,6 +179,26 @@ var Config = {
               {id: "bar", index: 32, label: "Type de barrière",items: Data.getRoadblockTypes,onFilter: Data.updateRoadblockFilter,filterProperty: "types",array:true}
           ]
         },
+        studyzones:{
+            id: "studyzones",
+            filterId: 7,
+            label: "Zones d'études specifiques",
+            source: "http://ipis.annexmap.net/api/data/cod_dev/studyzones",
+            sourceId: "studyzones",
+            display:{
+              type: 'fill',
+              fillColor: "black",
+              fillOpacity: 0.3,
+              visible: false,
+              canToggle: true,
+              belowLayer: 'ref_layer_concessions'
+            },
+            popupOnhover: "title",
+            onClick: function(item,lngLat){
+                UI.hideDashboard();
+                UI.popup(item.properties,"studyzonePopup",lngLat,true);
+            }
+        },
         concessions:{
             id: "concessions",
             filterId: 4,

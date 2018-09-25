@@ -386,6 +386,52 @@
 </div>
 <!--/roadblockPopup-->
 
+<!--studyzonePopup-->
+<div class="popup">
+    <h2>Zone d'étude specifique: {{zone}}</h2>
+    <table border="0" cellspacing="0" cellpadding="0" class="infotable">
+        <tr>
+            <th>Titre de l'étude</th>
+            <td>{{{title}}}</td>
+        </tr>
+        {{#institute}}
+        <tr>
+            <th>Institut menant l'étude</th>
+            <td>{{{institute}}}</td>
+        </tr>
+        {{/institute}}
+        <tr>
+            <th>Description de l'étude</th>
+            <td>{{{description}}}</td>
+        </tr>
+        {{#extent}}
+        <tr>
+            <th>Étendue de l'étude</th>
+            <td>{{{extent}}}</td>
+        </tr>
+        {{/extent}}
+        {{#date_start}}
+        <tr>
+            <th>Date de début</th>
+            <td>{{{date_start}}}</td>
+        </tr>
+        {{/date_start}}
+        {{#date_end}}
+        <tr>
+            <th>Date de fin</th>
+            <td>{{{date_end}}}</td>
+        </tr>
+        {{/date_end}}
+        {{#url}}
+        <tr>
+            <th>Accéder à l'étude</th>
+            <td><a href="{{{url}}}"><img src="{{{url_img}}}" width="100px" style="padding:5px 0px;"></img></a><br><a href="{{{url}}}">Cliquez ici</a></td>
+        </tr>
+        {{/url}}
+    </table>
+</div>
+<!--/studyzonePopup-->
+
 <!--protectedAreaPopup-->
 <div class="popup">
     <h2>Aire protégée</h2>
