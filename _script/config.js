@@ -14,7 +14,7 @@ var Config = {
       zoom: 5,
       bounds: [[13.42,-14.66],[45.59,6.67]]
     },
-    defaultBaseLayerIndex : 2,
+    defaultBaseLayerIndex : 4,
     // if preLoad is defined, this occurs before the map is shown - used to pre-generate datasets etc.
     preLoad : function(){Data.init();},
     // baselayer info
