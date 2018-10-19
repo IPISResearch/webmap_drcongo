@@ -276,7 +276,7 @@ body.dashboard #menu{
     background-position: 0 -24px;
 }
 
-#baselayers div.streets:after{
+#baselayers div.streetsdrc:after, #baselayers div.streets:after{
     background-position: 0 -72px;
 }
 
