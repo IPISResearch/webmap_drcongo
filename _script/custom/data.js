@@ -84,12 +84,19 @@ var Data = function () {
     };
 
     var armedgroupsColors = {
-        "FARDC - Éléments indiciplinés": "#ac5023",
-        "Raïa Mutomboki": "#c3a710",
-        "NDC": "#1c898c",
-        "NDC-Rénové": "#0aa7ab",
-        "FDLR": "#591b73",
-        "Autre": "grey",
+        "FARDC - Éléments indiciplinés": "#AD5936", // #ac5023
+        "Raïa Mutomboki": "#c3a710", // c3a710
+        "NDC": "#368E8B",
+        "NDC-Rénové": "#2C98AB",
+        "FDLR": "#872A5F",
+        "FRPI": "#250988",
+        "Maï-Maï Simba (Morgan/ex-Morgan)": "#5379AD",
+        "Maï-Maï Simba": "#5379AD",
+        "Maï-Maï Yakutumba": "#5379AD",
+        "Maï-Maï UPCP": "#5379AD",
+        "Maï-Maï UPLD": "#5379AD",
+        "Maï-Maï (autre)": "#5379AD",
+        "Autre": "#636465",
         'Pas de présence armée constatée': "transparent"
     };
 
@@ -1344,9 +1351,23 @@ var Data = function () {
                     counter++;
                     armedgrouparea.properties.id = counter;
                     armedgrouparea.properties.armedgroup = d.ag;
-                    armedgrouparea.properties.armedgroup_ = (d.ag == null) ? 'Pas de présence armée constatée': (d.ag == 'FARDC') ? d.tag : ["FARDC - Éléments indiciplinés", "Raïa Mutomboki", "NDC", "NDC-Rénové", "FDLR"].indexOf(d.ag) > -1 ? d.ag : 'Autre';
+                    armedgrouparea.properties.armedgroup_ = 
+                        (d.ag == null) ? 'Pas de présence armée constatée': 
+                        (d.ag == 'FARDC') ? d.tag : // "FARDC - Éléments indiciplinés" etc.
+                        (d.ag == 'Raïa Mutomboki') ? d.ag : 
+                        (d.ag == 'NDC') ? d.ag : 
+                        (d.ag == 'NDC-Rénové') ? d.ag : 
+                        (d.ag == 'FRPI') ? d.ag : 
+                        d.ag.indexOf("FDLR") > -1 ? "FDLR" : // Also FDLR/Rudi
+                        d.ag.indexOf("Morgan") > -1 ? "Maï-Maï Simba (Morgan/ex-Morgan)" : // 
+                        d.ag.indexOf("Simba") > -1 ? "Maï-Maï Simba" : // 
+                        d.ag.indexOf("Yakutumba") > -1 ? "Maï-Maï Yakutumba" : // 
+                        (d.ag == 'Maï-Maï UPCP') ? d.ag : 
+                        (d.ag == 'Maï-Maï UPLD') ? d.ag : 
+                        d.ag.indexOf("Maï-Maï") > -1 ? "Maï-Maï (autre)" : // 
+                        'Autre';
                     armedgrouparea.properties.typearmedgroup = d.tag;
-					          armedgrouparea.properties.workers = d.w;
+					armedgrouparea.properties.workers = d.w;
                     armedgrouparea.properties.pcode = d.i;
                     armedgrouparea.properties.date = d.d;
                     armedgrouparea.properties.year = d.d ? parseInt(d.d.substr(0,4)) : 0;
@@ -1400,8 +1421,22 @@ var Data = function () {
     me.getArmedGroups = function () {
         var result = [];
 
-        var order = ["FARDC - Éléments indiciplinés", "Raïa Mutomboki", "NDC", "NDC-Rénové", "FDLR", "Autre"].reverse();
-
+        var order = [
+            "FARDC - Éléments indiciplinés", 
+            "Raïa Mutomboki", 
+            "NDC", 
+            "NDC-Rénové", 
+            "FDLR", 
+            "FRPI",
+            "Maï-Maï Simba (Morgan/ex-Morgan)",
+            "Maï-Maï Simba",
+            "Maï-Maï Yakutumba",
+            "Maï-Maï UPCP",
+            "Maï-Maï UPLD",
+            "Maï-Maï (autre)",
+            "Autre" // not "Pas de présence armée constatée"
+        ].reverse();
+        
         armedgroups.forEach(function (item) {
             result.push({label: item, value: armedgroupsLookup[item], color: armedgroupsColors[item], index: order.indexOf(item)})
         });
