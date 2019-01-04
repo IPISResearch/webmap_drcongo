@@ -394,6 +394,12 @@
             <th>Titre de l'étude</th>
             <td>{{{title}}}</td>
         </tr>
+        {{#project}}
+        <tr>
+            <th>Project</th>
+            <td>{{{project}}}</td>
+        </tr>
+        {{/project}}
         {{#institute}}
         <tr>
             <th>Institut menant l'étude</th>
@@ -425,7 +431,7 @@
         {{#url}}
         <tr>
             <th>Accéder à l'étude</th>
-            <td><a href="{{{url}}}"><img src="{{{url_img}}}" width="100px" style="padding:5px 0px;"></img></a><br><a href="{{{url}}}">Télécharger</a></td>
+            <td><a href="{{{url}}}"><img src="{{{url_img}}}" width="100px" style="box-shadow: 1px 1px 5px grey; margin: 10px"></img></a><br><a href="{{{url}}}">Télécharger</a></td>
         </tr>
         {{/url}}
     </table>
