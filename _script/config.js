@@ -120,6 +120,9 @@ var Config = {
                 circleStrokeColor: 'transparent',
                 circleOpacity: 0.3,
                 belowLayer: 'ref_layer_armedgroupareas'
+            },
+            onLoaded: function(){
+                Data.updateArmedGroupAreasFilter(Config.layers.armedgroupareas.filters[0]);
             }
         },
         tradelines:{
@@ -150,7 +153,10 @@ var Config = {
                         {label: "Pas d'ingérence", value: "0", color : "#00499f"},
                         {label: "Ingérence", value: "1", color: "#960400"}
                     ],onFilter: Data.updateTradelinesFilter,filterProperty:"interference"}
-            ]
+            ],
+            onLoaded: function(){
+                Data.updateTradelinesFilter(Config.layers.tradelines.filters[0]);
+            }
         },
         sellingpoints: {
             id: "pdv",
