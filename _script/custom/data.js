@@ -1238,7 +1238,6 @@ var Data = function () {
             loadTradelines(function () {
                 if (show && layer.labelElm && !(layer.labelElm.classList.contains("inactive"))) {
                     MapService.addLayer(layer);
-                    if (layer.onLoaded) layer.onLoaded();
                 }
             });
         }
