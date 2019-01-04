@@ -1564,6 +1564,7 @@ var Data = function () {
         }
         if (Config.layers.roadblocks.added) me.filterRoadBlocks();
         if (Config.layers.tradelines.added) me.filterTradelines();
+        if (Config.layers.armedgroupareas.added) me.filterArmedGroupAreas();
 
     };
 
