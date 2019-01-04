@@ -1,35 +1,35 @@
 <!--menu-->
-    <div class="inner">
-      <a href="http://ipisresearch.be"><img src="_img/ipislogo.png" alt="IPIS logo" style="float:right;width:44px"></a>
-      <h2 class="section">Carte de l'exploitation minière artisanale dans l'Est de la RD Congo</h2>
-      <h3 class="section">Année de visite</h3>
+<div class="inner">
+    <a href="http://ipisresearch.be"><img src="_img/ipislogo.png" alt="IPIS logo" style="float:right;width:44px"></a>
+    <h2 class="section">Carte de l'exploitation minière artisanale dans l'Est de la RD Congo</h2>
+    <h3 class="section">Année de visite</h3>
 
-        <div id="yearslider">
-            <div class="years" id="slideryears"></div>
+    <div id="yearslider">
+        <div class="years" id="slideryears"></div>
 
-            <div class="handle start" id="sliderstart"></div>
-            <div class="handle end" id="sliderend"></div>
-            <div class="bar"><div id="sliderprogress"></div></div>
+        <div class="handle start" id="sliderstart"></div>
+        <div class="handle end" id="sliderend"></div>
+        <div class="bar"><div id="sliderprogress"></div></div>
 
-        </div>
-        <h3 class="section">Jeux de données</h3>
-        <div id="layers"></div>
-        <br>
-        <div id="baselayers">
-            <h3>Carte de fond</h3>
-        </div>
-        <br>
-        <a href="javascript:UI.showInfo()" class="button">Plus d'infos</a>
-        <br>
     </div>
+    <h3 class="section">Jeux de données</h3>
+    <div id="layers"></div>
+    <br>
+    <div id="baselayers">
+        <h3>Carte de fond</h3>
+    </div>
+    <br>
+    <a href="javascript:UI.showInfo()" class="button">Plus d'infos</a>
+    <br>
+</div>
 
 <!--/menu-->
 
 <!--loading-->
-    <div id="loading">
-        Loading<br>
-        <div class="lds-dual-ring"></div>
-    </div>
+<div id="loading">
+    Loading<br>
+    <div class="lds-dual-ring"></div>
+</div>
 <!--/loading-->
 
 <!--timeout-->
@@ -53,7 +53,7 @@
 
 
 <!--minePopup-->
-    {{{name}}}
+{{{name}}}
 <!--/minePopup-->
 
 
@@ -207,7 +207,7 @@
     {{#visit_onsite_novisit}}
     <tr>
         <th>Visité sur place</th>
-        <td>Non: {{{visit_onsite_novisitreason}}}</td>
+        <td>Non {{#visit_onsite_novisitreason}} : {{{visit_onsite_novisitreason}}} {{/visit_onsite_novisitreason}}</td>
     </tr>
     {{/visit_onsite_novisit}}
     <tr>
@@ -340,11 +340,11 @@
     <h2>Barrière routière: {{{name}}}</h2>
     <div class="popupColLeft">
         <table class="infotable" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-              <th>Date de passage</th>
-              <td>{{date}}</td>
-          </tr>
-          <tr>
+            <tr>
+                <th>Date de passage</th>
+                <td>{{date}}</td>
+            </tr>
+            <tr>
                 <th>Operateur(s)</th>
                 <td>{{operateur}}</td>
             </tr>
@@ -386,6 +386,52 @@
 </div>
 <!--/roadblockPopup-->
 
+<!--studyzonePopup-->
+<div class="popup">
+    <h2>Zone d'étude specifique: {{zone}}</h2>
+    <table border="0" cellspacing="0" cellpadding="0" class="infotable">
+        <tr>
+            <th>Titre de l'étude</th>
+            <td>{{{title}}}</td>
+        </tr>
+        {{#institute}}
+        <tr>
+            <th>Institut menant l'étude</th>
+            <td>{{{institute}}}</td>
+        </tr>
+        {{/institute}}
+        <tr>
+            <th>Description de l'étude</th>
+            <td>{{{description}}}</td>
+        </tr>
+        {{#extent}}
+        <tr>
+            <th>Étendue de l'étude</th>
+            <td>{{{extent}}}</td>
+        </tr>
+        {{/extent}}
+        {{#date_start}}
+        <tr>
+            <th>Date de début</th>
+            <td>{{{date_start}}}</td>
+        </tr>
+        {{/date_start}}
+        {{#date_end}}
+        <tr>
+            <th>Date de fin</th>
+            <td>{{{date_end}}}</td>
+        </tr>
+        {{/date_end}}
+        {{#url}}
+        <tr>
+            <th>Accéder à l'étude</th>
+            <td><a href="{{{url}}}"><img src="{{{url_img}}}" width="100px" style="padding:5px 0px;"></img></a><br><a href="{{{url}}}">Télécharger</a></td>
+        </tr>
+        {{/url}}
+    </table>
+</div>
+<!--/studyzonePopup-->
+
 <!--protectedAreaPopup-->
 <div class="popup">
     <h2>Aire protégée</h2>
@@ -418,12 +464,12 @@
             <th>Parties</th>
             <td>{{{parties}}}</td>
         </tr><tr>
-            <th>Statut</th>
-            <td>{{{statut}}}</td>
-        </tr><tr>
-            <th>Date d'expiration</th>
-            <td>{{{date_de1}}}</td>
-        </tr>
+        <th>Statut</th>
+        <td>{{{statut}}}</td>
+    </tr><tr>
+        <th>Date d'expiration</th>
+        <td>{{{date_de1}}}</td>
+    </tr>
     </table>
 </div>
 <!--/concessionPopup-->
@@ -444,7 +490,7 @@
 <!--yeartabs-->
 <div class="yeartabs">
     {{#.}}
-        <span class="subtab">{{year}}</span>
+    <span class="subtab">{{year}}</span>
     {{/.}}
 </div>
 <div class="subtabcontent">
@@ -489,9 +535,9 @@
 
 <!--servicesdetail-->
 <div class="yearpanel captioned">
-{{#.}}
-<div class="serviceline {{{className}}}">{{{name}}}</div>
-{{/.}}
+    {{#.}}
+    <div class="serviceline {{{className}}}">{{{name}}}</div>
+    {{/.}}
 </div>
 <!--/servicesdetail-->
 
@@ -563,13 +609,13 @@
             <th>Point de vente</th>
             <th>Destination</th>
         </tr>
-    {{#mineralRoutes}}
+        {{#mineralRoutes}}
         <tr>
             <td><i style="background-color: {{{color}}}"></i> {{{mineral}}}</td>
             <td>{{{sellingPoint}}}</td>
             <td>{{{finalDestination}}}</td>
         </tr>
-    {{/mineralRoutes}}
+        {{/mineralRoutes}}
     </table>
 
     {{#mercuryString}}
@@ -590,11 +636,11 @@
 <!--/lightbox-->
 
 <!--noArmyPresent-->
-    <div class="subtabcontent">Pas de présence observé.<br><br></div>
+<div class="subtabcontent">Pas de présence observé.<br><br></div>
 <!--/noArmyPresent-->
 
 
 <!--visitDateProject-->
-    <div class="subtabheader">{{{formattedDate}}}: {{{project}}} {{#visit_onsite_novisit}} <br>  <u>Non-visité sur place</u>: {{{visit_onsite_novisitreason}}} {{/visit_onsite_novisit}}
-    </div>
+<div class="subtabheader">{{{formattedDate}}}: {{{project}}} {{#visit_onsite_novisit}} <br>  <u>Non-visité sur place</u>: {{{visit_onsite_novisitreason}}} {{/visit_onsite_novisit}}
+</div>
 <!--/visitDateProject-->

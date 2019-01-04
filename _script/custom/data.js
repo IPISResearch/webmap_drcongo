@@ -129,7 +129,7 @@ var Data = function () {
         var now;
 
         var dataDone = function () {
-            if (mines.loaded && roadblocksLoaded && armedgroupareasLoaded) {
+            if (mines.loaded && roadblocksLoaded  && armedgroupareasLoaded) {
                 now = new Date().getTime();
                 console.log("datasets generated in " + (now - checkpoint) + "ms");
 
@@ -1313,6 +1313,7 @@ var Data = function () {
 
     // ---- end tradelines ----
 
+
     // ---- armedgroupareas ----
 
 
@@ -1351,23 +1352,23 @@ var Data = function () {
                     counter++;
                     armedgrouparea.properties.id = counter;
                     armedgrouparea.properties.armedgroup = d.ag;
-                    armedgrouparea.properties.armedgroup_ = 
-                        (d.ag == null) ? 'Pas de présence armée constatée': 
-                        (d.ag == 'FARDC') ? d.tag : // "FARDC - Éléments indiciplinés" etc.
-                        (d.ag == 'Raïa Mutomboki') ? d.ag : 
-                        (d.ag == 'NDC') ? d.ag : 
-                        (d.ag == 'NDC-Rénové') ? d.ag : 
-                        (d.ag == 'FRPI') ? d.ag : 
-                        d.ag.indexOf("FDLR") > -1 ? "FDLR" : // Also FDLR/Rudi
-                        d.ag.indexOf("Morgan") > -1 ? "Maï-Maï Simba (Morgan/ex-Morgan)" : // 
-                        d.ag.indexOf("Simba") > -1 ? "Maï-Maï Simba" : // 
-                        d.ag.indexOf("Yakutumba") > -1 ? "Maï-Maï Yakutumba" : // 
-                        (d.ag == 'Maï-Maï UPCP') ? d.ag : 
-                        (d.ag == 'Maï-Maï UPLD') ? d.ag : 
-                        d.ag.indexOf("Maï-Maï") > -1 ? "Maï-Maï (autre)" : // 
-                        'Autre';
+                    armedgrouparea.properties.armedgroup_ =
+                        (d.ag == null) ? 'Pas de présence armée constatée':
+                            (d.ag == 'FARDC') ? d.tag : // "FARDC - Éléments indiciplinés" etc.
+                                (d.ag == 'Raïa Mutomboki') ? d.ag :
+                                    (d.ag == 'NDC') ? d.ag :
+                                        (d.ag == 'NDC-Rénové') ? d.ag :
+                                            (d.ag == 'FRPI') ? d.ag :
+                                                d.ag.indexOf("FDLR") > -1 ? "FDLR" : // Also FDLR/Rudi
+                                                    d.ag.indexOf("Morgan") > -1 ? "Maï-Maï Simba (Morgan/ex-Morgan)" : //
+                                                        d.ag.indexOf("Simba") > -1 ? "Maï-Maï Simba" : //
+                                                            d.ag.indexOf("Yakutumba") > -1 ? "Maï-Maï Yakutumba" : //
+                                                                (d.ag == 'Maï-Maï UPCP') ? d.ag :
+                                                                    (d.ag == 'Maï-Maï UPLD') ? d.ag :
+                                                                        d.ag.indexOf("Maï-Maï") > -1 ? "Maï-Maï (autre)" : //
+                                                                            'Autre';
                     armedgrouparea.properties.typearmedgroup = d.tag;
-					armedgrouparea.properties.workers = d.w;
+                    armedgrouparea.properties.workers = d.w;
                     armedgrouparea.properties.pcode = d.i;
                     armedgrouparea.properties.date = d.d;
                     armedgrouparea.properties.year = d.d ? parseInt(d.d.substr(0,4)) : 0;
@@ -1384,10 +1385,10 @@ var Data = function () {
 
                     //define lookup function
                     if (armedgroup_) {
-                            if (!armedgroupsLookup[armedgroup_]) {
-                                armedgroups.push(armedgroup_);
-                                armedgroupsLookup[armedgroup_] = armedgroup_;
-                            }
+                        if (!armedgroupsLookup[armedgroup_]) {
+                            armedgroups.push(armedgroup_);
+                            armedgroupsLookup[armedgroup_] = armedgroup_;
+                        }
                     }
                     var hasResourcesNaturelles = false;
                     if (!hasResourcesNaturelles) armedgrouparea.properties.resourcesNaturelles = "";
@@ -1422,11 +1423,11 @@ var Data = function () {
         var result = [];
 
         var order = [
-            "FARDC - Éléments indiciplinés", 
-            "Raïa Mutomboki", 
-            "NDC", 
-            "NDC-Rénové", 
-            "FDLR", 
+            "FARDC - Éléments indiciplinés",
+            "Raïa Mutomboki",
+            "NDC",
+            "NDC-Rénové",
+            "FDLR",
             "FRPI",
             "Maï-Maï Simba (Morgan/ex-Morgan)",
             "Maï-Maï Simba",
@@ -1436,7 +1437,7 @@ var Data = function () {
             "Maï-Maï (autre)",
             "Autre" // not "Pas de présence armée constatée"
         ].reverse();
-        
+
         armedgroups.forEach(function (item) {
             result.push({label: item, value: armedgroupsLookup[item], color: armedgroupsColors[item], index: order.indexOf(item)})
         });
@@ -1535,9 +1536,9 @@ var Data = function () {
             }
         });
 
-        
+
         for (var i = 0; i < filtered.length; i++) {
-          filteredIds.push(filtered[i].properties.id);
+            filteredIds.push(filtered[i].properties.id);
         }
 
         map.setFilter("armedgroupareas", ['in', 'id'].concat(filteredIds));
@@ -1563,7 +1564,6 @@ var Data = function () {
         }
         if (Config.layers.roadblocks.added) me.filterRoadBlocks();
         if (Config.layers.tradelines.added) me.filterTradelines();
-        if (Config.layers.armedgroupareas.added) me.filterArmedGroupAreas();
 
     };
 
