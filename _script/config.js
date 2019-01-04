@@ -218,8 +218,15 @@ var Config = {
             sourceId: "studyzones",
             display:{
                 type: 'fill',
-                fillColor: "black",
-                fillOpacity: 0.3,
+                fillColor: {
+                    property: "project",
+                    data: [
+                        {label: "IPIS - Ulula 2018", value: "IPIS - Ulula 2018", color: "#379ad6"},
+                        {label: "IPIS - CBRMT 2018", value: "IPIS - CBRMT 2018", color: "#c673c9"},
+                        {label: "IPIS - PPA Mambasa 2017", value: "IPIS - PPA Mambasa 2017", color: "#d43b31"}
+                    ]
+                },
+                fillOpacity: 0.4,
                 visible: false,
                 canToggle: true,
                 belowLayer: 'ref_layer_concessions'
@@ -231,11 +238,12 @@ var Config = {
             },
             filters:[
                 {id: "project", index: 71, label: "Project",items:[
-                        {label: "IPIS - Ulula 2018", value: "IPIS - Ulula 2018", color: "#43b7ff"},
-                        {label: "IPIS - CBRMT 2018", value: "IPIS - CBRMT 2018", color: "#3f59ff"},
-                        {label: "IPIS - PPA Mambasa 2017", value: "IPIS - PPA Mambasa 2017", color: "#71d4af"}
+                        {label: "IPIS - Ulula 2018", value: "IPIS - Ulula 2018", color: "#379ad6"},
+                        {label: "IPIS - CBRMT 2018", value: "IPIS - CBRMT 2018", color: "#c673c9"},
+                        {label: "IPIS - PPA Mambasa 2017", value: "IPIS - PPA Mambasa 2017", color: "#d43b31"}
                     ],filterProperty: "project",onFilter: MapService.genericFilter}
             ]
+            // You can get the project values by MapService.distinct("studyzones","project")
         },
         concessions:{
             id: "concessions",
