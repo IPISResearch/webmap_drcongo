@@ -421,7 +421,7 @@ body.disclaimer #disclaimer, body.info #info{
 
 /* popup */
 .mapboxgl-popup-content{
-    max-width: 610px; /* also concerns tooltip*/
+    max-width: 400px; /* used to be 610px. Also concerns tooltip */
 }
 
 .popup h2{
@@ -444,15 +444,17 @@ body.disclaimer #disclaimer, body.info #info{
 .infotable td,
 .infotable th{
     text-align: left;
-    padding: 0 2px;
+    vertical-align: top;
+    padding: 2px 6px;
     font-size: 12px;
-    line-height: 18px;
+    line-height: 16px;
     border-bottom: 1px solid #ececec;
     color: #666;
 }
 
 .infotable th{
     font-weight: bold;
+    width: 120px;
 }
 
 .popup.cols2{

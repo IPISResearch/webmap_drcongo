@@ -23,10 +23,10 @@ var Config = {
     preLoad : function(){Data.init();},
     // baselayer info
     baselayers:[
-        {index: 1, id: "satellite", label: "Satellite", url:"mapbox://styles/ipisresearch/ciw6jsekm003a2jql0w0a7qca"},
-        {index: 5, id: "satellite_bing", label: "Satelite <font color='grey'>(Bing)</font>", url:"http://ecn.t0.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g=6412", attribution: "© 2018 Microsoft Corporation © 2018 Digital Globe © CNES (2018) Distribution Airbus DS © 2018 HERE"},
-        {index: 4, id: "streetsdrc", label: "Rues (IPIS)", url: "mapbox://styles/ipisresearch/cjng25pan1ven2sntyfb60gtq"}, // this is streets DRC
-        {index: 2, id: "streets", label: "Rues", url:"mapbox://styles/ipisresearch/ciw6jpn5s002r2jtb615o6shz"},
+        {index: 4, id: "streetsdrc", label: "Rues <font color='grey'>(IPIS)</font>", url: "mapbox://styles/ipisresearch/cjng25pan1ven2sntyfb60gtq"}, // this is streets DRC
+        {index: 2, id: "streets", label: "Rues <font color='grey'>(Mapbox)</font>", url:"mapbox://styles/ipisresearch/ciw6jpn5s002r2jtb615o6shz"},
+        {index: 5, id: "satellite_bing", label: "Satellite <font color='grey'>(Bing)</font>", url:"http://ecn.t0.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g=6412", attribution: "© 2018 Microsoft Corporation © 2018 Digital Globe © CNES (2018) Distribution Airbus DS © 2018 HERE"},
+        {index: 1, id: "satellite", label: "Satellite <font color='grey'>(Mapbox)</font>", url:"mapbox://styles/ipisresearch/ciw6jsekm003a2jql0w0a7qca"},
         {index: 3, id: "empty", label: "Aucune", url:"mapbox://styles/ipisresearch/cjav3e31blm5w2smunhb32kzm"}
     ],
     // layer info
@@ -229,9 +229,9 @@ var Config = {
                 fillColor: {
                     property: "project",
                     data: [
-                        {label: "IPIS - Ulula 2018", value: "IPIS - Ulula 2018", color: "#379ad6"},
-                        {label: "IPIS - CBRMT 2018", value: "IPIS - CBRMT 2018", color: "#c673c9"},
-                        {label: "IPIS - PPA Mambasa 2017", value: "IPIS - PPA Mambasa 2017", color: "#d43b31"}
+                        {label: "IPIS - Ulula 2018", value: "IPIS - Ulula 2018", color: "#c673c9"},
+                        {label: "IPIS - CBRMT 2018", value: "IPIS - CBRMT 2018", color: "#D66F3F"},
+                        {label: "IPIS - PPA Mambasa 2017", value: "IPIS - PPA Mambasa 2017", color: "#D53A49"}
                     ]
                 },
                 fillOpacity: 0.4,
@@ -239,16 +239,16 @@ var Config = {
                 canToggle: true,
                 belowLayer: 'ref_layer_concessions'
             },
-            popupOnhover: "title",
+            popupOnhover: "zone",
             onClick: function(item,lngLat){
                 UI.hideDashboard();
                 UI.popup(item.properties,"studyzonePopup",lngLat,true);
             },
             filters:[
                 {id: "project", index: 71, label: "Project",items:[
-                        {label: "IPIS - Ulula 2018", value: "IPIS - Ulula 2018", color: "#379ad6"},
-                        {label: "IPIS - CBRMT 2018", value: "IPIS - CBRMT 2018", color: "#c673c9"},
-                        {label: "IPIS - PPA Mambasa 2017", value: "IPIS - PPA Mambasa 2017", color: "#d43b31"}
+                        {label: "IPIS - Ulula 2018", value: "IPIS - Ulula 2018", color: "#c673c9"},
+                        {label: "IPIS - CBRMT 2018", value: "IPIS - CBRMT 2018", color: "#D66F3F"},
+                        {label: "IPIS - PPA Mambasa 2017", value: "IPIS - PPA Mambasa 2017", color: "#D53A49"}
                     ],filterProperty: "project",onFilter: MapService.genericFilter}
             ]
             // You can get the project values by MapService.distinct("studyzones","project")
