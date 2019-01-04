@@ -1,8 +1,10 @@
 var version = "0.0.1";
 
+// cod_dev
+
 var Config = {
     mapId: "CODV5",
-    apiScope: "cod", // use cod_dev for dev
+    apiScope: "cod", 
     apiScopeDev: "cod_dev",
     templateURL: "_templates/main.html",
     showDisclaimerOnFirstUse: true,
@@ -214,7 +216,7 @@ var Config = {
             id: "studyzones",
             filterId: 7,
             label: "Zones d'études specifiques",
-            source: "http://ipis.annexmap.net/api/data/cod_dev/studyzones",
+            source: "http://ipis.annexmap.net/api/data/%apiScope%/studyzones",
             sourceId: "studyzones",
             display:{
                 type: 'fill',
@@ -285,7 +287,8 @@ var Config = {
             id: "protectedAreas",
             filterId: 5,
             label: "Aires protégées<br>&ensp;<small>(source: WRI, 2017)</small>",
-            source: "http://ipis.annexmap.net/api/geojson/cod_protectedArea.php",
+            source: "http://ipis.annexmap.net/api/data/%apiScope%/protectedareas",
+            source2: "http://ipis.annexmap.net/api/geojson/cod_protectedArea.php",
             sourceId: "protectedAreas",
             display:{
                 type: 'fill',

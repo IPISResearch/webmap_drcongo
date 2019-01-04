@@ -2,10 +2,15 @@ var CodChart = function(){
 
     var me = {};
     var chart;
+    var initDone = false;
+
+    me.init = function(){
+        document.getElementById("legend").innerHTML = Template.get("legendchart");
+        initDone = true;
+    };
 
     me.render = function(){
-
-
+        if (!initDone) return;
         if (chart) chart = chart.destroy();
 
         var mines = Data.getFilteredMines();
@@ -66,6 +71,12 @@ var CodChart = function(){
     };
 
     EventBus.on(EVENT.filterChanged,me.render);
+
+    EventBus.on(EVENT.UIReady,function(){
+        me.init();
+    });
+
+
 
 
     return me;
