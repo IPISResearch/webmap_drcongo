@@ -223,9 +223,9 @@ var Config = {
                 fillColor: {
                     property: "project",
                     data: [
-                        {label: "IPIS - Ulula 2018", value: "IPIS - Ulula 2018", color: "#c673c9"},
-                        {label: "IPIS - CBRMT 2018", value: "IPIS - CBRMT 2018", color: "#D66F3F"},
-                        {label: "IPIS - PPA Mambasa 2017", value: "IPIS - PPA Mambasa 2017", color: "#D53A49"}
+                        {label: "South Kivu, 2018: Assessing the impact of Due Diligence programmes", value: "IPIS - Ulula 2018", color: "#c673c9"},
+                        {label: "South Kivu, 2018: Evaluation of potential responsible artisanal mine site hubs", value: "IPIS - CBRMT 2018", color: "#D66F3F"},
+                        {label: "Mambasa, Ituri, 2017: Artisanal Gold Monitoring Pilot", value: "IPIS - PPA Mambasa 2017", color: "#D53A49"}
                     ]
                 },
                 fillOpacity: 0.4,
@@ -240,9 +240,9 @@ var Config = {
             },
             filters:[
                 {id: "project", index: 71, label: "Project",items:[
-                        {label: "IPIS - Ulula 2018", value: "IPIS - Ulula 2018", color: "#c673c9"},
-                        {label: "IPIS - CBRMT 2018", value: "IPIS - CBRMT 2018", color: "#D66F3F"},
-                        {label: "IPIS - PPA Mambasa 2017", value: "IPIS - PPA Mambasa 2017", color: "#D53A49"}
+                        {label: "South Kivu, 2018: Assessing the impact of Due Diligence programmes", value: "IPIS - Ulula 2018", color: "#c673c9"},
+                        {label: "South Kivu, 2018: Evaluation of potential responsible artisanal mine site hubs", color: "#D66F3F"},
+                        {label: "Mambasa, Ituri, 2017: Artisanal Gold Monitoring Pilot", value: "IPIS - PPA Mambasa 2017", color: "#D53A49"}
                     ],filterProperty: "project",onFilter: MapService.genericFilter}
             ]
             // You can get the project values by MapService.distinct("studyzones","project")
