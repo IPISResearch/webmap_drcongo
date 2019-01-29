@@ -40,7 +40,7 @@ var Data = function () {
     var operateursLookup = {};
     var roadblockTypes = [];
     var roadblockTypesLookup = {};
-    var armedgroupareas, armedgroupareasLoaded;
+    var armedgroupareas, armedgroupareasLoaded,armedgroupareasFiltered;
     var armedgroupareasLookup = {};
     var armedgroupareasProperties = {};
     var armedgroups = [];
@@ -130,6 +130,7 @@ var Data = function () {
 
         var dataDone = function () {
             if (mines.loaded && roadblocksLoaded  && armedgroupareasLoaded) {
+
                 now = new Date().getTime();
                 console.log("datasets generated in " + (now - checkpoint) + "ms");
 
@@ -1235,7 +1236,9 @@ var Data = function () {
             return tradelines;
         } else {
             loadTradelines(function () {
-                if (show && layer.labelElm && !(layer.labelElm.classList.contains("inactive"))) MapService.addLayer(layer);
+                if (show && layer.labelElm && !(layer.labelElm.classList.contains("inactive"))) {
+                    MapService.addLayer(layer);
+                }
             });
         }
     };
@@ -1406,6 +1409,7 @@ var Data = function () {
 
     me.getArmedGroupAreas = function (layer, show) {
 
+
         if (armedgroupareasLoaded) {
             return armedgroupareas;
         } else {
@@ -1413,6 +1417,7 @@ var Data = function () {
                 if (show && layer.labelElm && !(layer.labelElm.classList.contains("inactive"))) MapService.addLayer(layer);
             });
         }
+
     };
 
     me.getArmedGroupAreasDetail = function (armedgroup_) {
@@ -1420,6 +1425,7 @@ var Data = function () {
     };
 
     me.getArmedGroups = function () {
+
         var result = [];
 
         var order = [
@@ -1481,6 +1487,7 @@ var Data = function () {
 
         me.filterArmedGroupAreas();
     };
+
 
     me.filterArmedGroupAreas = function () {
         var filteredIds = [];
@@ -1555,6 +1562,7 @@ var Data = function () {
     };
 
     me.updateYearFilter = function (start, end) {
+        console.log("updating YearFilter");
         startYear = start;
         endYear = end;
 
