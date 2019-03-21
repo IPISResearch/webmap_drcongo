@@ -72,6 +72,21 @@ body.dashboard #menu{
     color: #717c96;
 }
 
+#menu.preloader .button{
+    margin: 10px auto;
+    display: block;
+}
+
+#menu.preloader .inputbox{
+    margin: 10px auto;
+    padding: 10px;
+    border: 1px solid #1DA1F2;
+    text-align: center;
+    border-radius: 4px;
+    display: block;
+}
+
+
 #menu.preloader.big{
     height: auto;
     padding: 20px;
@@ -276,7 +291,8 @@ body.dashboard #menu{
     background-position: 0 -24px;
 }
 
-#baselayers div.streetsdrc:after, #baselayers div.streets:after{
+#baselayers div.streets:after,
+#baselayers div.streetsdrc:after{
     background-position: 0 -72px;
 }
 
@@ -328,7 +344,7 @@ body.dashboard #legend.show{
 #legend .charts {
     margin: 5px;
     width: 200px;
-    height: 230px;
+    height: 240px;
     padding: 4px;
     font-size: 12px;
     line-height: 14px;
@@ -405,7 +421,7 @@ body.disclaimer #disclaimer, body.info #info{
 
 /* popup */
 .mapboxgl-popup-content{
-    max-width: 610px; /* also concerns tooltip*/
+    max-width: 400px; /* used to be 610px. Also concerns tooltip */
 }
 
 .popup h2{
@@ -428,15 +444,17 @@ body.disclaimer #disclaimer, body.info #info{
 .infotable td,
 .infotable th{
     text-align: left;
-    padding: 0 2px;
+    vertical-align: top;
+    padding: 2px 6px;
     font-size: 12px;
-    line-height: 18px;
+    line-height: 16px;
     border-bottom: 1px solid #ececec;
     color: #666;
 }
 
 .infotable th{
     font-weight: bold;
+    width: 120px;
 }
 
 .popup.cols2{
@@ -444,7 +462,7 @@ body.disclaimer #disclaimer, body.info #info{
 }
 
 .popup td{
-    max-width: 500px;   
+    max-width: 500px;
 }
 
 .popupColLeft{
@@ -908,3 +926,5 @@ body.disclaimer #disclaimer, body.info #info{
         transform: rotate(360deg);
     }
 }
+
+

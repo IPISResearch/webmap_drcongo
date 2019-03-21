@@ -8,36 +8,39 @@
     <link href='_style/search.css' rel='stylesheet' />
 
     <!-- Mapbox GL -->
-    <link href='_style/mapboxgl.0.43.0.css' rel='stylesheet' />
-    <script src='_script/lib/mapboxgl.0.43.0.js'></script>
-    <script src='_script/lib/mapboxextra.js'></script>
+    <link href='core/_style/mapboxgl.0.43.0.css' rel='stylesheet' />
+    <script src='core/_script/lib/mapboxgl.0.43.0.js'></script>
+    <script src='core/_script/lib/mapboxextra.js'></script>
 
     <!-- C3 and D3 -->
-    <script src="_script/lib/c3/d3_3.5.6_min.js"></script>
-    <script src="_script/lib/c3/c3.min.js"></script>
-    <link href='_script/lib/c3/c3.min.css' rel='stylesheet' />
+    <script src="core/_script/c3/d3_3.5.6_min.js"></script>
+    <script src="core/_script/c3/c3.min.js"></script>
+    <link href='core/_style/c3.min.css' rel='stylesheet' />
 
     <!-- Main IPIS map code -->
-    <script src='_script/lib/template.js'></script>
-    <script src='_script/lib/mustache.js'></script>
-    <script src='_script/lib/eventbus.js'></script>
-    <script src='_script/lib/fetchService.js'></script>
+    <script src='core/_script/lib/template.js'></script>
+    <script src='core/_script/lib/mustache.js'></script>
+    <script src='core/_script/lib/eventbus.js'></script>
+    <script src='core/_script/lib/fetchService.js'></script>
 
-    <script src="_script/map/enum.js"></script>
-    <script src="_script/map/mapService.js"></script>
-    <script src="_script/map/searchService.js"></script>
-    <script src="_script/map/main.js"></script>
-    <script src="_script/map/ui.js"></script>
-    <script src="_script/map/util.js"></script>
+    <script src="core/_script/map/enum.js"></script>
+    <script src="core/_script/map/mapService.js"></script>
+    <script src="core/_script/map/searchService.js"></script>
+    <script src="core/_script/map/main.js"></script>
+    <script src="core/_script/map/ui.js"></script>
+    <script src="core/_script/map/util.js"></script>
 
     <!-- map specific code -->
     <script src="_script/custom/data.js?v2"></script>
-    <script src="_script/custom/codChart.js"></script>
+    <script src="_script/custom/yearSlider.js?v2"></script>
+    <script src="_script/custom/codChart.js?v2"></script>
 
     <script src="_script/config.js"></script>
-    <!--<script src="_script/custom/chart.js"></script>-->
 
 
+    <script>
+		Config.apiScope = Config.apiScope;
+    </script>
 </head>
 
 <body>
@@ -45,15 +48,6 @@
 <div id="map">
 
     <div id='legend'>
-        <div class="charts">
-            <h3>Sites miniers visibles</h3>
-            <div class="label">
-                <span id="chart_current"></span> de <span id="chart_total"></span> sites miniers
-            </div>
-            <div id="chart1"></div>
-
-        </div>
-
     </div>
 
 </div>

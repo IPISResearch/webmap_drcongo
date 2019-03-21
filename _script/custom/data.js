@@ -40,6 +40,11 @@ var Data = function () {
     var operateursLookup = {};
     var roadblockTypes = [];
     var roadblockTypesLookup = {};
+    var armedgroupareas, armedgroupareasLoaded,armedgroupareasFiltered;
+    var armedgroupareasLookup = {};
+    var armedgroupareasProperties = {};
+    var armedgroups = [];
+    var armedgroupsLookup = {};
     var groups = [];
     var groupsLookup = {};
     var interferences = [];
@@ -48,6 +53,7 @@ var Data = function () {
 
     var filterFunctionsLookup = {};
     var roadBlockFilterFunctionsLookup = {};
+    var armedGroupAreasFilterFunctionsLookup = {};
     var concessionFilterFunctionsLookup = {};
     var tradelineFilterFunctionsLookup = {};
 
@@ -75,6 +81,23 @@ var Data = function () {
         "Eléments indépendants": "#a87e7f",
         "Forces de sécurité": "#520c07",
         "Groupes armés": "#e80c0f"
+    };
+
+    var armedgroupsColors = {
+        "FARDC - Éléments indiciplinés": "#AD5936", // #ac5023
+        "Raïa Mutomboki": "#c3a710", // c3a710
+        "NDC": "#368E8B",
+        "NDC-Rénové": "#2C98AB",
+        "FDLR": "#872A5F",
+        "FRPI": "#250988",
+        "Maï-Maï Simba (Morgan/ex-Morgan)": "#5379AD",
+        "Maï-Maï Simba": "#5379AD",
+        "Maï-Maï Yakutumba": "#5379AD",
+        "Maï-Maï UPCP": "#5379AD",
+        "Maï-Maï UPLD": "#5379AD",
+        "Maï-Maï (autre)": "#5379AD",
+        "Autre": "#636465",
+        'Pas de présence armée constatée': "transparent"
     };
 
     var qualifications = {
@@ -106,7 +129,8 @@ var Data = function () {
         var now;
 
         var dataDone = function () {
-            if (mines.loaded && roadblocksLoaded) {
+            if (mines.loaded && roadblocksLoaded  && armedgroupareasLoaded) {
+
                 now = new Date().getTime();
                 console.log("datasets generated in " + (now - checkpoint) + "ms");
 
@@ -163,6 +187,7 @@ var Data = function () {
 
         loadMines();
         //loadPdv();
+        loadArmedGroupAreas();
         loadRoadBlocks(dataDone);
         //loadTradelines();
 
@@ -1211,7 +1236,9 @@ var Data = function () {
             return tradelines;
         } else {
             loadTradelines(function () {
-                if (show && layer.labelElm && !(layer.labelElm.classList.contains("inactive"))) MapService.addLayer(layer);
+                if (show && layer.labelElm && !(layer.labelElm.classList.contains("inactive"))) {
+                    MapService.addLayer(layer);
+                }
             });
         }
     };
@@ -1290,11 +1317,252 @@ var Data = function () {
     // ---- end tradelines ----
 
 
+    // ---- armedgroupareas ----
+
+
+    function loadArmedGroupAreas(next) {
+        var url = "http://ipis.annexmap.net/api/data/"+Config.apiScope+"/armedgroupareasall?key=ipis";
+
+        var checkpoint = new Date().getTime();
+        FetchService.json(url, function (data,xhr) {
+
+            if (!data){
+                console.error("Failed loading armedgroupareas");
+                if (xhr.hasTimeOut){
+                    timeOutCount++;
+                    if (timeOutCount<maxTimeOutRetry){
+                        UI.showLoaderTimeOut();
+                        loadArmedGroupAreas(next);
+                    }else{
+                        UI.showLoaderError();
+                    }
+                }else{
+                    UI.showLoaderError();
+                }
+            }else{
+                var now = new Date().getTime();
+                console.log("armedgroupareas data loaded in " + (now - checkpoint) + "ms");
+
+                //build grouping variable
+                var counter = 0;
+                armedgroupareas = featureCollection();
+                data.result.forEach(function (d) {
+
+                    //define items
+                    var armedgrouparea = featurePoint(d.lt, d.ln);
+
+                    //add extra properties and rename variable
+                    counter++;
+                    armedgrouparea.properties.id = counter;
+                    armedgrouparea.properties.armedgroup = d.ag;
+                    armedgrouparea.properties.armedgroup_ =
+                        (d.ag == null) ? 'Pas de présence armée constatée':
+                            (d.ag == 'FARDC') ? d.tag : // "FARDC - Éléments indiciplinés" etc.
+                                (d.ag == 'Raïa Mutomboki') ? d.ag :
+                                    (d.ag == 'NDC') ? d.ag :
+                                        (d.ag == 'NDC-Rénové') ? d.ag :
+                                            (d.ag == 'FRPI') ? d.ag :
+                                                d.ag.indexOf("FDLR") > -1 ? "FDLR" : // Also FDLR/Rudi
+                                                    d.ag.indexOf("Morgan") > -1 ? "Maï-Maï Simba (Morgan/ex-Morgan)" : //
+                                                        d.ag.indexOf("Simba") > -1 ? "Maï-Maï Simba" : //
+                                                            d.ag.indexOf("Yakutumba") > -1 ? "Maï-Maï Yakutumba" : //
+                                                                (d.ag == 'Maï-Maï UPCP') ? d.ag :
+                                                                    (d.ag == 'Maï-Maï UPLD') ? d.ag :
+                                                                        d.ag.indexOf("Maï-Maï") > -1 ? "Maï-Maï (autre)" : //
+                                                                            'Autre';
+                    armedgrouparea.properties.typearmedgroup = d.tag;
+                    armedgrouparea.properties.workers = d.w;
+                    armedgrouparea.properties.pcode = d.i;
+                    armedgrouparea.properties.date = d.d;
+                    armedgrouparea.properties.year = d.d ? parseInt(d.d.substr(0,4)) : 0;
+
+                    //create shortcuts for useful variables, e.g. gor lookup function definition below
+                    var armedgroup_ = armedgrouparea.properties.armedgroup_;
+                    armedgrouparea.pcode = d.i;
+                    armedgrouparea.date = d.d;
+
+                    // push to grouping variables
+                    armedgroupareas.features.push(armedgrouparea);
+                    armedgroupareasLookup[counter] = armedgrouparea;
+                    armedgroupareasProperties[counter] = armedgrouparea.properties;
+
+                    //define lookup function
+                    if (armedgroup_) {
+                        if (!armedgroupsLookup[armedgroup_]) {
+                            armedgroups.push(armedgroup_);
+                            armedgroupsLookup[armedgroup_] = armedgroup_;
+                        }
+                    }
+                    var hasResourcesNaturelles = false;
+                    if (!hasResourcesNaturelles) armedgrouparea.properties.resourcesNaturelles = "";
+
+                });
+
+                armedgroups.sort();
+
+                armedgroupareasLoaded = true;
+                if (next) next();
+            }
+        });
+    }
+
+
+    me.getArmedGroupAreas = function (layer, show) {
+
+
+        if (armedgroupareasLoaded) {
+            return armedgroupareas;
+        } else {
+            loadArmedGroupAreas(function () {
+                if (show && layer.labelElm && !(layer.labelElm.classList.contains("inactive"))) MapService.addLayer(layer);
+            });
+        }
+
+    };
+
+    me.getArmedGroupAreasDetail = function (armedgroup_) {
+        return armedgroupsProperties[armedgroup.properties.id];
+    };
+
+    me.getArmedGroups = function () {
+
+        var result = [];
+
+        var order = [
+            "FARDC - Éléments indiciplinés",
+            "Raïa Mutomboki",
+            "NDC",
+            "NDC-Rénové",
+            "FDLR",
+            "FRPI",
+            "Maï-Maï Simba (Morgan/ex-Morgan)",
+            "Maï-Maï Simba",
+            "Maï-Maï Yakutumba",
+            "Maï-Maï UPCP",
+            "Maï-Maï UPLD",
+            "Maï-Maï (autre)",
+            "Autre" // not "Pas de présence armée constatée"
+        ].reverse();
+
+        armedgroups.forEach(function (item) {
+            result.push({label: item, value: armedgroupsLookup[item], color: armedgroupsColors[item], index: order.indexOf(item)})
+        });
+
+        // temporary filter to make the list of state services only contain main armedgroups
+        result = result.filter(function(i){return order.indexOf(i.label) > -1});
+
+        return result.sort(function (a, b) {
+            return a.index < b.index ? 1 : -1;
+        });
+
+    };
+
+    me.updateArmedGroupAreasFilter = function (filter, item) {
+        var values = [];
+        filter.filterItems.forEach(function (item) {
+            if (item.checked) values.push(item.value);
+        });
+
+        if (values.length === filter.filterItems.length) {
+            // all items checked - ignore filter
+            armedGroupAreasFilterFunctionsLookup[filter.id] = undefined;
+        } else {
+            if (filter.array) {
+                armedGroupAreasFilterFunctionsLookup[filter.id] = function (item) {
+                    var value = item.properties[filter.filterProperty];
+                    if (value && value.length) {
+                        return value.some(function (v) {
+                            return values.includes(v);
+                        });
+                    }
+                    return false;
+                };
+            } else {
+                armedGroupAreasFilterFunctionsLookup[filter.id] = function (item) {
+                    return values.includes(item.properties[filter.filterProperty]);
+                };
+            }
+        }
+
+
+        me.filterArmedGroupAreas();
+    };
+
+
+    me.filterArmedGroupAreas = function () {
+        var filteredIds = [];
+        var filtered = [];
+        var filterFunctions = [];
+
+        for (var key in  armedGroupAreasFilterFunctionsLookup) {
+            if (armedGroupAreasFilterFunctionsLookup.hasOwnProperty(key) && armedGroupAreasFilterFunctionsLookup[key]) {
+                filterFunctions.push(armedGroupAreasFilterFunctionsLookup[key]);
+            }
+        }
+
+        // first filter on year
+        if (startYear){
+            armedgroupareas.features.forEach(function (armedgrouparea) {
+                if (armedgrouparea.properties.year>=startYear && armedgrouparea.properties.year<=endYear){
+                    filtered.push(armedgrouparea);
+                }
+            });
+        }else{
+            filtered = armedgroupareas.features;
+        }
+
+
+        // Only keep points from latest visit
+        var grouped = filtered.groupBy('pcode');
+        var filteredByLastVisit = [];
+        for (var pcode in grouped) {
+            var featureList = grouped[pcode];
+            var latestDate = featureList[featureList.length-1].date; // Assuming ordered by date
+            featureList.forEach(function(feature) {
+                if (feature.date === latestDate) {
+                    filteredByLastVisit.push(feature)
+                } else {
+                }
+            })
+        }
+
+        // then apply filters
+        filtered = [];
+        filteredByLastVisit.forEach(function (armedgrouparea) {
+            var passed = true;
+            var filterCount = 0;
+            var filterMax = filterFunctions.length;
+            while (passed && filterCount < filterMax) {
+                passed = filterFunctions[filterCount](armedgrouparea);
+                filterCount++;
+            }
+
+            if (passed) {
+                filtered.push(armedgrouparea);
+                // filteredIds.push(armedgrouparea.properties.id);
+            }
+        });
+
+
+        for (var i = 0; i < filtered.length; i++) {
+            filteredIds.push(filtered[i].properties.id);
+        }
+
+        map.setFilter("armedgroupareas", ['in', 'id'].concat(filteredIds));
+
+        EventBus.trigger(EVENT.filterChanged);
+    };
+
+
+    // ---- end armedgroupareas ----
+
+
     me.getColorForMineral = function (mineral) {
         return mineralColors[mineral] || "grey";
     };
 
     me.updateYearFilter = function (start, end) {
+        console.log("updating YearFilter");
         startYear = start;
         endYear = end;
 
@@ -1304,6 +1572,7 @@ var Data = function () {
         }
         if (Config.layers.roadblocks.added) me.filterRoadBlocks();
         if (Config.layers.tradelines.added) me.filterTradelines();
+        if (Config.layers.armedgroupareas.added) me.filterArmedGroupAreas();
 
     };
 
