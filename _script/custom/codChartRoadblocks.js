@@ -20,7 +20,7 @@ var CodChartRoadblocks = function(){
 
         // document.getElementById("chart2_current").innerHTML = current.toLocaleString();
         document.getElementById("chart2_total").innerHTML = max.toLocaleString();
-        document.getElementById("legendRoadblocks").classList.add("hidden");
+        document.getElementById("legendRoadblocks").classList.add("hidden", "high");
         
         var data = {};
         var chartData = {

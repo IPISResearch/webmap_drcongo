@@ -49,7 +49,7 @@ var Config = {
             },
             onToggle: function(visible){
                 var legend =  document.getElementById("legend");
-                visible ? legend.classList.replace("hidden", "show") : legend.classList.replace("show", "hidden");
+                if (visible) {legend.classList.replace("hidden", "show"); document.getElementById("legendRoadblocks").classList.replace("low", "high") } else {legend.classList.replace("show", "hidden"); document.getElementById("legendRoadblocks").classList.replace("high", "low")};
             },
             filterId: 1,
             filters:[

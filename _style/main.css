@@ -328,8 +328,15 @@ body.dashboard #menu{
 
 #legendRoadblocks {
     position:absolute;
-    bottom: 200px;
     left: 10px;
+}
+
+#legendRoadblocks.low {
+    bottom: 40px;
+}
+
+#legendRoadblocks.high {
+    bottom: 300px;
 }
 
 #legend, #legendRoadblocks {
