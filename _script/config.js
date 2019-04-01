@@ -49,7 +49,7 @@ var Config = {
             },
             onToggle: function(visible){
                 var legend =  document.getElementById("legend");
-                visible ? legend.classList.remove("hidden") : legend.classList.add("hidden");
+                visible ? legend.classList.replace("hidden", "show") : legend.classList.replace("show", "hidden");
             },
             filterId: 1,
             filters:[
@@ -189,6 +189,10 @@ var Config = {
             onClick: function(item){
                 UI.hideDashboard();
                 UI.popup(Data.getRoadBlockDetail(item),"roadblockPopup",item.geometry.coordinates,true);
+            },
+            onToggle: function(visible){
+                var legendRoadblocks =  document.getElementById("legendRoadblocks");
+                visible ? legendRoadblocks.classList.replace("hidden", "show") : legendRoadblocks.classList.replace("show", "hidden");
             },
             display:{
                 visible: false,
