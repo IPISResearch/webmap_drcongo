@@ -3,7 +3,7 @@ var version = "0.0.1";
 // cod_dev
 
 var Config = {
-    mapId: "CODV5",
+    mapId: "CODV6",
     mapName: "DRC V6",
     apiScope: "cod",
     apiScopeDev: "cod_dev",
