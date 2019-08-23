@@ -34,7 +34,7 @@ var CodChartRoadblocks = function(){
             onmouseout: function (d, i) { /*console.log("onmouseout", d, i);*/ }
         };
 
-        var data = roadblocks.map(o => {
+        var data = roadblocks.map(function(o){
             return o.properties.typeFirst;
         });
 
