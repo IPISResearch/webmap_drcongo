@@ -324,6 +324,22 @@ body.dashboard #menu{
     position:absolute;
     bottom: 40px;
     left: 10px;
+}
+
+#legendRoadblocks {
+    position:absolute;
+    left: 10px;
+}
+
+#legendRoadblocks.low {
+    bottom: 40px;
+}
+
+#legendRoadblocks.high {
+    bottom: 300px;
+}
+
+#legend, #legendRoadblocks {
     opacity:0.9;
     z-index: 100;
     display: none;
@@ -332,16 +348,21 @@ body.dashboard #menu{
     background-color: rgba(255, 255, 255, 0.8);
 }
 
-#legend.show{
+#legend.show,  #legendRoadblocks.show{
     display: block;
 }
+
 #legend.hidden.show,
 body.dashboard #legend,
-body.dashboard #legend.show{
+body.dashboard #legend.show,
+#legendRoadblocks.hidden.show,
+body.dashboard #legendRoadblocks,
+body.dashboard #legendRoadblocks.show
+{
     display: none;
 }
 
-#legend .charts {
+#legend .charts, #legendRoadblocks .charts {
     margin: 5px;
     width: 200px;
     height: 240px;
@@ -352,16 +373,16 @@ body.dashboard #legend.show{
 }
 
 
-#legend .charts h3{
+#legend .charts h3, #legendRoadblocks .charts h3{
     margin: 0;
     font-size: 13px;
     line-height: 16px;
 }
 
-#legend .c3-chart-arcs-title{
+#legend .c3-chart-arcs-title, #legendRoadblocks .c3-chart-arcs-title{
     font-size: 3em;
 }
-#legend .c3-tooltip td{
+#legend .c3-tooltip td, #legendRoadblocks .c3-tooltip td{
     white-space: nowrap;
 }
 

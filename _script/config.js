@@ -196,6 +196,10 @@ var Config = {
                 UI.hideDashboard();
                 UI.popup(Data.getRoadBlockDetail(item),"roadblockPopup",item.geometry.coordinates,true);
             },
+            onToggle: function(visible){
+                var legendRoadblocks =  document.getElementById("legendRoadblocks");
+                visible ? legendRoadblocks.classList.replace("hidden", "show") : legendRoadblocks.classList.replace("show", "hidden");
+            },
             display:{
                 visible: false,
                 canToggle: true,

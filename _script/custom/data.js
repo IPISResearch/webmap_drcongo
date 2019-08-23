@@ -19,6 +19,7 @@ var Data = function () {
     var pdvsLookup = {};
     var pdvsProperties = {};
     var roadblocks, roadblocksLoaded;
+    var roadblocksFiltered = [];
     var roadblocksLookup = {};
     var roadblocksProperties = {};
     var concessions, concessionsLoaded;
@@ -137,6 +138,7 @@ var Data = function () {
                 EventBus.trigger(EVENT.preloadDone);
                 //EventBus.trigger(EVENT.filterChanged);
                 CodChart.render();
+                CodChartRoadblocks.render();
             }
         };
 
@@ -1022,7 +1024,7 @@ var Data = function () {
 
     me.filterRoadBlocks = function () {
         var filteredIds = [];
-        var filtered = [];
+        roadblocksFiltered = [];
         var filterFunctions = [];
 
         for (var key in  roadBlockFilterFunctionsLookup) {
@@ -1045,7 +1047,7 @@ var Data = function () {
             }
 
             if (passed) {
-                filtered.push(roadblock);
+                roadblocksFiltered.push(roadblock);
                 filteredIds.push(roadblock.properties.id);
             }
         });
@@ -1054,6 +1056,11 @@ var Data = function () {
         map.setFilter("roadblocks", ['in', 'id'].concat(filteredIds));
 
         EventBus.trigger(EVENT.filterChanged);
+    };
+
+
+    me.getFilteredRoadblocks = function(){
+        return roadblocksFiltered;
     };
 
 
