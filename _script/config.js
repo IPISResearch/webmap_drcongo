@@ -4,6 +4,7 @@ var version = "0.0.1";
 
 var Config = {
     mapId: "CODV5",
+    mapName: "DRC V6",
     apiScope: "cod",
     apiScopeDev: "cod_dev",
     templateURL: "_templates/main.html",
@@ -76,7 +77,12 @@ var Config = {
                         {label: "Traitement au mercure", value:2},
                         {label: "Pas de traitement au mercure", value:1},
                         {label: "Pas de données", value:0}
-                    ],onFilter: Data.updateFilter,filterProperty: "mercury"}//,
+                    ],onFilter: Data.updateFilter,filterProperty: "mercury"},
+                {id: "itsci", index: 4, label: "Présence iTSCI</small>",
+                    items: [
+                        {label: "Actif", value:"Actif"},
+                        {label: "Pas actif", value:"Pas actif"}
+                    ],onFilter: Data.updateFilter,filterProperty: "itsci"}//,
                 //{id: "projects", index: 8, label: "Projets",items: Data.getProjects,onFilter: Data.updateFilter,filterProperty:"project",maxVisibleItems:5}
             ],
             display:{

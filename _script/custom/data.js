@@ -304,7 +304,9 @@ var Data = function () {
 
                     // services
                     for (i = 1; i<5; i++){
-                      if (d["s" + i])visit.services.push(d["s" + i]);
+                      if (d["s" + i] && (d["s" + i].indexOf("iTSCi")<0)){
+                          visit.services.push(d["s" + i]);
+                      }
                     }
                     var phone = d.ph;
                     if (phone){
@@ -312,7 +314,12 @@ var Data = function () {
                       if (d.pc) phone += " (<small>" + d.pc + "</small>)";
                       visit.services.push(phone);
                     }
-                    if (d.it) visit.services.push("<b>iTSCi</b>: " + d.it);
+                    if (d.it) {
+                        visit.services.push("<b>iTSCi</b>: " + d.it);
+                        visit.itsciStatus = "Actif";
+                    }else{
+                        visit.itsciStatus = "Pas actif";
+                    }
 
                     // women and children
                     visit.womanchildren = {
@@ -412,7 +419,7 @@ var Data = function () {
                         if (d.m == 0) mine.properties.mercury = 1;
                         if (d.m == 1) mine.properties.mercury = 2;
 
-                        mine.properties.itsci = d.it;
+                        mine.properties.itsci = d.it ? "Actif" : "Pas actif";
 
                         // projects
                         if (d.pj) {
@@ -769,7 +776,7 @@ var Data = function () {
     me.getServices = function () {
         var result = [];
 
-        var order = ["SAESSCAM", "Division des mines", "iTSCi (via SAESSCAM)", "Police des Mines", "Anti-fraude", "PNC", "ANR", "Chefferie"].reverse();
+        var order = ["SAESSCAM", "Division des mines", "Police des Mines", "Anti-fraude", "PNC", "ANR", "Chefferie"].reverse();
 
         services.forEach(function (item) {
             result.push({label: item, value: servicesLookup[item], index: order.indexOf(item)})
