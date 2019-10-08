@@ -674,7 +674,7 @@ body.disclaimer #disclaimer, body.info #info{
 #dashboard{
     position: absolute;
     width: 100%;
-    height: 255px;
+    /*height: 255px;*/
     background-color: white;
     bottom: -255px;
     z-index: 1000;

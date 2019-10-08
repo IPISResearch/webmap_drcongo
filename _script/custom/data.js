@@ -307,6 +307,9 @@ var Data = function () {
                     // services
                     for (i = 1; i<5; i++){
                       if (d["s" + i] && (d["s" + i].indexOf("iTSCi")<0)){
+
+                          d["s" + i] = d["s" + i].split("SAESSCAM").join("SAEMAPE")
+                          
                           visit.services.push(d["s" + i]);
                       }
                     }
@@ -778,7 +781,7 @@ var Data = function () {
     me.getServices = function () {
         var result = [];
 
-        var order = ["SAESSCAM", "Division des mines", "Police des Mines", "Anti-fraude", "PNC", "ANR", "Chefferie"].reverse();
+        var order = ["SAEMAPE", "Division des mines", "Police des Mines", "Anti-fraude", "PNC", "ANR", "Chefferie"].reverse();
 
         services.forEach(function (item) {
             result.push({label: item, value: servicesLookup[item], index: order.indexOf(item)})

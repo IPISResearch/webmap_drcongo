@@ -60,6 +60,11 @@ var Config = {
                     items: Data.getArmyGroups,onFilter: Data.updateFilter,filterProperty: "armygroups",array:true},
                 {id: "services", index: 5, label: "Présence services<br>&ensp;<small>(enregistrée à partir de 2015)</small>",
                     items:Data.getServices,onFilter: Data.updateFilter,filterProperty: "services",array:true,maxVisibleItems:6},
+                {id: "itsci", index: 4, label: "Présence iTSCI</small>",
+                    items: [
+                        {label: "Actif", value:"Actif"},
+                        {label: "Pas actif", value:"Pas actif"}
+                    ],onFilter: Data.updateFilter,filterProperty: "itsci"},
                 {id: "qualification", index: 6, label: "Qualification ministérielle<br>&ensp;<small>(source: BGR, août 2018)</small>",items:[
                         {label: "Vert", value:1 , color: "#29b012"},
                         {label: "Jaune", value:2 , color : "#e0a500"},
@@ -77,12 +82,7 @@ var Config = {
                         {label: "Traitement au mercure", value:2},
                         {label: "Pas de traitement au mercure", value:1},
                         {label: "Pas de données", value:0}
-                    ],onFilter: Data.updateFilter,filterProperty: "mercury"},
-                {id: "itsci", index: 4, label: "Présence iTSCI</small>",
-                    items: [
-                        {label: "Actif", value:"Actif"},
-                        {label: "Pas actif", value:"Pas actif"}
-                    ],onFilter: Data.updateFilter,filterProperty: "itsci"}//,
+                    ],onFilter: Data.updateFilter,filterProperty: "mercury"}//,
                 //{id: "projects", index: 8, label: "Projets",items: Data.getProjects,onFilter: Data.updateFilter,filterProperty:"project",maxVisibleItems:5}
             ],
             display:{
