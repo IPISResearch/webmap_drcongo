@@ -143,7 +143,7 @@ var Data = function () {
         };
 
         function loadMines() {
-            var url = "http://ipis.annexmap.net/api/data/"+Config.apiScope+"/all?key=ipis";
+            var url = "https://ipis.annexmap.net/api/data/"+Config.apiScope+"/all?key=ipis";
 
             FetchService.json(url, function (data,xhr) {
 
@@ -806,7 +806,7 @@ var Data = function () {
 
 
     function loadPdv(next) {
-        var url = "http://ipis.annexmap.net/api/data/"+Config.apiScope+"/pdvall?key=ipis";
+        var url = "https://ipis.annexmap.net/api/data/"+Config.apiScope+"/pdvall?key=ipis";
 
         var checkpoint = new Date().getTime();
         FetchService.json(url, function (data) {
@@ -864,7 +864,7 @@ var Data = function () {
 
 
     function loadRoadBlocks(next) {
-        var url = "http://ipis.annexmap.net/api/data/"+Config.apiScope+"/roadblocksall?key=ipis";
+        var url = "https://ipis.annexmap.net/api/data/"+Config.apiScope+"/roadblocksall?key=ipis";
 
         var checkpoint = new Date().getTime();
         FetchService.json(url, function (data,xhr) {
@@ -1073,7 +1073,7 @@ var Data = function () {
 
 
     function loadConcessions(next) {
-        var url = "http://ipis.annexmap.net/api/geojson/cod_titres.php";
+        var url = "https://ipis.annexmap.net/api/geojson/cod_titres.php";
         var checkpoint = new Date().getTime();
         FetchService.json(url, function (data) {
             var now = new Date().getTime();
@@ -1202,7 +1202,7 @@ var Data = function () {
 
 
     function loadTradelines(next) {
-        var url = "http://ipis.annexmap.net/api/geojson/cod_tradelines.php";
+        var url = "https://ipis.annexmap.net/api/geojson/cod_tradelines.php";
 
         var checkpoint = new Date().getTime();
         FetchService.json(url, function (data) {
@@ -1338,7 +1338,7 @@ var Data = function () {
 
 
     function loadArmedGroupAreas(next) {
-        var url = "http://ipis.annexmap.net/api/data/"+Config.apiScope+"/armedgroupareasall?key=ipis";
+        var url = "https://ipis.annexmap.net/api/data/"+Config.apiScope+"/armedgroupareasall?key=ipis";
 
         var checkpoint = new Date().getTime();
         FetchService.json(url, function (data,xhr) {

@@ -26,7 +26,7 @@ var Config = {
     baselayers:[
         {index: 4, id: "streetsdrc", label: "Rues <font color='grey'>(IPIS)</font>", url: "mapbox://styles/ipisresearch/cjng25pan1ven2sntyfb60gtq"}, // this is streets DRC
         {index: 2, id: "streets", label: "Rues <font color='grey'>(Mapbox)</font>", url:"mapbox://styles/ipisresearch/ciw6jpn5s002r2jtb615o6shz"},
-        {index: 5, id: "satellite_bing", label: "Satellite <font color='grey'>(Bing)</font>", url:"http://ecn.t0.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g=6412", attribution: "© 2018 Microsoft Corporation © 2018 Digital Globe © CNES (2018) Distribution Airbus DS © 2018 HERE"},
+        {index: 5, id: "satellite_bing", label: "Satellite <font color='grey'>(Bing)</font>", url:"https://ecn.t0.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g=6412", attribution: "© 2018 Microsoft Corporation © 2018 Digital Globe © CNES (2018) Distribution Airbus DS © 2018 HERE"},
         {index: 1, id: "satellite", label: "Satellite <font color='grey'>(Mapbox)</font>", url:"mapbox://styles/ipisresearch/ciw6jsekm003a2jql0w0a7qca"},
         {index: 3, id: "empty", label: "Aucune", url:"mapbox://styles/ipisresearch/cjav3e31blm5w2smunhb32kzm"}
     ],
@@ -60,7 +60,7 @@ var Config = {
                     items: Data.getArmyGroups,onFilter: Data.updateFilter,filterProperty: "armygroups",array:true},
                 {id: "services", index: 5, label: "Présence services<br>&ensp;<small>(enregistrée à partir de 2015)</small>",
                     items:Data.getServices,onFilter: Data.updateFilter,filterProperty: "services",array:true,maxVisibleItems:6},
-                {id: "itsci", index: 4, label: "Présence iTSCI</small>",
+                {id: "itsci", index: 9, label: "Présence iTSCI</small>",
                     items: [
                         {label: "Actif", value:"Actif"},
                         {label: "Pas actif", value:"Pas actif"}
