@@ -949,3 +949,40 @@ body.disclaimer #disclaimer, body.info #info{
 }
 
 
+
+/* story */
+
+body.storyfied{
+    overflow: unset;
+}
+
+body.storyfied #story{
+    position: relative;
+    z-index: 10000;
+}
+
+body.storyfied #storylogo{
+    position: fixed;
+    right: 3vh;
+    bottom: 3vh;
+    z-index: 10001;
+}
+
+body.storyfied #map{
+    position: fixed;
+}
+
+body.storyfied #legend,
+body.storyfied #selectbox,
+body.storyfied #searchbox,
+body.storyfied #menu,
+body.storyfied .mapboxgl-control-container{
+    display: none;
+}
+
+body.storyfied #menu__{
+    position: fixed;
+    z-index: 2000000;
+}
+
+

@@ -223,6 +223,7 @@ var Data = function () {
                         }
                         mine = featurePoint(d.lt, d.ln);
                         mine.properties.id = mineId;
+                        mine.properties.itsci = "Pas actif";
                         mines.filtered.ids.push(mineId);
                         buildProperties(mine, d);
 
@@ -233,7 +234,6 @@ var Data = function () {
 
                     mine.properties.mineral = d.m1;
                     mine.properties.picture = d.pi;
-
 
                     var workers = isNaN(parseInt(d.w)) ? -1 : parseInt(d.w);
                     if (isNaN(workers)) {
@@ -322,6 +322,7 @@ var Data = function () {
                     if (d.it) {
                         visit.services.push("<b>iTSCi</b>: " + d.it);
                         visit.itsciStatus = "Actif";
+                        mine.properties.itsci = "Actif";
                     }else{
                         visit.itsciStatus = "Pas actif";
                     }
@@ -423,8 +424,7 @@ var Data = function () {
                         mine.properties.mercury = 0;
                         if (d.m == 0) mine.properties.mercury = 1;
                         if (d.m == 1) mine.properties.mercury = 2;
-
-                        mine.properties.itsci = d.it ? "Actif" : "Pas actif";
+                        
 
                         // projects
                         if (d.pj) {
