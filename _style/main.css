@@ -959,6 +959,7 @@ body.storyfied{
 body.storyfied #story{
     position: relative;
     z-index: 10000;
+    width: 50%;
 }
 
 body.storyfied #storylogo{
