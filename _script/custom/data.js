@@ -189,7 +189,7 @@ var Data = function () {
 
         loadMines();
         //loadPdv();
-        loadArmedGroupAreas();
+        loadArmedGroupAreas(dataDone);
         loadRoadBlocks(dataDone);
         //loadTradelines();
 
