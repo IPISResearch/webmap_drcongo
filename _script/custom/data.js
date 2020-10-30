@@ -85,7 +85,7 @@ var Data = function () {
     };
 
     var armedgroupsColors = {
-        "FARDC - Éléments indiciplinés": "#AD5936", // #ac5023
+        "FARDC - Éléments indisciplinés": "#AD5936", // #ac5023
         "Raïa Mutomboki": "#c3a710", // c3a710
         "NDC": "#368E8B",
         "NDC-Rénové": "#2C98AB",
@@ -766,7 +766,7 @@ var Data = function () {
     me.getArmyGroups = function () {
         var result = armyGroups;
 
-        var order = ["Pas de présence armée constatée", "FARDC - Pas de données sur les ingérences", "FARDC - Pas d’ingérence constatée", "FARDC - Éléments indiciplinés", "Groupe armé local", "Groupe armé étranger"].reverse();
+        var order = ["Pas de présence armée constatée", "FARDC - Pas de données sur les ingérences", "FARDC - Pas d’ingérence constatée", "FARDC - Éléments indisciplinés", "Groupe armé local", "Groupe armé étranger"].reverse();
 
         result.forEach(function (arm) {
             arm.index = order.indexOf(arm.label)
@@ -1374,7 +1374,7 @@ var Data = function () {
                     armedgrouparea.properties.armedgroup = d.ag;
                     armedgrouparea.properties.armedgroup_ =
                         (d.ag == null) ? 'Pas de présence armée constatée':
-                            (d.ag == 'FARDC') ? d.tag : // "FARDC - Éléments indiciplinés" etc.
+                            (d.ag == 'FARDC') ? d.tag : // "FARDC - Éléments indisciplinés" etc.
                                 (d.ag == 'Raïa Mutomboki') ? d.ag :
                                     (d.ag == 'NDC') ? d.ag :
                                         (d.ag == 'NDC-Rénové') ? d.ag :
@@ -1446,7 +1446,7 @@ var Data = function () {
         var result = [];
 
         var order = [
-            "FARDC - Éléments indiciplinés",
+            "FARDC - Éléments indisciplinés",
             "Raïa Mutomboki",
             "NDC",
             "NDC-Rénové",
