@@ -37,7 +37,7 @@
 <!--/timeout-->
 
 <!--loadererror-->
-<div id="loadererror">Le chargement de la carte a échoué en raison d'un problème de connexion.<br>Réessayez plus tard ou avec une connection plus rappide (par exemple par 3G ou 4G).<br><br>Si vous voyez se message à plusieurs reprises, controler <a href="https://www.mapbox.com/help/mapbox-browser-support/">ici</a> si votre browser supporte WebGL (ce qui n'est pas le cas pour Internet Explorer), ou contactez <a href="mailto:mapping@ipisresearch.be">mapping@ipisresearch.be</a></div>
+<div id="loadererror">Le chargement de la carte a échoué en raison d'un problème de connexion.<br>Réessayez plus tard ou avec une connexion plus rapide (par exemple par 3G ou 4G).<br><br>Si vous voyez ce message à plusieurs reprises, controler <a href="https://www.mapbox.com/help/mapbox-browser-support/">ici</a> si votre navigateur web supporte WebGL, ou contactez <a href="mailto:mapping@ipisresearch.be">mapping@ipisresearch.be</a></div>
 <!--/loadererror-->
 
 
@@ -146,12 +146,12 @@
                 <td><i class="qualification q{{{qualification}}}"></i>{{{qualificationString}}}</td>
             </tr>
             {{/qualification}}
-            {{#itsci}}
+            {{#hasTraceability}}
             <tr>
-                <th>iTSCi</th>
-                <td>{{{itsci}}}</td>
+                <th>Traçabilité</th>
+                <td>{{{traceability}}}</td>
             </tr>
-            {{/itsci}}
+            {{/hasTraceability}}
 
         </table>
     </div>
@@ -454,6 +454,32 @@
 </div>
 <!--/protectedAreaPopup-->
 
+<!--depotPopup-->
+<div class="popup">
+    <h2>Dépôt</h2>
+    <table border="0" cellspacing="0" cellpadding="0" class="infotable">
+        <tr>
+            <th>Nom</th>
+            <td>{{{sitename}}}</td>
+        </tr>
+        <tr>
+            <th>Minerais</th>
+            <td>{{{minerals}}}</td>
+        </tr>
+        {{#date}}
+        <tr>
+            <th>Date de visite</th>
+            <td>{{{date}}}</td>
+        </tr>
+        {{/date}}
+        <tr>
+            <th>Source</th>
+            <td>BGR - 2021</td>
+        </tr>
+    </table>
+</div>
+<!--/depotPopup-->
+
 <!--concessionPopup-->
 <div class="popup">
     <h2>Titre minier</h2>
@@ -508,7 +534,7 @@
 
 <!--armydetailheader-->
 <div class="armycolheader">
-    <div>&nbsp;</div>
+    <div class="double">&nbsp;</div>
     <div><b>Fréquence de présence</b></div>
     <div><b>Contrôle(s) exercé(s)</b></div>
     <div>Taxation des minerais</div>
@@ -525,7 +551,7 @@
 
 <!--armydetail-->
 <div class="armycol">
-    <div><b>{{name}}</b></div>
+    <div class="double"><b>{{name}}</b></div>
     <div style="white-space: nowrap;">&nbsp;{{frequency}}&nbsp;</div>
     <div>&nbsp;</div>
     <div class="col{{taxation}}">{{taxation}}</div>

@@ -70,7 +70,8 @@ var Data = function () {
         "Améthyste": "#9966CB",
         "Argent": "#cfcfcf",
         "Bauxite": "#961f21",
-        "Digénite": "#4655b6",
+        "Digénite": "#8889a1",
+        "Cobalt" : "#0047ab",
         "Arsénopyrite": "#7491a4",
         "Plomp": "#878787",
         "Manganèse": "#d095c9"
@@ -130,6 +131,9 @@ var Data = function () {
         var now;
 
         var dataDone = function () {
+            //console.error(mines.loaded)
+            //console.error(roadblocksLoaded)
+            //console.error(armedgroupareasLoaded)
             if (mines.loaded && roadblocksLoaded  && armedgroupareasLoaded) {
 
                 now = new Date().getTime();
@@ -189,7 +193,7 @@ var Data = function () {
 
         loadMines();
         //loadPdv();
-        loadArmedGroupAreas();
+        loadArmedGroupAreas(dataDone);
         loadRoadBlocks(dataDone);
         //loadTradelines();
 
@@ -200,7 +204,7 @@ var Data = function () {
         target.list = featureCollection();
         target.lookup = {};
         target.properties = {};
-
+        
         mines.baseData.forEach(function (d) {
 
             var passed = true;
@@ -223,7 +227,7 @@ var Data = function () {
                         }
                         mine = featurePoint(d.lt, d.ln);
                         mine.properties.id = mineId;
-                        mine.properties.itsci = "Pas actif";
+                        //mine.properties.itsci = "Pas actif";
                         mines.filtered.ids.push(mineId);
                         buildProperties(mine, d);
 
@@ -239,6 +243,10 @@ var Data = function () {
                     if (isNaN(workers)) {
                         console.error("Workers NAN: " + d.w);
                         workers = -1;
+                    }
+
+                    if (d.tr === "iTSCI (not visited by IPIS)"){
+                        d.tr = "iTSCI (pas visité par IPIS)";
                     }
 
                     var visit = {
@@ -283,7 +291,7 @@ var Data = function () {
                         }
                     }
 
-                    for (i = 1; i < 3; i++) {
+                    for (i = 1; i < 4; i++) {
                         var army = d["a" + i];
                         if (army) {
                             visit.armies.push({
@@ -319,6 +327,11 @@ var Data = function () {
                       if (d.pc) phone += " (<small>" + d.pc + "</small>)";
                       visit.services.push(phone);
                     }
+                    
+                    if (d.tr){
+                        visit.services.push("<b>Présence traçabilité</b>: " + d.tr);
+                    }
+                    /*
                     if (d.it) {
                         visit.services.push("<b>iTSCi</b>: " + d.it);
                         visit.itsciStatus = "Actif";
@@ -326,6 +339,7 @@ var Data = function () {
                     }else{
                         visit.itsciStatus = "Pas actif";
                     }
+                     */
 
                     // women and children
                     visit.womanchildren = {
@@ -358,12 +372,16 @@ var Data = function () {
                         mine.properties.year = year;
                         mine.lastVisit = date;
 
+                        
+
                         if (!yearsLookup[year]) {
                             years.push(year);
                             yearsLookup[year] = true;
                         }
 
                         mine.properties.minerals = visit.minerals;
+                        mine.properties.traceability = d.tr || "Aucun";
+                        mine.properties.hasTraceability = !!d.tr;
 
                         // armed presence
                         mine.properties.armygroups = [];
@@ -420,6 +438,12 @@ var Data = function () {
                             }
                         }
 
+                        // children<15
+                        mine.properties.children = -1;
+                        if (d.cu == 0) mine.properties.children = 0;
+                        if (d.cu == 1) mine.properties.children = 1;
+                       
+
                         // mercury
                         mine.properties.mercury = 0;
                         if (d.m == 0) mine.properties.mercury = 1;
@@ -436,6 +460,7 @@ var Data = function () {
                         }
                     }
                 }
+                
 
             }
 
@@ -746,7 +771,7 @@ var Data = function () {
     me.getMinerals = function () {
         var result = [];
 
-        var order = ["Or", "Cassitérite", "Coltan", "Wolframite", "Diamant", "Tourmaline", "Cuivre"].reverse();
+        var order = ["Or", "Cassitérite", "Coltan", "Diamant", "Cobalt", "Wolframite","Tourmaline", "Cuivre"].reverse();
 
         minerals.forEach(function (mineral) {
             result.push({

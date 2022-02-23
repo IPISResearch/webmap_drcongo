@@ -19,9 +19,16 @@ var Config = {
         zoom: 5,
         bounds: [[13.42,-14.66],[45.59,6.67]]
     },
+    preloadImages:[
+        "House_cobalt.png",
+        "House_cobalt_copper.png",
+        "House_cuivre.png"
+    ],
     defaultBaseLayerIndex : 4,
     // if preLoad is defined, this occurs before the map is shown - used to pre-generate datasets etc.
-    preLoad : function(){Data.init();},
+    preLoad : function(){
+        Data.init();
+        },
     // baselayer info
     baselayers:[
         {index: 4, id: "streetsdrc", label: "Rues <font color='grey'>(IPIS)</font>", url: "mapbox://styles/ipisresearch/cjng25pan1ven2sntyfb60gtq"}, // this is streets DRC
@@ -60,12 +67,13 @@ var Config = {
                     items: Data.getArmyGroups,onFilter: Data.updateFilter,filterProperty: "armygroups",array:true},
                 {id: "services", index: 5, label: "Présence services<br>&ensp;<small>(enregistrée à partir de 2015)</small>",
                     items:Data.getServices,onFilter: Data.updateFilter,filterProperty: "services",array:true,maxVisibleItems:6},
-                {id: "itsci", index: 9, label: "Présence iTSCI</small>",
+                {id: "traceability", index: 9, label: "Présence traçabilité</small>",
                     items: [
-                        {label: "Actif", value:"Actif"},
-                        {label: "Pas actif", value:"Pas actif"}
-                    ],onFilter: Data.updateFilter,filterProperty: "itsci"},
-                {id: "qualification", index: 6, label: "Qualification ministérielle<br>&ensp;<small>(source: BGR, août 2018)</small>",items:[
+                        {label: "Aucun", value:"Aucun"},
+                        {label: "iTSCI", value:"iTSCI"},
+                        {label: "iTSCI (pas visité par IPIS)", value:"iTSCI (pas visité par IPIS)"}
+                    ],onFilter: Data.updateFilter,filterProperty: "traceability"},
+                {id: "qualification", index: 6, label: "Qualification ministérielle<br>&ensp;<small>(source: BGR, octobre 2020)</small>",items:[
                         {label: "Vert", value:1 , color: "#29b012"},
                         {label: "Jaune", value:2 , color : "#e0a500"},
                         {label: "Rouge", value:3, color: "#b00012"},
@@ -82,7 +90,14 @@ var Config = {
                         {label: "Traitement au mercure", value:2},
                         {label: "Pas de traitement au mercure", value:1},
                         {label: "Pas de données", value:0}
-                    ],onFilter: Data.updateFilter,filterProperty: "mercury"}//,
+                    ],onFilter: Data.updateFilter,filterProperty: "mercury"},
+                {id: "children", index: 10, label: "Présence d'enfants<br>&ensp;<small>de moins de 15 ans</small>",items:[
+                        {label: "Pas de données", value:-1},
+                        {label: "Non", value:0},
+                        {label: "Oui", value:1}
+                    ],onFilter: Data.updateFilter,filterProperty: "children"},
+
+                
                 //{id: "projects", index: 8, label: "Projets",items: Data.getProjects,onFilter: Data.updateFilter,filterProperty:"project",maxVisibleItems:5}
             ],
             display:{
@@ -101,6 +116,57 @@ var Config = {
                 belowLayer: 'ref_layer_mines'
             }
         },
+        depot:{
+            id: "depot",
+            filterId: 9,
+            filters:[
+                {id: "mineral", index: 1, label: "Substances minerales commercialisées et traitées",items:[
+                        {label: "Cuivre", value: "Cuivre", color: "#C87533", index: 1},
+                        {label: "Cobalt", value: "Cobalt", color: "#0047ab", index: 2},
+                        {label: "Cuivre et Cobalt", value: "Cuivre Cobalt", color: "#00ab44", index: 3}
+                    ],filterProperty: "minerals_bought_treated",onFilter: MapService.genericFilter},
+
+            ],
+            label: "Dépôt commercant des minerais<br>&ensp;<small>(source: BGR, 2021)</small>",
+            source: "https://ipis.annexmap.net/api/data/%apiScope%/depot",
+            sourceId: "depot",
+            display:{
+                type: 'symbol',
+                iconImage: "home-11",
+                visible: false,
+                canToggle: true,
+                radius: {
+                    stops: [[1, 1], [5, 5], [8, 8], [10, 10], [15, 15], [20, 20]]
+                },
+                iconImage: {
+                    property: "minerals_bought_treated",
+                    data: [
+                        {label: "Cuivre", value: "Cuivre" , iconImage: "House_cuivre.png"},
+                        {label: "Cobalt", value: "Cobalt" , iconImage : "House_cobalt.png"},
+                        {label: "Cuivre et Cobalt", value: "Cuivre Cobalt", iconImage: "House_cobalt_copper.png"}
+                    ]
+                },
+                iconSize: {
+                    stops: [[1, 0.2], [7, 0.3], [9, 0.6]]
+                },
+                iconOpacity: {
+                    stops: [[1, 0.5], [5, 0.5], [7, 1]]
+                },
+                belowLayer: 'ref_layer_mines'
+            },
+            popupOnhover: "sitename",
+            onClick: function(item,lngLat){
+                UI.hideDashboard();
+                if (item.properties.visit_date){
+                    var d = new Date(item.properties.visit_date);
+                    item.properties.date = d.toLocaleDateString().split("-").join("/");
+                }
+                if (item.properties.minerals_bought_treated){
+                    item.properties.minerals = item.properties.minerals_bought_treated.split(" ").join(", ");
+                }
+                UI.popup(item.properties,"depotPopup",lngLat,true);
+            }
+        },
         armedgroupareas: {
             id: "armedgroupareas",
             filterId: 8,
@@ -111,10 +177,10 @@ var Config = {
                 {id: "armedgroups", index: 71, label: "Acteurs armées", items: Data.getArmedGroups, onFilter: Data.updateArmedGroupAreasFilter, filterProperty: "armedgroup_"}
             ],
             display:{
+                type: 'circle',
                 visible: false,
                 canToggle: true,
-                type: 'circle',
-                circleRadius: {
+                radius: {
                     stops: [[1, 2], [5, 15], [8, 30], [10, 50], [15, 100], [20, 300]]
                 },
                 circleBlur: 0.9,
@@ -160,6 +226,9 @@ var Config = {
                         {label: "Ingérence", value: "1", color: "#960400"}
                     ],onFilter: Data.updateTradelinesFilter,filterProperty:"interference"}
             ],
+            onHover: function(){
+                // map.setPaintProperty(e.features[0], 'line-opacity', 1);
+            },
             onLoaded: function(){
                 Data.updateTradelinesFilter(Config.layers.tradelines.filters[0]);
             }
@@ -232,7 +301,7 @@ var Config = {
             id: "studyzones",
             filterId: 7,
             label: "Zones d'études specifiques",
-            source: "http://ipis.annexmap.net/api/data/%apiScope%/studyzones",
+            source: "https://ipis.annexmap.net/api/data/%apiScope%/studyzones",
             sourceId: "studyzones",
             display:{
                 type: 'fill',
@@ -303,8 +372,8 @@ var Config = {
             id: "protectedAreas",
             filterId: 5,
             label: "Aires protégées<br>&ensp;<small>(source: WRI, 2017)</small>",
-            source: "http://ipis.annexmap.net/api/data/%apiScope%/protectedareas",
-            source2: "http://ipis.annexmap.net/api/geojson/cod_protectedArea.php",
+            source: "https://ipis.annexmap.net/api/data/%apiScope%/protectedareas",
+            source2: "https://ipis.annexmap.net/api/geojson/cod_protectedArea.php",
             sourceId: "protectedAreas",
             display:{
                 type: 'fill',
