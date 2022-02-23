@@ -89,7 +89,7 @@ var Story = function(){
              var link = document.createElement("link");
              link.rel = "stylesheet";
              link.type = "text/css";
-             link.href = storyPath  + "style.css";
+             link.href = storyPath  + "style.css?v2";
              head.appendChild(link);
          }
      };
@@ -99,6 +99,23 @@ var Story = function(){
          var storyContainer = document.createElement("div");
          storyContainer.id = "story";
          document.body.appendChild(storyContainer);
+
+         var closeButton = document.createElement('div');
+         closeButton.className = "storyclose";
+         closeButton.innerHTML = "Back to the Map";
+         closeButton.onclick = function(){
+             document.body.classList.remove("storyfied");
+             document.body.classList.add("wasstoryfied");
+         };
+         document.body.appendChild(closeButton);
+
+         var openButton = document.createElement('div');
+         openButton.className = "storyopen";
+         openButton.innerHTML = "Show Story";
+         openButton.onclick = function(){
+             document.body.classList.add("storyfied");
+         };
+         document.body.appendChild(openButton);
 
          var storyLogo = document.createElement("div");
          storyLogo.id = "storylogo";
@@ -156,9 +173,9 @@ var Story = function(){
              }
 
              if (record.description) {
-                 var story = document.createElement('p');
-                 story.innerHTML = record.description;
-                 chapter.appendChild(story);
+                 var storyP = document.createElement('p');
+                 storyP.innerHTML = record.description;
+                 chapter.appendChild(storyP);
              }
 
              container.setAttribute('id', record.id);
@@ -167,8 +184,26 @@ var Story = function(){
                  container.classList.add('active');
              }
 
+             var nextButton = undefined;
+             if (idx<config.chapters.length-1){
+                 var nextChapter = config.chapters[idx+1];
+                 nextButton = document.createElement('div');
+                 nextButton.classList.add("next");
+                 nextButton.innerHTML = "<i>▾</i>";
+                 nextButton.onclick = function(){
+                    console.log(nextChapter);
+                     var to = document.getElementById(nextChapter.id).offsetTop;
+                     storyScrollTo(document.body,to,500);
+
+
+
+                 };
+             }
+
+
              chapter.classList.add(config.theme);
              container.appendChild(chapter);
+             if (nextButton) container.appendChild(nextButton);
              features.appendChild(container);
          });
 
@@ -188,7 +223,22 @@ var Story = function(){
              story.appendChild(footer);
          }
 
+
      };
 
      return me;
 }();
+
+
+function storyScrollTo(element, to, duration) {
+
+    if (duration <= 0) return;
+    var difference = to - element.scrollTop;
+    var perTick = difference / duration * 10;
+
+    setTimeout(function() {
+        element.scrollTop = element.scrollTop + perTick;
+        if (element.scrollTop === to) return;
+        storyScrollTo(element, to, duration - 10);
+    }, 10);
+}
