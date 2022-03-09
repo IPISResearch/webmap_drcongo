@@ -12,6 +12,7 @@ var Config = {
     disclaimerUrl: "_templates/disclaimer.html",
     infoUrl: "_templates/info.html",
     usePass: false,
+    language: "fr",
     // starting point for map
     mapCoordinates: {
         x: 28.00,
@@ -42,6 +43,7 @@ var Config = {
         visits: {
             id: "mines",
             label: "Sites miniers artisanaux",
+            tooltip: "Les données s’appliquent aux sites miniers à la <b>date de leur visite</b>. Le contexte minier dans l'est de la RDC évoluant rapidement (nombre de creuseurs par site, présence de groupes armés, programme iTSCI, etc.), certaines informations peuvent ainsi avoir évoluées depuis la dernière visite.",
             source: function(){return Data.getMines()},
             sourceId: "mines",
             popupOnhover: "name",
@@ -64,19 +66,28 @@ var Config = {
                 //{id: "years", index: 1, label: "Année de dernière visite",items: Data.getYears,onFilter: Data.updateFilter,filterProperty:"year",maxVisibleItems:5},
                 {id: "minerals", index: 2, label: "Substances minérales",items: Data.getMinerals,onFilter: Data.updateFilter,filterProperty: "minerals",array:true,maxVisibleItems: 5},
                 {id: "armedpresence", index: 4,label: "Présence armée",
+                    tooltip: "template.armedpresence_tooltip",
+                    tooltipsize: 500,
                     items: Data.getArmyGroups,onFilter: Data.updateFilter,filterProperty: "armygroups",array:true},
                 {id: "services", index: 5, label: "Présence services<br>&ensp;<small>(enregistrée à partir de 2015)</small>",
+                    tooltip: "template.services_tooltip",
+                    tooltipsize: 500,
                     items:Data.getServices,onFilter: Data.updateFilter,filterProperty: "services",array:true,maxVisibleItems:6},
-                {id: "traceability", index: 9, label: "Présence traçabilité</small>",
-                    items: [
-                        {label: "Aucun", value:"Aucun"},
-                        {label: "iTSCI", value:"iTSCI"},
-                        {label: "iTSCI (pas visité par IPIS)", value:"iTSCI (pas visité par IPIS)"}
-                    ],onFilter: Data.updateFilter,filterProperty: "traceability"},
-                {id: "qualification", index: 6, label: "Qualification ministérielle<br>&ensp;<small>(source: BGR, octobre 2020)</small>",items:[
-                        {label: "Vert", value:1 , color: "#29b012"},
-                        {label: "Jaune", value:2 , color : "#e0a500"},
-                        {label: "Rouge", value:3, color: "#b00012"},
+                {id: "traceability", index: 9,
+                    label: "Présence traçabilité",
+                    tooltipsize: 500,
+                    tooltip: "<b>iTSCi</b> : mines couvertes par le programme iTSCI pour les chaînes d'approvisionnement en minerais responsables dans l’Est de la République Démocratique du Congo. Ce programme de traçabilité s’opère par des étiquettes données en amont aux agents de l’état congolais. Ces derniers peuvent ainsi étiqueter la production en minerais 3T sur le site minier et tout au long de la chaîne d’approvisionnement afin de vérifier leur origine. Par ailleurs, ce programme met en place des activités liées au contrôle des chaines d’approvisionnement tels que le rapport d’incidents et la gestion des risques.  \n" +
+                        "<br><br>" +
+                        "Les sites ‘<i>iTSCI (pas visité par IPIS)</i>’ proviennent de sources tierces et la présence du programme iTSCI n’a pas encore pu faire l’objet d’une vérification par les équipes d’IPIS sur le terrain.\n" +
+                        "<br><br>" +
+                        "Pour en savoir plus sur le programme iTSCI : <a href='https://www.itsci.org/fr/traceability/' target='_blank'>https://www.itsci.org/fr/traceability/</a>",
+                    items: Data.getTraceabilities,onFilter: Data.updateFilter,filterProperty: "traceability"},
+                {id: "qualification", index: 6,
+                    label: "Qualification ministérielle<br>&ensp;<small>(source: BGR, octobre 2020)</small>",
+                    items:[
+                        {label: "Vert", value:1 , color: "#29b012",tooltip:"<b>Vert : </b>Site validé par une équipe de qualification conjointe, conformément au Manuel de Certification Régionale de la CIRGL, et entériné par un arrêté ministériel du Ministère des Mines. La validation verte est valable un an et autorise l’exploitation et l’exportation des minerais provenant de ces mines qui répondent aux conditions d’une exportation certifiée.",tooltipsize: 400},
+                        {label: "Jaune", value:2 , color : "#e0a500",tooltip:"<b>Jaune : </b>Site validé provisoirement par une équipe de qualification conjointe, conformément au Manuel de Certification Régionale de la CIRGL, et entériné par un arrêté ministériel du Ministère des Mines. La qualification jaune est donnée aux sites où des infractions avec un ou plusieurs des critères de validation. Parmi ces infractions : a) des forces de sécurité publiques ou privées ou leurs affiliés contrôlent le site minier, taxent les opérateurs miniers ou extorquent illégalement aux points d’accès aux sites miniers, le long des voies de transport ou aux points où les minerais sont échangés ; b) des minerais quittent le site minier sans avoir été enregistrés par un système de chaine de chaine de possession. Un site qualifié jaune peut produire et exporter ces minerais, pour une période de 6 mois, après laquelle il sera réévalué.",tooltipsize: 400},
+                        {label: "Rouge", value:3, color: "#b00012",tooltip: "<b>Rouge : </b>Site non-validé par une équipe de qualification conjointe, conformément au Manuel de Certification Régionale de la CIRGL, et entériné par un arrêté ministériel du Ministère des Mines. Le site rouge est en infraction avec un ou plusieurs des critères des minerais certifiés. Ces infractions comprennent notamment : a) un groupe armé non-étatique contrôle le site minier, taxe les opérateurs miniers ou extorque illégalement aux points d’accès aux sites miniers, le long des voies de transport ou aux points où les minerais sont échangés, b) des enfants n’ayant pas atteint l’âge minimum d’admission à l’emploi, c) le propriétaire ou l’opérateur d’un site minier effectue des paiements à des organisations politiques, illégales ou criminelles. Un site rouge ne peut pas produire, ni exporter de minerais pour 3 mois, période après laquelle le site devra être réévalué.",tooltipsize: 400},
                         {label: "Aucune", value:0, color: "grey"}
                     ],onFilter: Data.updateFilter,filterProperty: "qualification"},
                 {id: "workers", index: 7, label: "Nombre de creuseurs",items:[
@@ -127,7 +138,8 @@ var Config = {
                     ],filterProperty: "minerals_bought_treated",onFilter: MapService.genericFilter},
 
             ],
-            label: "Dépôt commercant des minerais<br>&ensp;<small>(source: BGR, 2021)</small>",
+            label: "Dépôt commercant des minerais",
+            tooltip: "Substances minerales commercialisées et traitées<br><small>(Source des données : BGR, 2021)</small>",
             source: "https://ipis.annexmap.net/api/data/%apiScope%/depot",
             sourceId: "depot",
             display:{
@@ -171,6 +183,7 @@ var Config = {
             id: "armedgroupareas",
             filterId: 8,
             label: "Zones d'ingérence",
+            tooltip: "Zone d’influence ou de contrôle d’un groupe armé. Ajoute une zone tampon par acteur armé autour des sites miniers avec ingérence.",
             source: function(layer,show){return Data.getArmedGroupAreas(layer,show)},
             sourceId: "armedgroupareas",
             filters:[
@@ -200,6 +213,7 @@ var Config = {
         tradelines:{
             id: "tradelines",
             label: "Destination des minerais",
+            tooltip: "La destination des minerais identifie le premier point de vente où le minerai est acheminé pour être vendu ou transporté vers son point d’exportation. Le point d’exportation est la dernière destination du minerai sur le territoire congolais.",
             source: function(layer,show){return Data.getTradelines(layer,show)},
             sourceId: "tradelines",
             display:{ // todo
@@ -258,6 +272,7 @@ var Config = {
         roadblocks: {
             id: "roadblocks",
             label: "Barrières routières",
+            tooltip: "De mars 2016 à septembre 2017, IPIS et le Danish Institute for International Studies (DIIS, https://www.diis.dk/en) ont réalisé une cartographie des barrières routières dans les provinces du Nord et du Sud Kivu.",
             source: function(layer,show){return Data.getRoadBlocks(layer,show)},
             sourceId: "roadblocks",
             popupOnhover: "name",
@@ -297,10 +312,11 @@ var Config = {
                 {id: "bar", index: 32, label: "Type de barrière",items: Data.getRoadblockTypes,onFilter: Data.updateRoadblockFilter,filterProperty: "types",array:true}
             ]
         },
-        studyzones:{
+        /*studyzones:{
             id: "studyzones",
             filterId: 7,
             label: "Zones d'études specifiques",
+            tooltip: "Limites des zones couvertes par des projets IPIS sur des thèmes plus spécifiques. Activer cette couche vous permettra de visualiser différentes zones d’études et d’accéder aux publications liées à ces travaux.",
             source: "https://ipis.annexmap.net/api/data/%apiScope%/studyzones",
             sourceId: "studyzones",
             display:{
@@ -331,7 +347,7 @@ var Config = {
                     ],filterProperty: "project",onFilter: MapService.genericFilter}
             ]
             // You can get the project values by MapService.distinct("studyzones","project")
-        },
+        },*/
         concessions:{
             id: "concessions",
             filterId: 4,
@@ -343,7 +359,8 @@ var Config = {
                         {label: "ZIN", value: "ZIN", color: "#ae000e"}
                     ], onFilter: Data.updateConcessionFilter,filterProperty: "group"}
             ],
-            label: "Titres miniers<br>&ensp;<small>(source: CAMI, 2019)</small>",
+            label: "Titres miniers",
+            tooltip: "template.concession_tooltip",
             source: function(layer,show){return Data.getConcessions(layer,show)},
             sourceId: "concessions",
             popupOnhover: "name",

@@ -156,11 +156,22 @@
         </table>
     </div>
     <div class="dashboardtabs">
+        {{#slideshow}}
+        <div class="slideshow" data-count="{{images.length}}">
+            <b class="prev" onclick="UI.slideShow(this,-1)"></b>
+            <b class="next active" onclick="UI.slideShow(this,1)"></b>
+            <div class="images count{{images.length}}">
+            {{#images}}
+                <span data-url="https://www.ipisresearch.be/mapping/webmapping/resources/img_sites/{{imageurl}}" class="image" style="background-image: url('https://www.ipisresearch.be/mapping/webmapping/resources/img_sites/{{imageurl}}')"></span>
+            {{/images}}
+            </div>
+        </div>
+        {{/slideshow}}
+        {{^slideshow}}
         {{#picture}}
-        <span data-url="https://www.ipisresearch.be/mapping/webmapping/resources/img_sites/{{picture}}" class="image" style="background-image: url('http://www.ipisresearch.be/mapping/webmapping/resources/img_sites/{{picture}}')">
-
-        </span>
+            <span data-url="https://www.ipisresearch.be/mapping/webmapping/resources/img_sites/{{picture}}" class="image" style="background-image: url('https://www.ipisresearch.be/mapping/webmapping/resources/img_sites/{{picture}}')"></span>
         {{/picture}}
+        {{/slideshow}}
         <div class="{{tabButton1}} first" onclick="UI.activateDashboardTab(1,this)">Information</div>
         <div class="{{tabButton2}}" onclick="UI.activateDashboardTab(2,this)">Substances</div>
         <div class="{{tabButton3}}" onclick="UI.activateDashboardTab(3,this)">Présence armée</div>
@@ -662,13 +673,19 @@
 
 
 <!--lightbox-->
-<div id="lightbox">
-    <div class="image" style="background-image: url('{{url}}')"></div>
+<div id="lightbox" class="slideshow" data-count="{{count}}">
+    <div class="button prev {{#hasPrev}}active{{/hasPrev}}" onclick="UI.slideShow(this,-1)"></div>
+    <div class="button next {{#hasNext}}active{{/hasNext}}" onclick="UI.slideShow(this,1)"></div>
+    <div class="images" data-index="{{index}}">
+        {{#images}}
+            <div class="image {{#active}}active{{/active}}" style="background-image: url('{{imageurl}}')"></div>
+        {{/images}}
+    </div>
 </div>
 <!--/lightbox-->
 
 <!--noArmyPresent-->
-<div class="subtabcontent">Pas de présence observé.<br><br></div>
+<div class="subtabcontent">Pas de présence observée.<br><br></div>
 <!--/noArmyPresent-->
 
 
@@ -697,3 +714,35 @@
     <div id="chart2"></div>
 </div>
 <!--/legendroadblockschart-->
+
+<!--concession_tooltip-->
+<table cellspacing="0" cellpadding="0">
+    <tr><th>PR</th><td>Permis de recherches</td></tr>
+    <tr><th>PE</th><td>Permis d’exploitation</td></tr>
+    <tr><th>ZEA</th><td>Zone d’Exploitation Artisanale</td></tr>
+    <tr><th>ZIN</th><td>Zones Interdites</td></tr>
+</table>
+<br>
+<small>Source des données : CAMI, 2019</small>
+<!--/concession_tooltip-->
+
+
+<!--armedpresence_tooltip-->
+<table cellspacing="0" cellpadding="0">
+    <tr><th>FARDC</th><td>Forces armées de la République démocratique du Congo (armée nationale)</td></tr>
+    <tr><th>FARDC - Éléments indisciplinés</th><td>Éléments de la FARDC qui ont été rapportés interférer d’une manière illégale dans le site minier - taxation (illégale), une implication dans l’exploitation ou commerce des minerais, pillage et travail forcé.</td></tr>
+    <tr><th>PNC</th><td>Police Nationale Congolaise</td></tr>
+    <tr><th>PNC - Éléments indisciplinés</th><td>Éléments de la Police Nationale Congolaise qui ont été rapportés interférer d’une manière illégale dans le site minier - taxation (illégale), une implication dans l’exploitation ou commerce des minerais, pillage et travail forcé.</td></tr>
+    <tr><th>PMH - Éléments indisciplinés</th><td>Éléments de la Police des Mines et Hydrocarbures (PMH) qui ont été rapportés interférer d’une manière illégale dans le site minier - taxation (illégale), une implication dans l’exploitation ou commerce des minerais, pillage et travail forcé.</td></tr>
+</table>
+<!--/armedpresence_tooltip-->
+
+<!--services_tooltip-->
+<table cellspacing="0" cellpadding="0">
+    <tr><th>SAEMAPE</th><td>Service technique du Ministère des mines, mandaté à apporter un encadrement technique aux exploitants miniers artisanaux sur les sites miniers artisanaux et dans les mines de petite échelle.</td></tr>
+    <tr><th>Division des Mines </th><td>Service technique du Ministère des mines, responsable de l’administration quotidienne du secteur minier artisanal, y compris de l’octroi des cartes d’exploitants miniers artisanaux et des cartes de négociant.</td></tr>
+    <tr><th>PMH</th><td>Police des Mines et des Hydrocarbures<br>
+        Police pour le maintien de l’ordre dans les sites miniers</td></tr>
+    <tr><th>ANR</th><td>Agence Nationale des Renseignements</td></tr>
+</table>
+<!--/services_tooltip-->

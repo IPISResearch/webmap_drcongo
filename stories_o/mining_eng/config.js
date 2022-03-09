@@ -32,7 +32,7 @@ var StoryConfig = {
             id: '3',
             title: 'Destinations',
             image: 'workers2.jpg',
-            description: 'Most mined materials pass through local and regional trading hubs before being exported to neighbouring countries. Goma and Bukavu are both important regional hubs for consolidating minerals from different mines. Domestic movements to these hubs can be costly: along with transport costs, traders are frequently taxed or forced to pay fees at roadblocks. Mines typically charge lower prices for their products if they are harder for transportation services to access.',
+            description: 'Most mined materials pass through local and regional trading hubs before being exported to neighbouring countries. Goma and Bukavu are both important regional hubs for consolidating minerals from different mines. Domestic movements to these hubs can be costly: along with transport costs, traders are frequently taxed or forced to pay fees at roadblocks. Mines typically charge lower prices for their products if they are harder for traders to access.',
             urlHash: '#-1.685984155536005/28.516341324948826/8.06686610029433/4/1,6/',
             location: {
                 pitch: 0.00,
@@ -43,7 +43,7 @@ var StoryConfig = {
             id: '4',
             title: 'Interference',
             image: 'interference.jpg',
-            description: 'Interference refers to external actors making illegal profits from mining or associated trade through extortion, taxation or more indirect methods. Of the province surveyed, South Kivu has the highest proportion of mines affected by interference from armed actors, mostly by units of the Congolese army (FARDC). Direct control of mines by armed actors has diminished in recent years so armed interference now often takes the form of ‘protection rackets’. Non-armed interference also continues to be an issue and is usually perpetrated by unarmed state officials through illegal taxation.',
+            description: 'Interference refers to actors making illegal profits from mining or associated trade through extortion, taxation or more indirect methods. Of the provinces surveyed, South Kivu has the highest proportion of mines affected by interference from armed actors, mostly by units of the Congolese army (FARDC). Direct control of mines by armed actors seems to have diminished in several areas. Nevertheless, armed interference continues unabatedly in more isolated zones, often taking the form of ‘protection rackets’. Non-armed interference also continues to be an issue and is usually perpetrated by unarmed state officials through illegal taxation.',
             urlHash: '#-3.3371160217914877/28.23735102772025/7.730964113285928/4/1,8/',
             location: {
                 pitch: 0.00,
@@ -54,7 +54,7 @@ var StoryConfig = {
             id: '5',
             title: 'Roadblocks',
             image: 'roadblock.jpg',
-            description: 'Roadblocks are used to levy illegal taxes on the transport of minerals and are an important illustration of the militarisation of the supply chain. Research by <a href="https://ipisresearch.be/publication/everything-moves-will-taxed-political-economy-roadblocks-north-south-kivu/" target="_blank" rel="noopener">IPIS and the Danish Institute for International Studies</a> in December 2017 identified 798 roadblocks in North and South Kivu, around 75% of which had armed men present, either from Congo’s security forces or non-state armed groups. Typically, roadblocks are strategically located away from the mining sites on junctions connecting sites with a main road.',
+            description: 'Roadblocks are used to levy illegal taxes on the transport of minerals and are an important illustration of the militarisation of the supply chain. Research by <a href="https://ipisresearch.be/publication/everything-moves-will-taxed-political-economy-roadblocks-north-south-kivu/" target="_blank" rel="noopener">IPIS and the Danish Institute for International Studies</a> in December 2017 identified 798 roadblocks in North and South Kivu, around 75% of which had armed men present, either from Congo’s security forces or from armed groups. Typically, roadblocks are strategically located away from the mining sites on junctions connecting sites with a main road.',
             urlHash: '#-1.246489546768757/28.371795829270127/11.745051128424935/4/1,3/31.x',
             location: {
                 pitch: 0.00,

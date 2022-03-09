@@ -37,6 +37,8 @@ var Data = function () {
     var armyGroupLookup = {};
     var services = [];
     var servicesLookup = {};
+    var traceabilities = [];
+    var traceabilitiesLookup = {};
     var operateurs = [];
     var operateursLookup = {};
     var roadblockTypes = [];
@@ -122,6 +124,7 @@ var Data = function () {
         item.properties.qualification = 0;
         item.properties.workergroup = 0;
         item.properties.visits = [];
+        item.properties.images = [];
     };
 
 
@@ -238,6 +241,11 @@ var Data = function () {
 
                     mine.properties.mineral = d.m1;
                     mine.properties.picture = d.pi;
+
+                    if (d.pi){
+                        mine.properties.images.push({imageurl: d.pi});
+                        mine.properties.slideshow = mine.properties.images.length>1;
+                    }
 
                     var workers = isNaN(parseInt(d.w)) ? -1 : parseInt(d.w);
                     if (isNaN(workers)) {
@@ -456,6 +464,13 @@ var Data = function () {
                             if (!projectsLookup[d.pj]) {
                                 projects.push(d.pj);
                                 projectsLookup[d.pj] = true;
+                            }
+                        }
+
+                        if (mine.properties.traceability){
+                            if (!traceabilitiesLookup[mine.properties.traceability]) {
+                                traceabilities.push(mine.properties.traceability);
+                                traceabilitiesLookup[mine.properties.traceability] = true;
                             }
                         }
                     }
@@ -793,6 +808,7 @@ var Data = function () {
 
         var order = ["Pas de présence armée constatée", "FARDC - Pas de données sur les ingérences", "FARDC - Pas d’ingérence constatée", "FARDC - Éléments indisciplinés", "Groupe armé local", "Groupe armé étranger"].reverse();
 
+
         result.forEach(function (arm) {
             arm.index = order.indexOf(arm.label)
         });
@@ -808,8 +824,10 @@ var Data = function () {
 
         var order = ["SAEMAPE", "Division des mines", "Police des Mines", "Anti-fraude", "PNC", "ANR", "Chefferie"].reverse();
 
+
         services.forEach(function (item) {
-            result.push({label: item, value: servicesLookup[item], index: order.indexOf(item)})
+            var data = {label: item, value: servicesLookup[item], index: order.indexOf(item)};
+            result.push(data)
         });
 
         // temporary filter to make the list of state services only contain main services
@@ -820,6 +838,10 @@ var Data = function () {
         });
 
     };
+
+    me.getTraceabilities = function(){
+       return traceabilities;
+    }
 
     me.getProjects = function () {
         return projects.reverse().sort(function (a, b) {
@@ -1617,6 +1639,56 @@ var Data = function () {
         if (Config.layers.armedgroupareas.added) me.filterArmedGroupAreas();
 
     };
+
+    var errorImages = [];
+
+    me.listImages = function(){
+        var list = [];
+        for (var key in mines.collection.lookup){
+            var mine = mines.collection.lookup[key];
+            if (mine.properties.images.length>0){
+                list = list.concat(mine.properties.images);
+            }
+        }
+
+        console.error(list.length);
+
+        var index = -1;
+        function nextImage(){
+            index++;
+            if (index<list.length){
+                console.log("todo: " + (list.length-index));
+                var item = list[index];
+                var image = new Image();
+                image.onerror = function(){
+                    console.error("error");
+                    errorImages.push(item.imageurl);
+                    setTimeout(function(){
+                        nextImage();
+                    },100)
+                }
+                image.onload = function(){
+                    setTimeout(function(){
+                        nextImage();
+                    },100)
+                }
+                image.src = "https://www.ipisresearch.be/mapping/webmapping/resources/img_sites/" + item.imageurl;
+            }else{
+                console.log("done");
+            }
+
+        }
+
+        nextImage();
+
+
+        //console.error(list);
+        //codmine02969
+    }
+
+    me.getErrorImages = function(){
+        console.error(errorImages);
+    }
 
 
     return me;

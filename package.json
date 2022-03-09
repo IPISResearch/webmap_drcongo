@@ -1,6 +1,6 @@
 {
   "name": "IPIS_webmapping_drc",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "IPIS DRC webmapping",
   "main": "index.html",
   "repository": "https://github.com/IPISResearch/webmap_drcongo_v5",

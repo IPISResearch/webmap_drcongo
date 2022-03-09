@@ -19,6 +19,7 @@ module.exports = function(grunt) {
 			map:{
 				src: [
 					'_script/custom/*.js',
+					'_script/story.js',
 					'_script/config.js'
 				],
 				dest: 'build/_script/webmapping.js'

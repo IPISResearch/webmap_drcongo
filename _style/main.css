@@ -709,12 +709,95 @@ body.disclaimer #disclaimer, body.info #info{
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
-    transition: height 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 .dashboardtabs .image:hover{
     cursor: zoom-in;
     height: 90px;
+}
+
+.dashboardtabs .slideshow{
+    position: absolute;
+    bottom: 0;
+    display: block;
+    height: 80px;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+}
+
+.dashboardtabs .slideshow .images{
+    padding: 0;
+    white-space: nowrap;
+    left: 0;
+    transition: left 0.3s ease-in-out;
+}
+.dashboardtabs .slideshow b{
+    position: absolute;
+    background-color: white;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid black;
+    z-index: 1;
+    top: 50%;
+    margin-top: -8px;
+    opacity: 0;
+    pointer-events: none;
+    background-image: url(../_img/ui_icons.png);
+    background-position: -1px -201px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.dashboardtabs .slideshow b.active{
+    opacity: 0.5;
+    pointer-events: all;
+}
+
+.dashboardtabs .slideshow b:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+
+.dashboardtabs .slideshow b.prev{
+    left: 8px;
+    transform: rotate(180deg);
+}
+
+.dashboardtabs .slideshow b.next{
+    right: 8px;
+}
+
+.dashboardtabs .slideshow .image{
+    width: 120px;
+    left: 0;
+    top: 0;
+}
+
+.dashboardtabs .slideshow .image:hover{
+    width: 130px;
+    margin-left: -5px;
+    margin-top: -5px;
+}
+
+.dashboardtabs .slideshow .image:nth-child(2){
+    left: 120px;
+}
+.dashboardtabs .slideshow .image:nth-child(3){
+    left: 240px;
+}
+.dashboardtabs .slideshow .image:nth-child(4){
+    left: 360px;
+}
+.dashboardtabs .slideshow .image:nth-child(5){
+    left: 480px;
+}
+.dashboardtabs .slideshow .image:nth-child(6){
+    left: 600px;
+}
+.dashboardtabs .slideshow .image:nth-child(7){
+    left: 720px;
 }
 
 
@@ -923,6 +1006,77 @@ body.disclaimer #disclaimer, body.info #info{
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#lightbox .image.active{
+    opacity: 1;
+    margin-left: 0;
+    transition: margin 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+#lightbox .image.disappearleft{
+    margin-left: -100%;
+    margin-right: 100%;
+    opacity: 0;
+}
+
+#lightbox .image.disappearright{
+    margin-left: 100%;
+    margin-right: -100%;
+    opacity: 0;
+}
+
+
+#lightbox .image.isright{
+    margin-left: 100%;
+    margin-right: -100%;
+    transition: margin 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+#lightbox .image.isleft{
+    margin-left: -100%;
+    margin-right: 100%;
+    transition: margin 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+
+#lightbox .button{
+    position: absolute;
+    background-color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid black;
+    z-index: 1;
+    top: 50%;
+    margin-top: -8px;
+    opacity: 0;
+    pointer-events: none;
+    background-image: url(../_img/arrow-right.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 20px 20px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#lightbox .prev{
+    left: 50px;
+    transform: rotate(180deg);
+}
+
+#lightbox .next{
+    right: 50px;
+}
+
+#lightbox .button.active{
+    opacity: 0.5;
+    pointer-events: all;
+}
+
+#lightbox .button:hover{
+    opacity: 1;
+    cursor: pointer;
 }
 
 #yearslider{
@@ -1226,6 +1380,26 @@ body.wasstoryfied #menu{
     padding: 10px;
     border-radius: 4px;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.34);
+    cursor: pointer;
+}
+
+.infobox td,
+.infobox th{
+    font-size: 11px;
+    padding: 4px 2px;
+    vertical-align: top;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.infobox tr:last-of-type td,
+.infobox tr:last-of-type th{
+    border-bottom: none;
+}
+
+.infobox th{
+    font-weight: bold;
+    text-align: left;
+    white-space: nowrap;
 }
 
 .infobox.large{
@@ -1238,7 +1412,18 @@ body.wasstoryfied #menu{
 }
 
 .infobox a{
-    color: #B20932;
+    color: #0a64b9;
+}
+
+.infobox.left{
+    opacity: 0;
+    margin-right: -100px;
+    transition: all 0.3s ease-in-out;
+}
+
+.infobox.left.active{
+    margin-right: 0;
+    opacity: 1;
 }
 
 
