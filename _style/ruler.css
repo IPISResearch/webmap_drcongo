@@ -1,0 +1,47 @@
+#ruler{
+    position: fixed;
+    z-index: 100;
+    left: 10px;
+    top: 190px;
+
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+
+
+    background-image: url("../_img/icons-leaflet.png");
+    background-position: 2px -256px;
+    width: 30px;
+    height: 30px;
+
+
+}
+
+#ruler:hover{
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+#ruler.active{
+    background-color: rgb(233, 244, 252);
+    box-shadow: 0 0 0 2px rgba(117, 207, 240, 1);
+}
+
+
+.distance-container {
+    position: fixed;
+    top: 191px;
+    left: 44px;
+    z-index: 1;
+}
+
+.distance-container > * {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 11px;
+    line-height: 18px;
+    display: block;
+    margin: 0;
+    padding: 5px 10px;
+    border-radius: 3px;
+}

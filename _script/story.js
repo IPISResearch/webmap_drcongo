@@ -119,7 +119,7 @@ var Story = function(){
 
          var storyLogo = document.createElement("div");
          storyLogo.id = "storylogo";
-         storyLogo.innerHTML = '<a href="https://ipisresearch.be/" target="_blank"><img src="_img/ipislogo.png" alt="IPIS logo" border="0"></a>';
+         storyLogo.innerHTML = '<a href="https://ipisresearch.be/" target="_blank"><img src="_img/ipislogo.svg" alt="IPIS logo" border="0" width="60" height="auto" style="filter: brightness(0) drop-shadow(0 0 4px white)"></a>';
          document.body.appendChild(storyLogo);
 
          var features = document.createElement('div');

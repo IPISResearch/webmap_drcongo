@@ -20,6 +20,12 @@ var Config = {
         zoom: 5,
         bounds: [[13.42,-14.66],[45.59,6.67]]
     },
+    initialMapCoordinates: {
+        x: 28.00,
+        y: -3,
+        zoom: 5,
+        bounds: [[13.42,-14.66],[45.59,6.67]]
+    },
     preloadImages:[
         "House_cobalt.png",
         "House_cobalt_copper.png",
@@ -83,11 +89,12 @@ var Config = {
                         "Pour en savoir plus sur le programme iTSCI : <a href='https://www.itsci.org/fr/traceability/' target='_blank'>https://www.itsci.org/fr/traceability/</a>",
                     items: Data.getTraceabilities,onFilter: Data.updateFilter,filterProperty: "traceability"},
                 {id: "qualification", index: 6,
-                    label: "Qualification ministérielle<br>&ensp;<small>(source: BGR, octobre 2020)</small>",
+                    label: "Qualification ministérielle",
                     items:[
                         {label: "Vert", value:1 , color: "#29b012",tooltip:"<b>Vert : </b>Site validé par une équipe de qualification conjointe, conformément au Manuel de Certification Régionale de la CIRGL, et entériné par un arrêté ministériel du Ministère des Mines. La validation verte est valable un an et autorise l’exploitation et l’exportation des minerais provenant de ces mines qui répondent aux conditions d’une exportation certifiée.",tooltipsize: 400},
                         {label: "Jaune", value:2 , color : "#e0a500",tooltip:"<b>Jaune : </b>Site validé provisoirement par une équipe de qualification conjointe, conformément au Manuel de Certification Régionale de la CIRGL, et entériné par un arrêté ministériel du Ministère des Mines. La qualification jaune est donnée aux sites où des infractions avec un ou plusieurs des critères de validation. Parmi ces infractions : a) des forces de sécurité publiques ou privées ou leurs affiliés contrôlent le site minier, taxent les opérateurs miniers ou extorquent illégalement aux points d’accès aux sites miniers, le long des voies de transport ou aux points où les minerais sont échangés ; b) des minerais quittent le site minier sans avoir été enregistrés par un système de chaine de chaine de possession. Un site qualifié jaune peut produire et exporter ces minerais, pour une période de 6 mois, après laquelle il sera réévalué.",tooltipsize: 400},
                         {label: "Rouge", value:3, color: "#b00012",tooltip: "<b>Rouge : </b>Site non-validé par une équipe de qualification conjointe, conformément au Manuel de Certification Régionale de la CIRGL, et entériné par un arrêté ministériel du Ministère des Mines. Le site rouge est en infraction avec un ou plusieurs des critères des minerais certifiés. Ces infractions comprennent notamment : a) un groupe armé non-étatique contrôle le site minier, taxe les opérateurs miniers ou extorque illégalement aux points d’accès aux sites miniers, le long des voies de transport ou aux points où les minerais sont échangés, b) des enfants n’ayant pas atteint l’âge minimum d’admission à l’emploi, c) le propriétaire ou l’opérateur d’un site minier effectue des paiements à des organisations politiques, illégales ou criminelles. Un site rouge ne peut pas produire, ni exporter de minerais pour 3 mois, période après laquelle le site devra être réévalué.",tooltipsize: 400},
+                        {label: "Bleue", value:4, color: "#277ad9",tooltip: "<b>Bleue : </b>Depuis la signature de l’arrêté ministériel du Ministère des mines n°677 du 12 novembre 2021, le Gouvernement congolais reconnait la qualification “bleue” telle qu’intégrée dans la deuxième version du Mécanisme Régional de Certification. Le statut bleu est demandé par un exportateur désireux de formaliser sa chaine de production mais qui attend la visite d’une équipe conjointe de qualification. La demande officielle se fait après la remise aux autorités minières (locale, provinciale et nationale) d’un rapport d’évaluation sur les risques liés aux statuts jaune et rouge dans le site minier. Si endéans les 10 jours de la réception du rapport les services miniers ou le Comité Provincial de Suivi (CPS) n’ont identifié aucun risque lié aux statuts jaune ou rouge, les minerais peuvent être exploités et exportés. La qualification bleue est valable 3 ans, après quoi le site minier est automatiquement qualifié rouge.",tooltipsize: 400},
                         {label: "Aucune", value:0, color: "grey"}
                     ],onFilter: Data.updateFilter,filterProperty: "qualification"},
                 {id: "workers", index: 7, label: "Nombre de creuseurs",items:[
@@ -102,7 +109,7 @@ var Config = {
                         {label: "Pas de traitement au mercure", value:1},
                         {label: "Pas de données", value:0}
                     ],onFilter: Data.updateFilter,filterProperty: "mercury"},
-                {id: "children", index: 10, label: "Présence d'enfants<br>&ensp;<small>de moins de 15 ans</small>",items:[
+                {id: "children", index: 10, label: "Travail d'enfants<br>&ensp;<small>de moins de 15 ans</small>",items:[
                         {label: "Pas de données", value:-1},
                         {label: "Non", value:0},
                         {label: "Oui", value:1}
@@ -140,7 +147,7 @@ var Config = {
             ],
             label: "Dépôt commercant des minerais",
             tooltip: "Substances minerales commercialisées et traitées<br><small>(Source des données : BGR, 2021)</small>",
-            source: "https://ipis.annexmap.net/api/data/%apiScope%/depot",
+            source: "https://geo.ipisresearch.be/api/data/%apiScope%/depot",
             sourceId: "depot",
             display:{
                 type: 'symbol',
@@ -187,23 +194,23 @@ var Config = {
             source: function(layer,show){return Data.getArmedGroupAreas(layer,show)},
             sourceId: "armedgroupareas",
             filters:[
-                {id: "armedgroups", index: 71, label: "Acteurs armées", items: Data.getArmedGroups, onFilter: Data.updateArmedGroupAreasFilter, filterProperty: "armedgroup_"}
+                {id: "armedgroups", index: 71, label: "Acteurs armées", items: Data.getArmedGroups, onFilter: Data.updateArmedGroupAreasFilter, filterProperty: "armedgroup_",maxVisibleItems: 10}
             ],
             display:{
                 type: 'circle',
                 visible: false,
                 canToggle: true,
                 radius: {
-                    stops: [[1, 2], [5, 15], [8, 30], [10, 50], [15, 100], [20, 300]]
+                    stops: [[1, 3], [5, 21], [8, 45], [10, 75], [15, 150], [20, 450]]
                 },
-                circleBlur: 0.9,
+                circleBlur: 1,
                 color: {
                     property: "armedgroup_",
                     data: function(){return Data.getArmedGroups();},
                     defaultColor: 'transparent'
                 },
                 circleStrokeColor: 'transparent',
-                circleOpacity: 0.3,
+                circleOpacity: 0.1,
                 belowLayer: 'ref_layer_armedgroupareas'
             },
             onLoaded: function(){
@@ -317,7 +324,7 @@ var Config = {
             filterId: 7,
             label: "Zones d'études specifiques",
             tooltip: "Limites des zones couvertes par des projets IPIS sur des thèmes plus spécifiques. Activer cette couche vous permettra de visualiser différentes zones d’études et d’accéder aux publications liées à ces travaux.",
-            source: "https://ipis.annexmap.net/api/data/%apiScope%/studyzones",
+            source: "https://geo.ipisresearch.be/api/data/%apiScope%/studyzones",
             sourceId: "studyzones",
             display:{
                 type: 'fill',
@@ -355,8 +362,9 @@ var Config = {
                 {id: "group", index: 41, label: "License", items:[
                         {label: "PR", value: "PR" , color: "#43b7ff"},
                         {label: "PE", value: "PE", color : "#36ae71"},
+                        {label: "PEPM", value: "PEPM", color: "#e35528"},
+                        {label: "PER", value: "PER", color: "#124f43"},
                         {label: "ZEA", value: "ZEA", color: "#9f2bae"},
-                        {label: "ZIN", value: "ZIN", color: "#ae000e"}
                     ], onFilter: Data.updateConcessionFilter,filterProperty: "group"}
             ],
             label: "Titres miniers",
@@ -373,10 +381,11 @@ var Config = {
                 fillColor: {
                     property: "group",
                     data: [
-                        {label: "Permit de Recherche", value: "PR" , color: "#43b7ff"},
-                        {label: "Permit d'Exploitation", value: "PE" , color : "#36ae71"},
-                        {label: "Zone d'Exploitation Artisanale", value: "ZEA", color: "#9f2bae"},
-                        {label: "Zone Interdite", value: "ZIN", color: "#ae000e"}
+                        {label: "Permis de Recherches", value: "PR" , color: "#43b7ff"},
+                        {label: "Permis d’Exploitation", value: "PE" , color : "#36ae71"},
+                        {label: "Permis d’Exploitation des Petites Mines", value: "PEPM", color: "#e35528"},
+                        {label: "Permis d’Exploitation des Rejets", value: "PER", color: "#124f43"},
+                        {label: "Zone d'Exploitation Artisanale", value: "ZEA", color: "#9f2bae"}
                     ]
                 },
                 fillOpacity: 0.3,
@@ -389,8 +398,8 @@ var Config = {
             id: "protectedAreas",
             filterId: 5,
             label: "Aires protégées<br>&ensp;<small>(source: WRI, 2017)</small>",
-            source: "https://ipis.annexmap.net/api/data/%apiScope%/protectedareas",
-            source2: "https://ipis.annexmap.net/api/geojson/cod_protectedArea.php",
+            source: "https://geo.ipisresearch.be/api/data/%apiScope%/protectedareas",
+            source2: "https://geo.ipisresearch.be/api/geojson/cod_protectedArea.php",
             sourceId: "protectedAreas",
             display:{
                 type: 'fill',

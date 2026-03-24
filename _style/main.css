@@ -589,6 +589,14 @@ body.disclaimer #disclaimer, body.info #info{
     height: 24px;
 }
 
+#dashboardcontent a.orange{
+    color: #a15a0f;
+}
+
+#dashboardcontent a.orange:hover{
+    color: #1E90FF;
+}
+
 .visittable{
     margin-bottom: 10px;
 }
@@ -654,12 +662,16 @@ body.disclaimer #disclaimer, body.info #info{
 #dashboardcontent i.qualification.qRouge{
     background-color: #b00012;
 }
+#dashboardcontent i.qualification.q4,
+#dashboardcontent i.qualification.qBleu{
+    background-color: #277ad9;
+}
 
 .dashboardtabs{
     width: 120px;
     float: left;
     background-color: #ebebeb;
-    height: 225px;
+    height: 230px;
     border-left: 1px solid silver;
     border-right: 1px solid silver;
     z-index: 100;
@@ -672,7 +684,7 @@ body.disclaimer #disclaimer, body.info #info{
     color: grey;
     background-color: #ebebeb;
     position: relative;
-    padding: 8px;
+    padding: 6px 8px;
     border-bottom: 1px solid silver;
 }
 
@@ -907,6 +919,10 @@ body.disclaimer #disclaimer, body.info #info{
 
 #dashboard.active{
     bottom: -0px;
+}
+
+.tab .year{
+    padding-bottom: 20px;
 }
 
 
@@ -1316,6 +1332,8 @@ body.storyfied #legend,
 body.storyfied #legendRoadblocks,
 body.storyfied #selectbox,
 body.storyfied #searchbox,
+body.storyfied #resetbox,
+body.storyfied #ruler,
 body.storyfied #menu,
 body.storyfied #dashboard,
 body.storyfied .mapboxgl-control-container{

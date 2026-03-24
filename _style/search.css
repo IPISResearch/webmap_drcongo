@@ -5,10 +5,10 @@ body.loading #searchbox{
 }
 
 #searchbox{
-    position: absolute;
+    position: fixed;
     z-index: 100;
     left: 10px;
-    top: 110px;
+    top: 150px;
 
     background-color: #fff;
     border-radius: 4px;
@@ -140,3 +140,41 @@ body.loading #searchbox{
 #searchresults .footer .less:hover{
     color: black;
 }
+
+
+/* reset button */
+
+body.loading #resetbox{
+    display: none;
+}
+
+#resetbox{
+    position: absolute;
+    z-index: 100;
+    left: 10px;
+    top: 110px;
+
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+}
+
+#resetbox .control-reset {
+    float: left;
+    display: block;
+    content: '';
+    text-indent: -999em;
+    background: url("../_img/icons-leaflet.png") no-repeat;
+    background-position: 2px -229px;
+
+    width: 30px;
+    height: 30px;
+
+}
+
+#resetbox:hover {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+

@@ -15,6 +15,8 @@ var Data = function () {
         pCodeIds: {} // matches pCodes to ids as the ids need to be te same even when the base filter changes
     };
 
+    var invalidImages = ["1603371888717.jpg" ,"1604043075787.jpg" ,"1536311829829.jpg" ,"1536564795613.jpg" ,"1536655069146.jpg" ,"1536317211845.jpg" ,"1513429596179.jpg" ,"1536652796478.jpg" ,"1537262057296.jpg" ,"1537362509424.jpg" ,"1633502295582.jpg" ,"1502454447396.jpg" ,"1633761719058.jpg" ,"1622715337820.jpg" ,"1622641401012.jpg" ,"1621341939294.jpg" ,"1442478962688.jpg" ,"1536146890849.jpg" ,"1536737289715.jpg" ,"1536143707638.jpg" ,"1503920809983.jpg" ,"1622024072426.jpg" ,"1536830432573.jpg" ,"1603616730698.jpg" ,"1504256860351.jpg" ,"1439400890201.jpg" ,"1536307353936.jpg" ,"1437201567846.jpg" ,"1622816935949.jpg" ,"1603442281466.jpg" ,"1598617838267.jpg" ,"1632569814479.jpg" ,"1598964890474.jpg" ,"1514765068436.jpg" ,"1514958031625.jpg" ,"1603542125891.jpg" ,"1603443882685.jpg" ,"1603795611591.jpg" ,"1515190832144.jpg" ,"1535545911128.jpg" ,"1625324707955.jpg" ,"1573811819770.jpg" ,"1445060185220.jpg" ,"1624523253126.jpg" ,"1535972912768.jpg" ,"1535974722168.jpg" ,"1536117286795.jpg" ,"1622375110300.jpg" ,"1622716991880.jpg" ,"1598617491546.jpg" ,"1635420382458.jpg" ,"1635251944312.jpg" ,"1535785322894.jpg" ,"1622214778215.jpg" ,"1622816966074.jpg" ,"1598599130799.jpg" ,"1633340898665.jpg" ,"1598609671665.jpg" ,"1621410537000.jpg" ,"1441805075504.jpg" ,"1626080946949.jpg" ,"1626086507416.jpg" ,"1625745323405.jpg" ,"1632829054032.jpg" ,"1626876639804.jpg" ,"1632405775844.jpg" ,"1632383979202.jpg" ,"1626853026359.jpg" ,"1573040734705.jpg" ,"1621425792818.jpg" ,"1622205482536.jpg" ,"1635596947332.jpg" ,"1536058478473.jpg" ,"1536062947400.jpg" ,"1629127764733.jpg" ,"1629451224915.jpg" ,"1535788660610.jpg" ,"1536058600561.jpg" ,"1535973314184.jpg" ,"1535706545020.jpg" ,"1535709146151.jpg" ,"1536050163552.jpg" ,"1536150758337.jpg" ,"1536399672345.jpg" ,"1536763515187.jpg" ,"1536666208480.jpg" ,"1536571687558.jpg" ,"1536750309706.jpg" ,"1537277450662.jpg" ,"1536926276791.jpg" ,"1536997913157.jpg" ,"1537000639230.jpg" ,"1537272747081.jpg" ,"1536831552654.jpg" ,"1429963705642.jpg" ,"1429965561509.jpg" ,"1537776219841.jpg" ,"1515105354677.jpg" ,"1501833401796.jpg" ,"1595581619290.jpg" ,"1633347115938.jpg" ,"1501930157595.jpg" ,"1633606460042.jpg" ,"1633590899590.jpg" ,"1633077544064.jpg" ,"1633006781968.jpg" ,"1632917034773.jpg" ,"1502541462762.jpg" ,"1632746597049.jpg" ,"1632824956390.jpg" ,"1502702350988.jpg" ,"1502623546265.jpg" ,"1539073536330.jpg" ,"1539079074638.jpg" ,"1537696616022.jpg" ,"1537436751469.jpg" ,"1539158720723.jpg" ,"1535534206079.jpg" ,"1621073859912.jpg" ,"1621257087324.jpg" ,"1512378190786.jpg" ,"1598600324681.jpg" ,"1431795320217.jpg" ,"1539155455560.jpg" ,"1539164911834.jpg" ,"1432545844232.jpg" ,"1434271138406.jpg" ,"1488044117601.jpg" ,"1434629496759.jpg" ,"1632033772404.jpg" ,"1435896236652.jpg" ,"1436192613594.jpg" ,"1436032347874.jpg" ,"1436189722199.jpg" ,"1436080820702.jpg" ,"1622806484884.jpg" ,"1437235377370.jpg" ,"1439360235557.jpg" ,"1439205672000.jpg" ,"1535543670768.jpg" ,"1439401442434.jpg" ,"1440384999534.jpg" ,"1440758229701.jpg" ,"1440820559382.jpg" ,"1440986224876.jpg" ,"1441252995889.jpg" ,"1635498973878.jpg" ,"1622196312644.jpg" ,"1536053793870.jpg" ,"1622623924186.jpg" ,"1623086758703.jpg" ,"1443620195744.jpg" ,"1446106695054.jpg" ,"1446021589255.jpg" ,"1446020862347.jpg" ,"1388556452414.jpg" ,"1388550471156.jpg" ,"1446272570170.jpg" ,"1446275124034.jpg" ,"1537351004017.jpg" ,"1537435370747.jpg" ,"1621852782875.jpg" ,"1485278890974.jpg" ,"1625908095637.jpg" ,"1626336546080.jpg" ,"1626698197184.jpg" ,"1625640877077.jpg" ,"1625731709052.jpg" ,"1625136994223.jpg" ,"1632744237534.jpg" ,"1626770144809.jpg" ,"1621679566164.jpg" ,"1622034264727.jpg" ,"1635849794017.jpg" ,"1622799284128.jpg" ,"1536211468592.jpg" ,"1622449407371.jpg" ,"1536826818241.jpg" ,"1536913436475.jpg" ,"1595154144891.jpg" ,"1632298534905.jpg" ,"1501145295725.jpg" ,"1501150260322.jpg" ,"1501227165073.jpg" ,"1501237521957.jpg" ,"1501243494535.jpg" ,"1501246690306.jpg" ,"1501318403129.jpg" ,"1501326268211.jpg" ,"1501397109094.jpg" ,"1501412714651.jpg" ,"1501498712970.jpg" ,"1501509632792.jpg" ,"1501754403602.jpg" ,"1501839562735.jpg" ,"1632564652895.jpg" ,"1501918280004.jpg" ,"1502187582913.jpg" ,"1633676040263.jpg" ,"1502197956130.jpg" ,"1502201415590.jpg" ,"1502276107900.jpg" ,"1502348357252.jpg" ,"1502364500880.jpg" ,"1633249745535.jpg" ,"1502372317440.jpg" ,"1502515681643.jpg" ,"1633678022477.jpg" ,"1502536924341.jpg" ,"1502957261372.jpg" ,"1503124545590.jpg" ,"1503127124206.jpg" ,"1504001221809.jpg" ,"1503992450167.jpg" ,"1504071778026.jpg" ,"1504074376907.jpg" ,"1504168983648.jpg" ,"1504175227100.jpg" ,"1504252061528.jpg" ,"1512206886464.jpg" ,"1512642117695.jpg" ,"1512806986832.jpg" ,"1598599059660.jpg" ,"1633654035361.jpg" ,"1598610324353.jpg" ,"1598978832189.jpg" ,"1632023209644.jpg" ,"1539680885891.jpg" ,"1539616077390.jpg" ,"1598618129653.jpg" ,"1632475370478.jpg" ,"1598615657875.jpg" ,"1632172696699.jpg" ,"1598608153195.jpg" ,"1598716143520.jpg" ,"1535621768634.jpg" ,"1622290364086.jpg" ,"1622803238647.jpg" ,"1622462339428.jpg" ,"1536225795699.jpg" ,"1536485498236.jpg" ,"1536577371835.jpg" ,"1536744702771.jpg" ,"1536924638463.jpg" ,"1537020047103.jpg" ,"1537171842704.jpg" ,"1537175937533.jpg" ,"1537189577476.jpg" ,"1537622036238.jpg" ,"1537610950437.jpg" ,"1537616299187.jpg" ,"1537783717569.jpg" ,"1538302555778.jpg" ,"1539075001319.jpg" ,"1539081063886.jpg" ,"1539333984899.jpg" ,"1539337323891.jpg" ,"1539616763835.jpg" ,"1539679436434.jpg" ,"1539685350664.jpg" ,"1603702302815.jpg" ,"1632494813341.jpg" ,"1576747220855.jpg" ,"1621777950051.jpg" ,"1622890283035.jpg" ,"1622456836867.jpg" ,"1621425687837.jpg" ,"1622717337470.jpg" ,"1632577127506.jpg" ,"1633177923608.jpg" ,"1622798300460.jpg" ,"1632737643937.jpg" ,"1633425276903.jpg" ,"1632836272870.jpg" ,"1595840756791.jpg" ,"1622360906473.jpg" ,"1622545533833.jpg" ,"1632919037379.jpg" ,"1622734718742.jpg" ,"1595926362624.jpg" ,"1633085979387.jpg" ,"1623067774785.jpg" ,"1633415455621.jpg" ,"1598612365790.jpg" ,"1633001421787.jpg" ,"1598964565354.jpg" ,"1632765763874.jpg" ,"1632827186492.jpg" ,"1631444738514.jpg" ,"1598180664945.jpg" ,"1631523048334.jpg" ,"1631863563622.jpg" ,"1632041150677.jpg" ,"1631694064315.jpg" ,"1624085751914.jpg" ,"1630483448642.jpg" ,"1631180688089.jpg" ,"1630397951241.jpg" ,"1629339757875.jpg" ,"1631008507262.jpg" ,"1633523291808.jpg" ,"1631359673599.jpg" ,"1632315831989.jpg" ,"1632648777838.jpg" ,"1632213243030.jpg" ,"1514764891255.jpg" ,"1515016794278.jpg" ,"1603796826875.jpg" ,"1603873890546.jpg" ,"1603886297253.jpg" ,"1604137091210.jpg" ,"1630330168229.jpg" ,"1630578868278.jpg" ,"1630686240625.jpg" ,"1631035848106.jpg" ,"1631093621592.jpg" ,"1635602370660.jpg"]
+
     var pdvs, pdvLoaded;
     var pdvsLookup = {};
     var pdvsProperties = {};
@@ -46,8 +48,7 @@ var Data = function () {
     var armedgroupareas, armedgroupareasLoaded,armedgroupareasFiltered;
     var armedgroupareasLookup = {};
     var armedgroupareasProperties = {};
-    var armedgroups = [];
-    var armedgroupsLookup = {};
+    var armedgroups = {};
     var groups = [];
     var groupsLookup = {};
     var interferences = [];
@@ -89,7 +90,14 @@ var Data = function () {
 
     var armedgroupsColors = {
         "FARDC - Éléments indisciplinés": "#AD5936", // #ac5023
+        "FARDC - Pas d’ingérence constatée": "#AD5936",
+        "FARDC - Pas de données sur les ingérences": "#AD5936",
+        "Police Nationale Congolaise (sauf PMH)" : "#a936ad",
+        "Police des Mines (PMH)": "#8536ad",
+        "PNC - Éléments indisciplinés" : "#a936ad",
+        "PMH - Éléments indisciplinés": "#8536ad",
         "Raïa Mutomboki": "#c3a710", // c3a710
+        "Jeunesse Autodéfense Zaïre": "#a4810e",
         "NDC": "#368E8B",
         "NDC-Rénové": "#2C98AB",
         "FDLR": "#872A5F",
@@ -100,6 +108,8 @@ var Data = function () {
         "Maï-Maï UPCP": "#5379AD",
         "Maï-Maï UPLD": "#5379AD",
         "Maï-Maï (autre)": "#5379AD",
+        "UPLC": "#53ad5f",
+        "CODECO": "#3a7c23",
         "Autre": "#636465",
         'Pas de présence armée constatée': "transparent"
     };
@@ -108,7 +118,8 @@ var Data = function () {
         "not class": 0,
         "vert": 1,
         "jaune": 2,
-        "rouge": 3
+        "rouge": 3,
+        "bleu": 4
     };
 
     var buildProperties = function (item, data) {
@@ -134,9 +145,7 @@ var Data = function () {
         var now;
 
         var dataDone = function () {
-            //console.error(mines.loaded)
-            //console.error(roadblocksLoaded)
-            //console.error(armedgroupareasLoaded)
+
             if (mines.loaded && roadblocksLoaded  && armedgroupareasLoaded) {
 
                 now = new Date().getTime();
@@ -150,7 +159,7 @@ var Data = function () {
         };
 
         function loadMines() {
-            var url = "https://ipis.annexmap.net/api/data/"+Config.apiScope+"/all?key=ipis";
+            var url = "https://geo.ipisresearch.be/api/data/"+Config.apiScope+"/all?key=ipis";
 
             FetchService.json(url, function (data,xhr) {
 
@@ -240,12 +249,13 @@ var Data = function () {
                     }
 
                     mine.properties.mineral = d.m1;
-                    mine.properties.picture = d.pi;
 
-                    if (d.pi){
-                        mine.properties.images.push({imageurl: d.pi});
+                    if (d.pi && invalidImages.indexOf(d.pi)<0){
+                        mine.properties.picture = d.pi;
+                        mine.properties.images.unshift({imageurl: d.pi});
                         mine.properties.slideshow = mine.properties.images.length>1;
                     }
+
 
                     var workers = isNaN(parseInt(d.w)) ? -1 : parseInt(d.w);
                     if (isNaN(workers)) {
@@ -312,8 +322,13 @@ var Data = function () {
                                 digging: d["a" + i + "d"] == 1 ? "oui" : "---",
                                 forcedLabour: d["a" + i + "l"] == 1 ? "oui" : "---",
                                 monopoly: d["a" + i + "m"] == 1 ? "oui" : "---",
-                                pillaging: d["a" + i + "p"] == 1 ? "oui" : "---"
+                                pillaging: d["a" + i + "p"] == 1 ? "oui" : "---",
+                                pitOwnership: d["a" + i + "o"] == 1 ? "oui" : "---"
                             });
+
+                            if (d["a" + i + "o"] == 1){
+                                //console.error(d.i);
+                            }
                         }
 
                         //if (d["a" + i + "c"] == 1) console.error(mine.properties.name);
@@ -324,7 +339,8 @@ var Data = function () {
                     for (i = 1; i<5; i++){
                       if (d["s" + i] && (d["s" + i].indexOf("iTSCi")<0)){
 
-                          d["s" + i] = d["s" + i].split("SAESSCAM").join("SAEMAPE")
+                          d["s" + i] = d["s" + i].split("SAESSCAM").join("SAEMAPE");
+                          d["s" + i] = d["s" + i].split("Police des Mines").join("PMH");
                           
                           visit.services.push(d["s" + i]);
                       }
@@ -359,14 +375,21 @@ var Data = function () {
                         child15: d.cu == 1 ? "oui" : "---",
                         child15work: d.cw,
                         child1518: d.pu == 1 ? "oui" : "---",
-                        child1518work: d.pw
+                        child1518work: d.pw,
                     };
+
+                    visit.womanchildrencount = {
+                        womenCount: parseInt(d.wo),
+                        childCount: parseInt(d.cu),
+                    }
+
 
                     mine.properties.visits.push(visit);
 
 
                     if (d.q && visit.project.toLowerCase().indexOf("qualification") >= 0) {
                         mine.properties.qualificationString = d.q;
+                        mine.properties.qualificationYear = year;
                         var q = qualifications[d.q.toLowerCase()];
                         if (q >= 0) {
                             mine.properties.qualification = q;
@@ -423,6 +446,7 @@ var Data = function () {
                         if (mine.properties.armygroups.length === 0) mine.properties.armygroups.push(0);
 
                         // workers
+
                         if (workers >= 0) {
                             mine.properties.workers = workers;
                             var workergroup = 0;
@@ -430,6 +454,11 @@ var Data = function () {
                             if (workers >= 50) workergroup = 2;
                             if (workers >= 500) workergroup = 3;
                             mine.properties.workergroup = workergroup;
+                        }else{
+                            //mine.properties.workers = 0;
+                            //if (mine.properties.workers){
+                            //    console.error(mine.properties);
+                            //}
                         }
 
                         // services
@@ -655,6 +684,10 @@ var Data = function () {
                     armyData[year] += visitDateProject + Template.get("noArmyPresent");
                 }
 
+                if (!visit.services.length && visit.project && visit.project.toLowerCase() === "qualification status"){
+                    visit.services.push("Pas de données collectées");
+                }
+
                 if (visit.services.length) {
                     hasYear = servicesYears.indexOf(year) >= 0;
                     if (!hasYear) {
@@ -680,13 +713,31 @@ var Data = function () {
                 for (var key in visit.womanchildren) {
                     if (visit.womanchildren.hasOwnProperty(key) && visit.womanchildren[key] && visit.womanchildren[key] != "---") hasWomanChildren = true;
                 }
-                if (hasWomanChildren) {
+
+                var hasNoWomanChildren = false;
+                if (visit.womanchildrencount && visit.womanchildrencount.womenCount === 0 && visit.womanchildrencount.childCount === 0){
+                    hasNoWomanChildren = true;
+                }
+
+                if (hasWomanChildren || hasNoWomanChildren) {
                     hasYear = womanChildrenYears.indexOf(year) >= 0;
                     if (!hasYear) {
                         womanChildrenYears.push(year);
                         womanChildrenData[year] = "";
                     }
-                    womanChildrenData[year] += visitDateProject + Template.render("womanChildrenDetail", visit.womanchildren);
+
+                    if (hasWomanChildren){
+                        if (visit.womanchildren.women === "---" && visit.womanchildren.child15 === "oui"){
+                            visit.womanchildren.women = "non"
+                        }
+                        if (visit.womanchildren.women === "oui" && visit.womanchildren.child15 === "---"){
+                            visit.womanchildren.child15 = "non"
+                        }
+                        womanChildrenData[year] += visitDateProject + Template.render("womanChildrenDetail", visit.womanchildren);
+                    }else{
+                        womanChildrenData[year] += visitDateProject + "Ni femme, ni enfant de moins de 15 ans ne travaille sur le site";
+                    }
+
                 }
 
 
@@ -772,6 +823,8 @@ var Data = function () {
                 p.substancesTab = Template.render("yearlist", p.substanceYears)
             }
 
+            p.pCode = mine.properties.pcode;
+
 
             p.hasDetail = true;
         }
@@ -822,8 +875,7 @@ var Data = function () {
     me.getServices = function () {
         var result = [];
 
-        var order = ["SAEMAPE", "Division des mines", "Police des Mines", "Anti-fraude", "PNC", "ANR", "Chefferie"].reverse();
-
+        var order = ["SAEMAPE", "Division des mines", "PMH", "Anti-fraude", "ANR", "Chefferie"].reverse();
 
         services.forEach(function (item) {
             var data = {label: item, value: servicesLookup[item], index: order.indexOf(item)};
@@ -853,7 +905,7 @@ var Data = function () {
 
 
     function loadPdv(next) {
-        var url = "https://ipis.annexmap.net/api/data/"+Config.apiScope+"/pdvall?key=ipis";
+        var url = "https://geo.ipisresearch.be/api/data/"+Config.apiScope+"/pdvall?key=ipis";
 
         var checkpoint = new Date().getTime();
         FetchService.json(url, function (data) {
@@ -911,7 +963,7 @@ var Data = function () {
 
 
     function loadRoadBlocks(next) {
-        var url = "https://ipis.annexmap.net/api/data/"+Config.apiScope+"/roadblocksall?key=ipis";
+        var url = "https://geo.ipisresearch.be/api/data/"+Config.apiScope+"/roadblocksall?key=ipis";
 
         var checkpoint = new Date().getTime();
         FetchService.json(url, function (data,xhr) {
@@ -1073,6 +1125,10 @@ var Data = function () {
     };
 
     me.filterRoadBlocks = function () {
+
+        if (!Config.layers.roadblocks.added) return;
+
+
         var filteredIds = [];
         roadblocksFiltered = [];
         var filterFunctions = [];
@@ -1120,7 +1176,7 @@ var Data = function () {
 
 
     function loadConcessions(next) {
-        var url = "https://ipis.annexmap.net/api/geojson/cod_titres.php";
+        var url = "https://geo.ipisresearch.be/api/geojson/cod_titres2023.php";
         var checkpoint = new Date().getTime();
         FetchService.json(url, function (data) {
             var now = new Date().getTime();
@@ -1249,7 +1305,7 @@ var Data = function () {
 
 
     function loadTradelines(next) {
-        var url = "https://ipis.annexmap.net/api/geojson/cod_tradelines.php";
+        var url = "https://geo.ipisresearch.be/api/geojson/cod_tradelines.php";
 
         var checkpoint = new Date().getTime();
         FetchService.json(url, function (data) {
@@ -1344,6 +1400,7 @@ var Data = function () {
     };
 
     me.filterTradelines = function () {
+        if (!tradelines) return;
         var filteredIds = [];
         var filtered = [];
         var filterFunctions = [];
@@ -1385,7 +1442,8 @@ var Data = function () {
 
 
     function loadArmedGroupAreas(next) {
-        var url = "https://ipis.annexmap.net/api/data/"+Config.apiScope+"/armedgroupareasall?key=ipis";
+        var url = "https://geo.ipisresearch.be/api/data/"+Config.apiScope+"/armedgroupareasall?key=ipis";
+        //url = "https://geo.ipisresearch.be/api/data/cod_dev/armedgroupareasall?key=ipis";
 
         var checkpoint = new Date().getTime();
         FetchService.json(url, function (data,xhr) {
@@ -1407,6 +1465,7 @@ var Data = function () {
                 var now = new Date().getTime();
                 console.log("armedgroupareas data loaded in " + (now - checkpoint) + "ms");
 
+
                 //build grouping variable
                 var counter = 0;
                 armedgroupareas = featureCollection();
@@ -1419,29 +1478,23 @@ var Data = function () {
                     counter++;
                     armedgrouparea.properties.id = counter;
                     armedgrouparea.properties.armedgroup = d.ag;
-                    armedgrouparea.properties.armedgroup_ =
-                        (d.ag == null) ? 'Pas de présence armée constatée':
-                            (d.ag == 'FARDC') ? d.tag : // "FARDC - Éléments indisciplinés" etc.
-                                (d.ag == 'Raïa Mutomboki') ? d.ag :
-                                    (d.ag == 'NDC') ? d.ag :
-                                        (d.ag == 'NDC-Rénové') ? d.ag :
-                                            (d.ag == 'FRPI') ? d.ag :
-                                                d.ag.indexOf("FDLR") > -1 ? "FDLR" : // Also FDLR/Rudi
-                                                    d.ag.indexOf("Morgan") > -1 ? "Maï-Maï Simba (Morgan/ex-Morgan)" : //
-                                                        d.ag.indexOf("Simba") > -1 ? "Maï-Maï Simba" : //
-                                                            d.ag.indexOf("Yakutumba") > -1 ? "Maï-Maï Yakutumba" : //
-                                                                (d.ag == 'Maï-Maï UPCP') ? d.ag :
-                                                                    (d.ag == 'Maï-Maï UPLD') ? d.ag :
-                                                                        d.ag.indexOf("Maï-Maï") > -1 ? "Maï-Maï (autre)" : //
-                                                                            'Autre';
+
+                    var armedgroup_;
+
+                    armedgroup_ = sanitizeArmedGroup(d.ag,d.tag);
+                    armedgrouparea.properties.armedgroup_ = armedgroup_;
+
+                    armedgroups[armedgroup_] = armedgroups[armedgroup_] || 0;
+                    armedgroups[armedgroup_]++;
+
                     armedgrouparea.properties.typearmedgroup = d.tag;
                     armedgrouparea.properties.workers = d.w;
                     armedgrouparea.properties.pcode = d.i;
                     armedgrouparea.properties.date = d.d;
                     armedgrouparea.properties.year = d.d ? parseInt(d.d.substr(0,4)) : 0;
+                    armedgrouparea.properties.resourcesNaturelles = "";
 
-                    //create shortcuts for useful variables, e.g. gor lookup function definition below
-                    var armedgroup_ = armedgrouparea.properties.armedgroup_;
+
                     armedgrouparea.pcode = d.i;
                     armedgrouparea.date = d.d;
 
@@ -1450,24 +1503,49 @@ var Data = function () {
                     armedgroupareasLookup[counter] = armedgrouparea;
                     armedgroupareasProperties[counter] = armedgrouparea.properties;
 
-                    //define lookup function
-                    if (armedgroup_) {
-                        if (!armedgroupsLookup[armedgroup_]) {
-                            armedgroups.push(armedgroup_);
-                            armedgroupsLookup[armedgroup_] = armedgroup_;
-                        }
-                    }
-                    var hasResourcesNaturelles = false;
-                    if (!hasResourcesNaturelles) armedgrouparea.properties.resourcesNaturelles = "";
-
                 });
 
-                armedgroups.sort();
+                // set <5 armed groups to 'other'
+                var othercount = 0;
+                var otherGroups = [];
+                for (var key in armedgroups) {
+                    if (armedgroups[key] < 10) {
+                        othercount += armedgroups[key];
+                        delete armedgroups[key];
+                        otherGroups.push(key);
+                    }
+                }
+                if (othercount > 0){
+                    armedgroupareas.features.forEach(function (armedgrouparea) {
+                        if (otherGroups.includes(armedgrouparea.properties.armedgroup_)){
+                            armedgrouparea.properties.armedgroup_ = 'Autre';
+                        }
+                    });
+                }
+                armedgroups['Autre'] = othercount;
+
+
 
                 armedgroupareasLoaded = true;
                 if (next) next();
             }
         });
+    }
+
+    function sanitizeArmedGroup(armedgroup,tag){
+        if (armedgroup == null) return 'Pas de présence armée constatée';
+        if (armedgroup === 'FARDC') return tag;
+        if (armedgroup === 'Police des Mines (PMH)') return tag;
+        if (armedgroup === 'Police Nationale Congolaise (sauf PMH)') return tag;
+        if (armedgroup === 'CODECO ') return 'CODECO';
+        if (armedgroup === 'Maï-Maï UPCP') return 'Maï-Maï UPCP';
+        if (armedgroup === 'Maï-Maï UPLD') return 'Maï-Maï UPLD';
+        if (armedgroup.indexOf("Morgan")>=0) return "Maï-Maï Simba (Morgan/ex-Morgan)";
+        if (armedgroup.indexOf("Simba")>=0) return 'Maï-Maï Simba';
+        if (armedgroup.indexOf("Yakutumba")>=0) return 'Maï-Maï Yakutumba';
+        if (armedgroup.indexOf("Maï-Maï")>=0) return 'Maï-Maï (autre)';
+        return armedgroup || 'Autre';
+
     }
 
 
@@ -1484,40 +1562,42 @@ var Data = function () {
 
     };
 
-    me.getArmedGroupAreasDetail = function (armedgroup_) {
-        return armedgroupsProperties[armedgroup.properties.id];
-    };
 
     me.getArmedGroups = function () {
 
         var result = [];
 
-        var order = [
-            "FARDC - Éléments indisciplinés",
-            "Raïa Mutomboki",
-            "NDC",
-            "NDC-Rénové",
-            "FDLR",
-            "FRPI",
-            "Maï-Maï Simba (Morgan/ex-Morgan)",
-            "Maï-Maï Simba",
-            "Maï-Maï Yakutumba",
-            "Maï-Maï UPCP",
-            "Maï-Maï UPLD",
-            "Maï-Maï (autre)",
-            "Autre" // not "Pas de présence armée constatée"
-        ].reverse();
-
-        armedgroups.forEach(function (item) {
-            result.push({label: item, value: armedgroupsLookup[item], color: armedgroupsColors[item], index: order.indexOf(item)})
+        Object.keys(armedgroups).forEach(function (item) {
+            if (item === 'Pas de présence armée constatée') return;
+            result.push({label: item, value: item, color: armedgroupsColors[item] || "#636465" ,index: armedgroups[item]});
         });
 
-        // temporary filter to make the list of state services only contain main armedgroups
-        result = result.filter(function(i){return order.indexOf(i.label) > -1});
-
-        return result.sort(function (a, b) {
+        // order on number of occurrences
+        result.sort(function (a, b) {
             return a.index < b.index ? 1 : -1;
         });
+
+        // group similar armed groups together, push 'other' to the end
+        var names = [];
+        result.forEach(function (item) {
+            var firstWord = item.label.split(" ")[0];
+            var index = names.indexOf(firstWord);
+            if (index < 0) {
+                names.push(firstWord);
+                index = names.length - 1;
+            }
+            item.index = index;
+            if (item.label === 'Autre') item.index = 1000;
+        });
+
+        result.sort(function (a, b) {
+            return a.index > b.index ? 1 : -1;
+        });
+
+
+
+
+        return result;
 
     };
 
@@ -1554,6 +1634,10 @@ var Data = function () {
 
 
     me.filterArmedGroupAreas = function () {
+
+        if (!Config.layers.armedgroupareas.added) return;
+        if (map.getLayer("armedgroupareas") === undefined) return;
+
         var filteredIds = [];
         var filtered = [];
         var filterFunctions = [];
@@ -1651,7 +1735,6 @@ var Data = function () {
             }
         }
 
-        console.error(list.length);
 
         var index = -1;
         function nextImage(){
@@ -1661,7 +1744,7 @@ var Data = function () {
                 var item = list[index];
                 var image = new Image();
                 image.onerror = function(){
-                    console.error("error");
+                    console.error("image error");
                     errorImages.push(item.imageurl);
                     setTimeout(function(){
                         nextImage();
@@ -1682,8 +1765,6 @@ var Data = function () {
         nextImage();
 
 
-        //console.error(list);
-        //codmine02969
     }
 
     me.getErrorImages = function(){
